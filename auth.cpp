@@ -37,8 +37,8 @@ void saveUsersToFile(const vector<User> &users, const string &filename) {
 }
 
 // Function to load user information from JSON file
-vector<User> &loadUsersFromFile(const string &filename) {
-  auto users = new vector<User>();
+vector<User> loadUsersFromFile(const string &filename) {
+  vector<User> users;
   ifstream file(filename);
   if (file.is_open()) {
     json jsonData;
@@ -50,13 +50,13 @@ vector<User> &loadUsersFromFile(const string &filename) {
       user.permission.retrieveProduct = userData["permission"]["retrieveProduct"];
       user.permission.modifyProduct = userData["permission"]["modifyProduct"];
       user.permission.modifyUser = userData["permission"]["modifyUser"];
-      users->push_back(user);
+      users.push_back(user);
     }
     cout << "User data loaded from " << filename << endl;
   }
   // ignore missing file
   file.close();
-  return *users;
+  return std::move(users);
 }
 
 // Function to find a user by account

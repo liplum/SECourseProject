@@ -14,14 +14,14 @@ namespace ui {
     double price, discount, premiumPrice;
 
     // Get input for the new product details
-    cout << "Enter the product name: ";
+    cout << "Enter the name: ";
     cin.ignore(); // Ignore any remaining newline characters
     getline(cin, name);
-    cout << "Enter the product price: ";
+    cout << "Enter the price: ";
     cin >> price;
-    cout << "Enter the product discount: ";
+    cout << "Enter the discount: ";
     cin >> discount;
-    cout << "Enter the product premium price: ";
+    cout << "Enter the premium price: ";
     cin >> premiumPrice;
 
     // Add the new product to the ProductSet

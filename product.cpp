@@ -36,8 +36,8 @@ void saveProductsToFile(const vector<Product> &products, const string &filename)
 }
 
 // Function to load products from JSON file
-vector<Product> &loadProductsFromFile(const string &filename) {
-  auto products = new vector<Product>();
+vector<Product> loadProductsFromFile(const string &filename) {
+  vector<Product> products;
   ifstream file(filename);
   if (file.is_open()) {
     json jsonData;
@@ -49,13 +49,13 @@ vector<Product> &loadProductsFromFile(const string &filename) {
       product.price = productData["price"];
       product.discount = productData["discount"];
       product.premiumPrice = productData["premiumPrice"];
-      products->push_back(product);
+      products.push_back(product);
     }
     cout << "Product data loaded from " << filename << endl;
   }
   // ignore missing file
   file.close();
-  return *products;
+  return std::move(products);
 }
 
 Product *ProductSet::findById(int id) {

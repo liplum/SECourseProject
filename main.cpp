@@ -5,19 +5,19 @@
 #include "ui/ui.h"
 #include "ui/crud.h"
 
-vector<User> &loadUsers() {
-  return loadUsersFromFile("./users.json");
+vector<User> loadUsers() {
+  return std::move(loadUsersFromFile("./users.json"));
 }
 
-vector<Product> &loadProducts() {
-  return loadProductsFromFile("./products.json");
+vector<Product> loadProducts() {
+  return std::move(loadProductsFromFile("./products.json"));
 }
 
 void saveUsers(vector<User> &users) {
   saveUsersToFile(users, "./users.json");
 }
 
-void saveProducts(vector<Product> &products) {
+void saveProducts(ProductSet &products) {
   saveProductsToFile(products, "./products.json");
 }
 
@@ -27,7 +27,7 @@ int main() {
   if (user == nullptr) {
     return 1;
   }
-  auto products = loadProducts();
+  ProductSet products;
   while (true) {
     ui::displayMainMenu();
     int choice;

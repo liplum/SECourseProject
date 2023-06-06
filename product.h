@@ -36,6 +36,6 @@ public:
 
 void saveProductsToFile(const vector<Product> &products, const string &filename);
 
-vector<Product> &loadProductsFromFile(const string &filename);
+vector<Product> loadProductsFromFile(const string &filename);
 
 #endif //PRODMANAGESYS_PRODUCT_H

@@ -28,6 +28,6 @@ struct User {
 };
 
 void saveUsersToFile(const vector<User>& users, const string& filename);
-vector<User>& loadUsersFromFile(const string& filename);
+vector<User> loadUsersFromFile(const string& filename);
 User* findUserByUsername(vector<User>& users, const string& username);
 #endif //PRODMANAGESYS_AUTH_H
