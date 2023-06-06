@@ -5,12 +5,14 @@
 #ifndef PRODMANAGESYS_UI_H
 #define PRODMANAGESYS_UI_H
 
-#include "auth.h"
+#include "../auth.h"
 
+namespace ui {
 /**
  *
  * @param users all users
  * @return
  */
-User* userLogin(vector<User>& users);
+  User *tryLogin(vector<User> &users);
+}
 #endif //PRODMANAGESYS_UI_H
