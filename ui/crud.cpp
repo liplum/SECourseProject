@@ -9,89 +9,116 @@
 using namespace std;
 namespace ui {
 // Function to add a new product
-  void addProduct(vector<Product> &products) {
-    Product product;
-    cout << "Enter product ID: ";
-    cin >> product.id;
-    cout << "Enter product name: ";
-    cin.ignore();
-    getline(cin, product.name);
-    cout << "Enter product price: ";
-    cin >> product.price;
-    cout << "Enter product discount: ";
-    cin >> product.discount;
-    cout << "Enter product member price: ";
-    cin >> product.memberPrice;
+  void addProduct(ProductSet &products) {
+    string name;
+    double price, discount, premiumPrice;
 
-    products.push_back(product);
-    cout << "Product added successfully." << endl;
+    // Get input for the new product details
+    cout << "Enter the product name: ";
+    cin.ignore(); // Ignore any remaining newline characters
+    getline(cin, name);
+    cout << "Enter the product price: ";
+    cin >> price;
+    cout << "Enter the product discount: ";
+    cin >> discount;
+    cout << "Enter the product premium price: ";
+    cin >> premiumPrice;
+
+    // Add the new product to the ProductSet
+    products.addProduct(name, price, discount, premiumPrice);
+    cout << "Product added successfully!" << endl;
   }
 
 // Function to delete a product
-  void deleteProduct(vector<Product> &products) {
+  void deleteProduct(ProductSet &products) {
     int productId;
-    cout << "Enter the ID of the product to delete: ";
+
+    // Get the ID of the product to delete
+    cout << "Enter the product ID to delete: ";
     cin >> productId;
 
-    auto it = find_if(products.begin(), products.end(), [productId](const Product &product) {
-      return product.id == productId;
-    });
-
-    if (it != products.end()) {
-      products.erase(it);
-      cout << "Product deleted successfully." << endl;
+    // Attempt to remove the product by ID
+    if (products.removeProductById(productId)) {
+      cout << "Product deleted successfully!" << endl;
     } else {
       cout << "Product not found." << endl;
     }
   }
 
 // Function to modify a product
-  void modifyProduct(vector<Product> &products) {
+  void modifyProduct(ProductSet &products) {
     int productId;
-    cout << "Enter the ID of the product to modify: ";
+    Product *product;
+
+    // Get the ID of the product to modify
+    cout << "Enter the product ID to modify: ";
     cin >> productId;
 
-    auto it = find_if(products.begin(), products.end(), [productId](const Product &product) {
-      return product.id == productId;
-    });
+    // Find the product by ID
+    product = products.findById(productId);
 
-    if (it != products.end()) {
-      Product &product = *it;
-      cout << "Enter new product name: ";
-      cin.ignore();
-      getline(cin, product.name);
-      cout << "Enter new product price: ";
-      cin >> product.price;
-      cout << "Enter new product discount: ";
-      cin >> product.discount;
-      cout << "Enter new product member price: ";
-      cin >> product.memberPrice;
-      cout << "Product modified successfully." << endl;
+    // Check if the product exists
+    if (product) {
+      // Get input for the updated product details
+      string name;
+      double price, discount, premiumPrice;
+
+      cout << "Enter the new product name: ";
+      cin.ignore(); // Ignore any remaining newline characters
+      getline(cin, name);
+      cout << "Enter the new product price: ";
+      cin >> price;
+      cout << "Enter the new product discount: ";
+      cin >> discount;
+      cout << "Enter the new product premium price: ";
+      cin >> premiumPrice;
+
+      // Update the product
+      product->name = name;
+      product->price = price;
+      product->discount = discount;
+      product->premiumPrice = premiumPrice;
+
+      cout << "Product modified successfully!" << endl;
     } else {
       cout << "Product not found." << endl;
     }
   }
 
-// Function to search for a product by name or ID
-  void searchProduct(const vector<Product> &products) {
-    string searchTerm;
-    cout << "Enter product name or ID to search: ";
-    cin.ignore();
-    getline(cin, searchTerm);
+  void printProductDetails(const Product &product) {
+    cout << "ID: " << product.id << ", Name: " << product.name
+              << ", Price: " << product.price << ", Discount: " << product.discount
+              << ", Premium Price: " << product.premiumPrice << endl;
+  }
 
-    cout << "Search results:" << endl;
-    bool found = false;
+  // Function to search for a product by name or ID
+  void searchProduct(ProductSet &products) {
+    string searchQuery;
+    cout << "Enter the product name or ID to search: ";
+    cin.ignore(); // Ignore any remaining newline characters
+    getline(cin, searchQuery);
 
-    for (const auto &product: products) {
-      if (product.name.find(searchTerm) != string::npos || to_string(product.id) == searchTerm) {
-        cout << "ID: " << product.id << ", Name: " << product.name << ", Price: " << product.price
-             << ", Discount: " << product.discount << ", Member Price: " << product.memberPrice << endl;
-        found = true;
+    // Search by ID
+    int productId = stoi(searchQuery);
+    Product *productById = products.findById(productId);
+
+    // Search by name
+    auto productsByName = products.findByName(searchQuery);
+
+    if (productById) {
+      // Product found by ID
+      cout << "Product found by ID:" << endl;
+      printProductDetails(*productById);
+    } else if (!productsByName.empty()) {
+      // Products found by name
+      cout << "Found " << productsByName.size() << " product(s) by name:" << endl;
+      for (const auto &product: productsByName) {
+        printProductDetails(product);
       }
-    }
-
-    if (!found) {
-      cout << "No products found." << endl;
+    } else {
+      // No products found
+      cout << "Product not found." << endl;
     }
   }
 }
+

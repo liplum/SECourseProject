@@ -12,15 +12,15 @@ using namespace std;
 
 namespace ui {
 // Function to add a new product
-  void addProduct(vector<Product> &products);
+  void addProduct(ProductSet products);
 
 // Function to delete a product
-  void deleteProduct(vector<Product> &products);
+  void deleteProduct(ProductSet products);
 
 // Function to modify a product
-  void modifyProduct(vector<Product> &products);
+  void modifyProduct(ProductSet products);
 
 // Function to search for a product by name or ID
-  void searchProduct(const vector<Product> &products);
+  void searchProduct(ProductSet products);
 }
 #endif //PRODMANAGESYS_CRUD_H

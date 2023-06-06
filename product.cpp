@@ -7,6 +7,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <utility>
 
 using json = nlohmann::json;
 using namespace std;
@@ -20,7 +21,7 @@ void saveProductsToFile(const vector<Product> &products, const string &filename)
     productData["name"] = product.name;
     productData["price"] = product.price;
     productData["discount"] = product.discount;
-    productData["memberPrice"] = product.memberPrice;
+    productData["premiumPrice"] = product.premiumPrice;
     jsonData.push_back(productData);
   }
 
@@ -47,7 +48,7 @@ vector<Product> &loadProductsFromFile(const string &filename) {
       product.name = productData["name"];
       product.price = productData["price"];
       product.discount = productData["discount"];
-      product.memberPrice = productData["memberPrice"];
+      product.premiumPrice = productData["premiumPrice"];
       products->push_back(product);
     }
     cout << "Product data loaded from " << filename << endl;
@@ -55,4 +56,54 @@ vector<Product> &loadProductsFromFile(const string &filename) {
   // ignore missing file
   file.close();
   return *products;
+}
+
+Product *ProductSet::findById(int id) {
+  for (auto &product: products) {
+    if (product.id == id) {
+      return &product;
+    }
+  }
+  return nullptr;
+}
+
+vector<Product> ProductSet::findByName(const string &name) {
+  vector<Product> foundProducts;
+  for (auto &product: products) {
+    if (product.name == name) {
+      foundProducts.push_back(product);
+    }
+  }
+  return std::move(foundProducts);
+}
+
+int ProductSet::addProduct(const string &name, double price, double discount, double premiumPrice) {
+  Product p;
+  p.id = ++lastId;
+  p.name = name;
+  p.price = price;
+  p.discount = discount;
+  p.premiumPrice = premiumPrice;
+  products.push_back(p);
+  return p.id;
+}
+
+bool ProductSet::removeProductById(int prod) {
+  for (auto it = products.begin(); it != products.end(); ++it) {
+    if (it->id == prod) {
+      products.erase(it);
+      return true;
+    }
+  }
+  return false;
+}
+
+bool ProductSet::updateProduct(Product& product) {
+  for (auto& p : products) {
+    if (p.id == product.id) {
+      p = product; // Update the product
+      return true;
+    }
+  }
+  return false; // Product not found
 }
