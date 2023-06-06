@@ -5,7 +5,7 @@
 #ifndef PRODMANAGESYS_CRUD_H
 #define PRODMANAGESYS_CRUD_H
 
-#include "../entity.h"
+#include "../product.h"
 #include <iostream>
 
 using namespace std;

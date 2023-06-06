@@ -14,9 +14,9 @@ using json = nlohmann::json;
 using namespace std;
 
 // Function to serialize user information to JSON file
-void saveUsersToFile(const vector<User>& users, const string& filename) {
+void saveUsersToFile(const vector<User> &users, const string &filename) {
   json jsonData;
-  for (const auto& user : users) {
+  for (const auto &user: users) {
     json userData;
     userData["username"] = user.username;
     userData["password"] = user.password;
@@ -37,32 +37,32 @@ void saveUsersToFile(const vector<User>& users, const string& filename) {
 }
 
 // Function to load user information from JSON file
-vector<User> loadUsersFromFile(const string& filename) {
-  vector<User> users;
+vector<User> &loadUsersFromFile(const string &filename) {
+  auto users = new vector<User>();
   ifstream file(filename);
   if (file.is_open()) {
     json jsonData;
     file >> jsonData;
-    for (const auto& userData : jsonData) {
+    for (const auto &userData: jsonData) {
       User user;
       user.username = userData["username"];
       user.password = userData["password"];
       user.userType.retrieveProduct = userData["userType"]["retrieveProduct"];
       user.userType.modifyProduct = userData["userType"]["modifyProduct"];
       user.userType.modifyUser = userData["userType"]["modifyUser"];
-      users.push_back(user);
+      users->push_back(user);
     }
     cout << "User data loaded from " << filename << endl;
   } else {
     cerr << "Unable to load user data from file." << endl;
   }
   file.close();
-  return users;
+  return *users;
 }
 
 // Function to find a user by username
-User* findUserByUsername(vector<User>& users, const string& username) {
-  auto it = find_if(users.begin(), users.end(), [username](const User& user) {
+User *findUserByUsername(vector<User> &users, const string &username) {
+  auto it = find_if(users.begin(), users.end(), [username](const User &user) {
     return user.username == username;
   });
 

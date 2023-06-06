@@ -17,6 +17,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(${JSON_LIBRARY_TARGET_NAME})
 
-add_executable(ProdManageSys main.cpp entity.h serialize.h serialize.cpp auth.cpp auth.h ui/ui.cpp ui/ui.h ui/crud.cpp ui/crud.h)
+add_executable(ProdManageSys main.cpp product.h auth.cpp auth.h ui/ui.cpp ui/ui.h ui/crud.cpp ui/crud.h product.cpp)
 
 target_link_libraries(ProdManageSys PRIVATE nlohmann_json::nlohmann_json)

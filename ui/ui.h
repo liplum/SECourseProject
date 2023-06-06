@@ -6,6 +6,7 @@
 #define PRODMANAGESYS_UI_H
 
 #include "../auth.h"
+#include "../product.h"
 
 namespace ui {
 /**
@@ -14,5 +15,9 @@ namespace ui {
  * @return
  */
   User *tryLogin(vector<User> &users);
+
+  void displayMainMenu();
+  void displayUserManagementMenu();
+  void displayProductRankings(const std::vector<Product> &products);
 }
 #endif //PRODMANAGESYS_UI_H
