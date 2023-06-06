@@ -11,32 +11,35 @@
 #include "nlohmann/json.hpp"
 
 using json = nlohmann::json;
+using namespace std;
 
-// Function to save user information to JSON file
-void saveUsersToFile(const std::vector<User>& users, const std::string& filename) {
+// Function to serialize user information to JSON file
+void saveUsersToFile(const vector<User>& users, const string& filename) {
   json jsonData;
   for (const auto& user : users) {
     json userData;
     userData["username"] = user.username;
     userData["password"] = user.password;
-    userData["userType"] = (user.userType == UserType(true, true, true)) ? "admin" : "regular";
+    userData["userType"]["retrieveProduct"] = user.userType.retrieveProduct;
+    userData["userType"]["modifyProduct"] = user.userType.modifyProduct;
+    userData["userType"]["modifyUser"] = user.userType.modifyUser;
     jsonData.push_back(userData);
   }
 
-  std::ofstream file(filename);
+  ofstream file(filename);
   if (file.is_open()) {
-    file << jsonData.dump(4) << std::endl;
-    std::cout << "User data saved to " << filename << std::endl;
+    file << setw(4) << jsonData << endl;
+    cout << "User data saved to " << filename << endl;
   } else {
-    std::cerr << "Unable to save user data to file." << std::endl;
+    cerr << "Unable to save user data to file." << endl;
   }
   file.close();
 }
 
 // Function to load user information from JSON file
-std::vector<User> loadUsersFromFile(const std::string& filename) {
-  std::vector<User> users;
-  std::ifstream file(filename);
+vector<User> loadUsersFromFile(const string& filename) {
+  vector<User> users;
+  ifstream file(filename);
   if (file.is_open()) {
     json jsonData;
     file >> jsonData;
@@ -44,25 +47,22 @@ std::vector<User> loadUsersFromFile(const std::string& filename) {
       User user;
       user.username = userData["username"];
       user.password = userData["password"];
-      std::string userType = userData["userType"];
-      if (userType == "admin") {
-        user.userType = UserType(true, true, true);
-      } else {
-        user.userType = UserType(true, false, false);
-      }
+      user.userType.retrieveProduct = userData["userType"]["retrieveProduct"];
+      user.userType.modifyProduct = userData["userType"]["modifyProduct"];
+      user.userType.modifyUser = userData["userType"]["modifyUser"];
       users.push_back(user);
     }
-    std::cout << "User data loaded from " << filename << std::endl;
+    cout << "User data loaded from " << filename << endl;
   } else {
-    std::cerr << "Unable to load user data from file." << std::endl;
+    cerr << "Unable to load user data from file." << endl;
   }
   file.close();
   return users;
 }
 
 // Function to find a user by username
-User* findUserByUsername(std::vector<User>& users, const std::string& username) {
-  auto it = std::find_if(users.begin(), users.end(), [username](const User& user) {
+User* findUserByUsername(vector<User>& users, const string& username) {
+  auto it = find_if(users.begin(), users.end(), [username](const User& user) {
     return user.username == username;
   });
 
@@ -71,51 +71,4 @@ User* findUserByUsername(std::vector<User>& users, const std::string& username) 
   } else {
     return nullptr;
   }
-}
-
-// Function to authenticate user login
-bool userLogin(std::vector<User>& users) {
-  std::string username, password;
-  int attempts = 0;
-
-  while (attempts < 3) {
-    std::cout << "Enter username: ";
-    std::cin >> username;
-    std::cout << "Enter password: ";
-    std::cin >> password;
-
-    User* user = findUserByUsername(users, username);
-
-    if (user != nullptr && user->password == password) {
-      std::cout << "Login successful." << std::endl;
-      return true;
-    } else {
-      std::cout << "Invalid username or password. Please try again." << std::endl;
-      attempts++;
-    }
-  }
-
-  std::cout << "Maximum login attempts exceeded. Exiting program." << std::endl;
-  return false;
-}
-
-int main() {
-  std::vector<User> users = loadUsersFromFile("user_data.json");
-  bool loggedIn = false;
-
-  while (true) {
-    if (!loggedIn) {
-      if (!userLogin(users)) {
-        break;
-      }
-      loggedIn = true;
-    }
-
-    // Your main menu and other functions here
-
-    break; // Placeholder to exit the loop for demonstration
-  }
-
-  saveUsersToFile(users, "user_data.json");
-  return 0;
 }
