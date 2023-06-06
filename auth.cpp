@@ -18,11 +18,11 @@ void saveUsersToFile(const vector<User> &users, const string &filename) {
   json jsonData;
   for (const auto &user: users) {
     json userData;
-    userData["username"] = user.username;
+    userData["account"] = user.account;
     userData["password"] = user.password;
-    userData["userType"]["retrieveProduct"] = user.userType.retrieveProduct;
-    userData["userType"]["modifyProduct"] = user.userType.modifyProduct;
-    userData["userType"]["modifyUser"] = user.userType.modifyUser;
+    userData["permission"]["retrieveProduct"] = user.permission.retrieveProduct;
+    userData["permission"]["modifyProduct"] = user.permission.modifyProduct;
+    userData["permission"]["modifyUser"] = user.permission.modifyUser;
     jsonData.push_back(userData);
   }
 
@@ -45,25 +45,24 @@ vector<User> &loadUsersFromFile(const string &filename) {
     file >> jsonData;
     for (const auto &userData: jsonData) {
       User user;
-      user.username = userData["username"];
+      user.account = userData["account"];
       user.password = userData["password"];
-      user.userType.retrieveProduct = userData["userType"]["retrieveProduct"];
-      user.userType.modifyProduct = userData["userType"]["modifyProduct"];
-      user.userType.modifyUser = userData["userType"]["modifyUser"];
+      user.permission.retrieveProduct = userData["permission"]["retrieveProduct"];
+      user.permission.modifyProduct = userData["permission"]["modifyProduct"];
+      user.permission.modifyUser = userData["permission"]["modifyUser"];
       users->push_back(user);
     }
     cout << "User data loaded from " << filename << endl;
-  } else {
-    cerr << "Unable to load user data from file." << endl;
   }
+  // ignore missing file
   file.close();
   return *users;
 }
 
-// Function to find a user by username
+// Function to find a user by account
 User *findUserByUsername(vector<User> &users, const string &username) {
   auto it = find_if(users.begin(), users.end(), [username](const User &user) {
-    return user.username == username;
+    return user.account == username;
   });
 
   if (it != users.end()) {

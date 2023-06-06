@@ -31,17 +31,20 @@ int main() {
   while (true) {
     ui::displayMainMenu();
     int choice;
-    std::cin >> choice;
+    cin >> choice;
 
     switch (choice) {
       case 1:
         ui::addProduct(products);
+        saveProducts(products);
         break;
       case 2:
         ui::deleteProduct(products);
+        saveProducts(products);
         break;
       case 3:
         ui::modifyProduct(products);
+        saveProducts(products);
         break;
       case 4:
         ui::searchProduct(products);
@@ -53,8 +56,7 @@ int main() {
         while (true) {
           ui::displayUserManagementMenu();
           int userChoice;
-          std::cin >> userChoice;
-
+          cin >> userChoice;
           // Implement user management functions here
           // Add, delete, modify, search user
 
@@ -64,11 +66,12 @@ int main() {
         }
         break;
       case 0:
-        saveProductsToFile(products, "product_data.json");
-        std::cout << "Exiting program. Goodbye!" << std::endl;
+        saveProducts(products);
+        saveUsers(users);
+        cout << "Exiting program. Goodbye!" << endl;
         return 0;
       default:
-        std::cout << "Invalid choice. Please try again." << std::endl;
+        cout << "Invalid choice. Please try again." << endl;
     }
   }
   return 0;

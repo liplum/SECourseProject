@@ -13,7 +13,7 @@ namespace ui {
     int attempts = 0;
 
     while (attempts < 3) {
-      cout << "Enter username: ";
+      cout << "Enter account: ";
       cin >> username;
       cout << "Enter password: ";
       cin >> password;
@@ -24,7 +24,7 @@ namespace ui {
         cout << "Login successful." << endl;
         return user;
       } else {
-        cout << "Invalid username or password. Please try again." << endl;
+        cout << "Invalid account or password. Please try again." << endl;
         attempts++;
       }
     }

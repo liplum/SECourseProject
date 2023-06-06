@@ -2,7 +2,7 @@
 // Created by Liplum on 6/6/23.
 //
 
-#include "serialize.h"
+#include "product.h"
 #include "nlohmann/json.hpp"
 #include <fstream>
 #include <iomanip>
@@ -35,7 +35,7 @@ void saveProductsToFile(const vector<Product> &products, const string &filename)
 }
 
 // Function to load products from JSON file
-vector<Product>& loadProductsFromFile(const string &filename) {
+vector<Product> &loadProductsFromFile(const string &filename) {
   auto products = new vector<Product>();
   ifstream file(filename);
   if (file.is_open()) {
@@ -51,9 +51,8 @@ vector<Product>& loadProductsFromFile(const string &filename) {
       products->push_back(product);
     }
     cout << "Product data loaded from " << filename << endl;
-  } else {
-    cerr << "Unable to load product data from file." << endl;
   }
+  // ignore missing file
   file.close();
   return *products;
 }

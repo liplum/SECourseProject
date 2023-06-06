@@ -10,21 +10,21 @@
 using namespace std;
 
 // User type with hardcoded permissions
-class UserType {
+class PermissionSet {
 public:
   bool retrieveProduct = false;
   bool modifyProduct = false;
   bool modifyUser = false;
 
-  explicit UserType(bool retrieveProduct = false, bool modifyProduct = false, bool modifyUser = false)
+  explicit PermissionSet(bool retrieveProduct = false, bool modifyProduct = false, bool modifyUser = false)
     : retrieveProduct(retrieveProduct), modifyProduct(modifyProduct), modifyUser(modifyUser) {}
 };
 
 // User information
 struct User {
-  string username;
+  string account;
   string password;
-  UserType userType;
+  PermissionSet permission;
 };
 
 void saveUsersToFile(const vector<User>& users, const string& filename);
