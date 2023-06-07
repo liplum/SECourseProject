@@ -19,5 +19,9 @@ namespace ui {
   void displayMainMenu();
   void displayUserManagementMenu();
   void displayProductRankings(const std::vector<Product> &products);
+
+  class MainMenu{
+    void func(const string& name);
+  };
 }
 #endif //PRODMANAGESYS_UI_H
