@@ -5,7 +5,7 @@
 #include "ui/crud.h"
 
 const auto usersDbPath = "users.json";
-const auto productsDbPath = "users.json";
+const auto productsDbPath = "products.json";
 
 int main() {
   auto users = loadUsersFromFile(usersDbPath);
@@ -13,7 +13,7 @@ int main() {
   if (user == nullptr) {
     return 1;
   }
-  auto products = ProductSet::loadProductsFromFile(productsDbPath);
+  auto products = ProductSet::loadFromFile(productsDbPath);
   while (true) {
     ui::displayMainMenu();
     int choice;

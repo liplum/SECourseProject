@@ -36,7 +36,7 @@ public:
 
   void saveToFile(const string &filename);
 
-  static ProductSet loadProductsFromFile(const string &filename);
+  static ProductSet loadFromFile(const string &filename);
 };
 
 #endif //PRODMANAGESYS_PRODUCT_H

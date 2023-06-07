@@ -28,7 +28,7 @@ void saveUsersToFile(const vector<User> &users, const string &filename) {
 
   ofstream file(filename);
   if (file.is_open()) {
-    file << setw(4) << jsonData << endl;
+    file << setw(2) << jsonData << endl;
     cout << "User data saved to " << filename << endl;
   } else {
     cerr << "Unable to save user data to file." << endl;

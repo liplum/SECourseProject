@@ -47,15 +47,14 @@ namespace ui {
 
 // Function to modify a product
   void modifyProduct(ProductSet &products) {
-    int productId;
-    Product *product;
+    int id;
 
     // Get the ID of the product to modify
     cout << "Enter the product ID to modify: ";
-    cin >> productId;
+    cin >> id;
 
     // Find the product by ID
-    product = products.findById(productId);
+    auto product = products.findById(id);
 
     // Check if the product exists
     if (product) {
@@ -100,7 +99,7 @@ namespace ui {
 
     // Search by ID
     int productId = stoi(searchQuery);
-    Product *productById = products.findById(productId);
+    auto productById = products.findById(productId);
 
     // Search by name
     auto productsByName = products.findByName(searchQuery);
