@@ -5,6 +5,7 @@
 #ifndef PRODMANAGESYS_AUTH_H
 #define PRODMANAGESYS_AUTH_H
 
+#include <vector>
 #include "string"
 
 using namespace std;

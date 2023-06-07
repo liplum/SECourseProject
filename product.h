@@ -5,6 +5,7 @@
 #define PRODMANAGESYS_PRODUCT_H
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -32,10 +33,10 @@ public:
   bool removeProductById(int prod);
 
   bool updateProduct(Product &product);
+
+  void saveToFile(const string &filename);
+
+  static ProductSet loadProductsFromFile(const string &filename);
 };
-
-void saveProductsToFile(const vector<Product> &products, const string &filename);
-
-vector<Product> loadProductsFromFile(const string &filename);
 
 #endif //PRODMANAGESYS_PRODUCT_H

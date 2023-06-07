@@ -1,33 +1,19 @@
 #include <iostream>
-#include <vector>
 #include "product.h"
 #include "auth.h"
 #include "ui/ui.h"
 #include "ui/crud.h"
 
-vector<User> loadUsers() {
-  return std::move(loadUsersFromFile("./users.json"));
-}
-
-vector<Product> loadProducts() {
-  return std::move(loadProductsFromFile("./products.json"));
-}
-
-void saveUsers(vector<User> &users) {
-  saveUsersToFile(users, "./users.json");
-}
-
-void saveProducts(ProductSet &products) {
-  saveProductsToFile(products, "./products.json");
-}
+const auto usersDbPath = "users.json";
+const auto productsDbPath = "users.json";
 
 int main() {
-  auto users = loadUsers();
+  auto users = loadUsersFromFile(usersDbPath);
   auto user = ui::tryLogin(users);
   if (user == nullptr) {
     return 1;
   }
-  ProductSet products;
+  auto products = ProductSet::loadProductsFromFile(productsDbPath);
   while (true) {
     ui::displayMainMenu();
     int choice;
@@ -36,21 +22,21 @@ int main() {
     switch (choice) {
       case 1:
         ui::addProduct(products);
-        saveProducts(products);
+        products.saveToFile(productsDbPath);
         break;
       case 2:
         ui::deleteProduct(products);
-        saveProducts(products);
+        products.saveToFile(productsDbPath);
         break;
       case 3:
         ui::modifyProduct(products);
-        saveProducts(products);
+        products.saveToFile(productsDbPath);
         break;
       case 4:
         ui::searchProduct(products);
         break;
       case 5:
-        ui::displayProductRankings(products);
+     //   ui::displayProductRankings(products);
         break;
       case 6:
         while (true) {
@@ -66,8 +52,8 @@ int main() {
         }
         break;
       case 0:
-        saveProducts(products);
-        saveUsers(users);
+        products.saveToFile(productsDbPath);
+        saveUsersToFile(users, usersDbPath);
         cout << "Exiting program. Goodbye!" << endl;
         return 0;
       default:
