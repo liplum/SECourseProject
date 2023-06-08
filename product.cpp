@@ -12,6 +12,20 @@
 using json = nlohmann::json;
 using namespace std;
 
+void ProductSet::markDirty() {
+  dirty = true;
+}
+
+bool ProductSet::clearDirty() {
+  bool isDirty = dirty;
+  dirty = false;
+  return isDirty;
+}
+
+bool ProductSet::isDirty() {
+  return dirty;
+}
+
 Product *ProductSet::findById(int id) {
   for (auto &product: products) {
     if (product.id == id) {
@@ -39,6 +53,7 @@ int ProductSet::addProduct(const string &name, double price, double discount, do
   p.discount = discount;
   p.premiumPrice = premiumPrice;
   products.push_back(p);
+  markDirty();
   return p.id;
 }
 
@@ -46,6 +61,7 @@ bool ProductSet::removeProductById(int prod) {
   for (auto it = products.begin(); it != products.end(); ++it) {
     if (it->id == prod) {
       products.erase(it);
+      markDirty();
       return true;
     }
   }
@@ -56,6 +72,7 @@ bool ProductSet::updateProduct(Product &product) {
   for (auto &p: products) {
     if (p.id == product.id) {
       p = product; // Update the product
+      markDirty();
       return true;
     }
   }

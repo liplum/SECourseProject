@@ -23,7 +23,22 @@ class ProductSet {
 private:
   int lastId = 0;
   vector<Product> products = vector<Product>();
+  /***
+   * whether the product list or lastId is changed.
+   */
+  bool dirty = false;
+
+  void markDirty();
+
 public:
+  /**
+   * Clear the dirty mark.
+   * @return whether is dirty.
+   */
+  bool clearDirty();
+
+  bool isDirty();
+
   Product *findById(int id);
 
   vector<Product> findByName(const string &name);

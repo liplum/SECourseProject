@@ -22,21 +22,27 @@ int main() {
     switch (choice) {
       case 1:
         ui::addProduct(products);
-        products.saveToFile(productsDbPath);
+        if (products.clearDirty()) {
+          products.saveToFile(productsDbPath);
+        }
         break;
       case 2:
         ui::deleteProduct(products);
-        products.saveToFile(productsDbPath);
+        if (products.clearDirty()) {
+          products.saveToFile(productsDbPath);
+        }
         break;
       case 3:
         ui::modifyProduct(products);
-        products.saveToFile(productsDbPath);
+        if (products.clearDirty()) {
+          products.saveToFile(productsDbPath);
+        }
         break;
       case 4:
         ui::searchProduct(products);
         break;
       case 5:
-     //   ui::displayProductRankings(products);
+        //   ui::displayProductRankings(products);
         break;
       case 6:
         while (true) {
@@ -52,7 +58,9 @@ int main() {
         }
         break;
       case 0:
-        products.saveToFile(productsDbPath);
+        if (products.clearDirty()) {
+          products.saveToFile(productsDbPath);
+        }
         saveUsersToFile(users, usersDbPath);
         cout << "Exiting program. Goodbye!" << endl;
         return 0;
