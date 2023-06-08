@@ -35,41 +35,77 @@ namespace ui {
 
 // Main menu
   void displayMainMenu() {
-    std::cout << "===== Product Management System =====" << std::endl;
-    std::cout << "1. Add product" << std::endl;
-    std::cout << "2. Delete product" << std::endl;
-    std::cout << "3. Modify product" << std::endl;
-    std::cout << "4. Search product" << std::endl;
-    std::cout << "5. Display product rankings" << std::endl;
-    std::cout << "6. User management" << std::endl;
-    std::cout << "0. Exit" << std::endl;
-    std::cout << "=====================================" << std::endl;
-    std::cout << "Enter your choice: ";
+    cout << "===== Product Management System =====" << endl;
+    cout << "1. Add product" << endl;
+    cout << "2. Delete product" << endl;
+    cout << "3. Modify product" << endl;
+    cout << "4. Search product" << endl;
+    cout << "5. Display product rankings" << endl;
+    cout << "6. User management" << endl;
+    cout << "0. Exit" << endl;
+    cout << "=====================================" << endl;
+    cout << "Enter your choice: ";
   }
 
 // User management menu
   void displayUserManagementMenu() {
-    std::cout << "===== User Management Menu =====" << std::endl;
-    std::cout << "1. Add user" << std::endl;
-    std::cout << "2. Delete user" << std::endl;
-    std::cout << "3. Modify user" << std::endl;
-    std::cout << "4. Search user" << std::endl;
-    std::cout << "0. Back to main menu" << std::endl;
-    std::cout << "===============================" << std::endl;
-    std::cout << "Enter your choice: ";
+    cout << "===== User Management Menu =====" << endl;
+    cout << "1. Add user" << endl;
+    cout << "2. Delete user" << endl;
+    cout << "3. Modify user" << endl;
+    cout << "4. Search user" << endl;
+    cout << "0. Back to main menu" << endl;
+    cout << "===============================" << endl;
+    cout << "Enter your choice: ";
   }
 
 // Function to display product rankings based on discount price
-  void displayProductRankings(const std::vector<Product> &products) {
-    std::vector<Product> sortedProducts = products;
-    std::sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &p1, const Product &p2) {
+  void displayProductRankings(const vector<Product> &products) {
+    vector<Product> sortedProducts = products;
+    sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &p1, const Product &p2) {
       return p1.discount < p2.discount;
     });
 
-    std::cout << "Product Rankings (based on discount price):" << std::endl;
+    cout << "Product Rankings (based on discount price):" << endl;
     for (const auto &product: sortedProducts) {
-      std::cout << "ID: " << product.id << ", Name: " << product.name << ", Discount: " << product.discount
-                << std::endl;
+      cout << "ID: " << product.id << ", Name: " << product.name << ", Discount: " << product.discount
+           << endl;
+    }
+  }
+
+  void Command::execute() const {
+    callback();
+  }
+
+  void MainMenu::registerCommand(const string& cmdName, const string& desc, const Callback& callback) {
+    menuItems[cmdName] = Command(desc, callback);
+  }
+
+  void MainMenu::displayMenu() {
+    cout << "===== Main Menu =====" << endl;
+    cout << "Choose an option:" << endl;
+
+    int optionNum = 1;
+    for (const auto &menuItem: menuItems) {
+      cout << optionNum << ". " << menuItem.second.description << endl;
+      optionNum++;
+    }
+
+    cout << "0. Exit" << endl;
+    cout << "=====================" << endl;
+  }
+
+  void MainMenu::handleInput(const string &choice) {
+    if (choice == "0") {
+      cout << "Exiting..." << endl;
+      return;
+    }
+
+    auto it = menuItems.find(choice);
+    if (it != menuItems.end()) {
+      it->second.execute();
+    } else {
+      cout << "Invalid option. Please try again." << endl;
     }
   }
 }
