@@ -3,6 +3,7 @@
 #include "auth.h"
 #include "ui/ui.h"
 #include "ui/crud.h"
+#include "terminal.h"
 
 const auto usersDbPath = "users.json";
 const auto productsDbPath = "products.json";
@@ -14,6 +15,15 @@ int main() {
     return 1;
   }
   auto products = ProductSet::loadFromFile(productsDbPath);
+
+  Terminal terminal(usersDbPath,productsDbPath);
+
+  userMenu.displayMenu();
+
+  menu.displayMenu();
+
+
+
   while (true) {
     ui::displayMainMenu();
     int choice;

@@ -40,16 +40,22 @@ namespace ui {
     void execute() const;
   };
 
-  class MainMenu {
+  class Menu {
   private:
     map<string, Command> menuItems;
 
   public:
+    const string header;
+
+    Menu(string header) : header(std::move(header)) {}
+
     void registerCommand(const string &cmdName, const string &desc, const Callback &callback);
 
     void displayMenu();
 
     void handleInput(const string &choice);
+
+    void startLoop();
   };
 }
 #endif //PRODMANAGESYS_UI_H

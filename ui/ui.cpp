@@ -77,12 +77,12 @@ namespace ui {
     callback();
   }
 
-  void MainMenu::registerCommand(const string& cmdName, const string& desc, const Callback& callback) {
+  void Menu::registerCommand(const string& cmdName, const string& desc, const Callback& callback) {
     menuItems[cmdName] = Command(desc, callback);
   }
 
-  void MainMenu::displayMenu() {
-    cout << "===== Main Menu =====" << endl;
+  void Menu::displayMenu() {
+    cout << "===== "<< header <<" =====" << endl;
     cout << "Choose an option:" << endl;
 
     int optionNum = 1;
@@ -91,13 +91,13 @@ namespace ui {
       optionNum++;
     }
 
-    cout << "0. Exit" << endl;
+    cout << "#. Quit" << endl;
     cout << "=====================" << endl;
   }
 
-  void MainMenu::handleInput(const string &choice) {
-    if (choice == "0") {
-      cout << "Exiting..." << endl;
+  void Menu::handleInput(const string &choice) {
+    if (choice == "#") {
+      cout << "Quit..." << endl;
       return;
     }
 
@@ -106,6 +106,19 @@ namespace ui {
       it->second.execute();
     } else {
       cout << "Invalid option. Please try again." << endl;
+    }
+  }
+
+  void Menu::startLoop() {
+    string choice;
+    while (true) {
+      displayMenu();
+      cout << "Enter your choice: ";
+      cin >> choice;
+      handleInput(choice);
+      if (choice == "#") {
+        break;
+      }
     }
   }
 }
