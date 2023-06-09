@@ -6,31 +6,42 @@
 
 #include <string>
 #include <vector>
+#include "nlohmann/json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 // Product class to store product information
 class Product {
 public:
-  int id{};
+  int id{0};
   string name;
-  double price{};
-  double discount{};
-  double premiumPrice{};
+  double price{0};
+  double discount{0};
+  double premiumPrice{0};
+
+  Product() = default;
+
+  explicit Product(const json &obj);
+
+  json toJson() const;
 };
 
 class ProductSet {
 private:
-  int lastId = 0;
-  vector<Product> products = vector<Product>();
-  /***
+  int lastId{0};
+  vector<Product> products{};
+  /**
    * whether the product list or lastId is changed.
    */
-  bool dirty = false;
+  bool dirty{false};
 
   void markDirty();
 
 public:
+  ProductSet() = default;
+
+  explicit ProductSet(const string &filename);
   /**
    * Clear the dirty mark.
    * @return whether is dirty.
@@ -49,9 +60,9 @@ public:
 
   bool updateProduct(Product &product);
 
-  void saveToFile(const string &filename);
+  bool saveToFile(const string &filename);
 
-  static ProductSet loadFromFile(const string &filename);
+  static ProductSet *loadFromFile(const string &filename);
 };
 
 #endif //PRODMANAGESYS_PRODUCT_H

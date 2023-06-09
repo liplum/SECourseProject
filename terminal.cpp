@@ -3,10 +3,21 @@
 //
 
 #include "terminal.h"
+#include <iostream>
+
+using namespace std;
+
+
+Terminal::Terminal(const string& userDbPath, const string& productDbPath)
+  : userDbPath(userDbPath),
+    productDbPath(productDbPath) {
+  users = loadUsersFromFile(userDbPath);
+  products = new ProductSet(productDbPath);
+}
 
 void Terminal::loadResource() {
-  users = loadUsersFromFile(userDbPath);
-  products = ProductSet::loadFromFile(productDbPath);
+
+  cout << "Product data loaded from " << productDbPath << endl;
 }
 
 void Terminal::init() {

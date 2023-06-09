@@ -18,13 +18,12 @@ class Terminal {
 public:
   const string userDbPath;
   const string productDbPath;
-  ProductSet products;
+  ProductSet* products;
   vector<User> *users;
   ui::Menu main{"Main Menu"};
   ui::Menu user{"User Management"};
 
-  Terminal(string userDbPath, string productDbPath) :
-    userDbPath(std::move(userDbPath)), productDbPath(std::move(productDbPath)) {}
+  Terminal(const string& userDbPath, const string& productDbPath);
 
   void init();
 

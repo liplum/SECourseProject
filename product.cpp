@@ -9,7 +9,6 @@
 #include <iostream>
 #include <utility>
 
-using json = nlohmann::json;
 using namespace std;
 
 void ProductSet::markDirty() {
@@ -79,24 +78,33 @@ bool ProductSet::updateProduct(Product &product) {
   return false; // Product not found
 }
 
-void writeProductToJson(json &obj, const Product &product) {
-  obj["id"] = product.id;
-  obj["name"] = product.name;
-  obj["price"] = product.price;
-  obj["discount"] = product.discount;
-  obj["premiumPrice"] = product.premiumPrice;
+
+json Product::toJson() const {
+  json obj;
+  obj["id"] = id;
+  obj["name"] = name;
+  obj["price"] = price;
+  obj["discount"] = discount;
+  obj["premiumPrice"] = premiumPrice;
+  return std::move(obj);
+}
+
+Product::Product(const json &obj) {
+  id = obj["id"];
+  name = obj["name"];
+  price = obj["price"];
+  discount = obj["discount"];
+  premiumPrice = obj["premiumPrice"];
 }
 
 void writeProductList(json &arr, const vector<Product> &products) {
   for (const auto &product: products) {
-    json productData;
-    writeProductToJson(productData, product);
-    arr.push_back(productData);
+    arr.push_back(product.toJson());
   }
 }
 
 // Function to serialize products to JSON file
-void ProductSet::saveToFile(const string &filename) {
+bool ProductSet::saveToFile(const string &filename) {
   json root;
   root["lastId"] = lastId;
   writeProductList(root["products"], products);
@@ -104,43 +112,29 @@ void ProductSet::saveToFile(const string &filename) {
   ofstream file(filename);
   if (file.is_open()) {
     file << setw(2) << root << endl;
-    cout << "Product data saved to " << filename << endl;
+    return true;
+    // cout << "Product data saved to " << filename << endl;
   } else {
-    cerr << "Unable to save product data to file." << endl;
+    // cerr << "Unable to save product data to file." << endl;
+    return false;
   }
-  file.close();
-}
-
-Product readProductFromJson(const json &obj) {
-  Product product;
-  product.id = obj["id"];
-  product.name = obj["name"];
-  product.price = obj["price"];
-  product.discount = obj["discount"];
-  product.premiumPrice = obj["premiumPrice"];
-  return std::move(product);
 }
 
 void readProductListFromJson(const json &arr, vector<Product> &in) {
   for (const auto &obj: arr) {
-    in.push_back(readProductFromJson(obj));
+    in.emplace_back(obj);
   }
 }
 
 // Function to load products from JSON file
-ProductSet ProductSet::loadFromFile(const string &filename) {
-  ProductSet set;
+ProductSet::ProductSet(const string &filename) {
   ifstream file(filename);
   if (file.is_open()) {
     json jsonData;
     file >> jsonData;
-    set.lastId = jsonData["lastId"];
-    readProductListFromJson(jsonData["products"], set.products);
+    lastId = jsonData["lastId"];
+    readProductListFromJson(jsonData["products"], products);
   }
-  cout << "Product data loaded from " << filename << endl;
-
   // ignore missing file
   file.close();
-
-  return std::move(set);
 }

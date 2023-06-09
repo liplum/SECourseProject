@@ -11,14 +11,18 @@
 using namespace std;
 
 // User type with hardcoded permissions
-class PermissionSet {
-public:
+struct PermissionSet {
   bool retrieveProduct = false;
   bool modifyProduct = false;
   bool modifyUser = false;
 
-  explicit PermissionSet(bool retrieveProduct = false, bool modifyProduct = false, bool modifyUser = false)
-    : retrieveProduct(retrieveProduct), modifyProduct(modifyProduct), modifyUser(modifyUser) {}
+  explicit PermissionSet(
+    bool retrieveProduct = false,
+    bool modifyProduct = false,
+    bool modifyUser = false
+  ) : retrieveProduct(retrieveProduct),
+      modifyProduct(modifyProduct),
+      modifyUser(modifyUser) {}
 };
 
 // User information
@@ -28,7 +32,15 @@ struct User {
   PermissionSet permission;
 };
 
-void saveUsersToFile(const vector<User>& users, const string& filename);
-vector<User> loadUsersFromFile(const string& filename);
-User* findUserByUsername(vector<User>& users, const string& username);
+class Auth {
+private:
+  vector<User>* users;
+};
+
+void saveUsersToFile(const vector<User> &users, const string &filename);
+
+vector<User> loadUsersFromFile(const string &filename);
+
+User *findUserByUsername(vector<User> &users, const string &username);
+
 #endif //PRODMANAGESYS_AUTH_H
