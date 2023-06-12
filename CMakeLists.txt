@@ -17,6 +17,6 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(${JSON_LIBRARY_TARGET_NAME})
 
-add_executable(ProdManageSys main.cpp src/product.cpp src/product.h src/auth.cpp src/auth.h src/menu.cpp src/menu.h src/terminal.cpp src/terminal.h src/dirty.cpp src/dirty.h src/ui.cpp src/ui.h)
+add_executable(ProdManageSys main.cpp src/product.cpp src/product.h src/auth.cpp src/auth.h src/menu.cpp src/menu.h src/terminal.cpp src/terminal.h src/dirty.cpp src/dirty.h src/ui.cpp src/ui.h src/utils.cpp src/utils.h)
 
 target_link_libraries(ProdManageSys PRIVATE nlohmann_json::nlohmann_json)

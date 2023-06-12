@@ -106,9 +106,9 @@ namespace ui {
     string account, password;
 
     cout << "Enter account: ";
-    cin >> account;
+    getline(cin, account);
     cout << "Enter password: ";
-    cin >> password;
+    getline(cin, password);
 
     auto user = auth.findUserByAccount(account);
 

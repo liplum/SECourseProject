@@ -13,7 +13,6 @@ namespace ui {
 
     // Get input for the new product details
     cout << "Enter the name: ";
-    cin.ignore(); // Ignore any remaining newline characters
     getline(cin, name);
     cout << "Enter the price: ";
     cin >> price;
@@ -61,7 +60,6 @@ namespace ui {
       double price, discount, premiumPrice;
 
       cout << "Enter the new product name: ";
-      cin.ignore(); // Ignore any remaining newline characters
       getline(cin, name);
       cout << "Enter the new product price: ";
       cin >> price;
@@ -104,7 +102,6 @@ namespace ui {
   void searchProduct(ProductSet &products) {
     string searchQuery;
     cout << "Enter the product name or ID to search: ";
-    cin.ignore(); // Ignore any remaining newline characters
     getline(cin, searchQuery);
 
     // Search by name
@@ -147,7 +144,7 @@ namespace ui {
   bool deleteUser(Auth &auth, User &curUser) {
     string account;
     cout << "Enter the account of the user to delete: ";
-    cin >> account;
+    getline(cin, account);
 
     if (account == curUser.account) {
       cout << "Cannot delete the current user." << endl;
@@ -188,7 +185,7 @@ namespace ui {
   bool addUser(Auth &auth) {
     string account, password;
     cout << "Enter the account name: ";
-    cin >> account;
+    getline(cin, account);
 
     auto existingUser = auth.findUserByAccount(account);
     if (existingUser.has_value()) {
@@ -197,7 +194,7 @@ namespace ui {
     }
 
     cout << "Enter the password: ";
-    cin >> password;
+    getline(cin, password);
 
     auto permission = inputPermission();
 
@@ -213,7 +210,7 @@ namespace ui {
   bool modifyUser(Auth &auth) {
     string account;
     cout << "Enter the account of the user to modify: ";
-    cin >> account;
+    getline(cin, account);
 
     auto user = auth.findUserByAccount(account);
     if (!user.has_value()) {
@@ -229,7 +226,7 @@ namespace ui {
     string newPassword;
 
     cout << "Enter the new password (leave empty to keep current password): ";
-    cin >> newPassword;
+    getline(cin, newPassword);
 
     if (!newPassword.empty()) {
       targetUser.password = newPassword;
@@ -250,7 +247,7 @@ namespace ui {
   void searchUser(Auth &auth) {
     string account;
     cout << "Enter the account of the user to search: ";
-    cin >> account;
+    getline(cin, account);
 
     auto user = auth.findUserByAccount(account);
     if (!user.has_value()) {

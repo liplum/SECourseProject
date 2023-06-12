@@ -3,23 +3,13 @@
 //
 
 #include "menu.h"
+#include "utils.h"
 #include <iostream>
 
 using namespace std;
 
 void Command::execute() const {
   callback();
-}
-
-string toLowercase(const string &str) {
-  string result;
-  result.reserve(str.length());
-  auto locale = std::locale();
-  for (auto c: str) {
-    result.push_back(tolower(c, locale));
-  }
-
-  return std::move(result);
 }
 
 namespace ui {
@@ -93,8 +83,8 @@ namespace ui {
     string choice;
     while (true) {
       displayMenu();
-      cout << "Enter your choice: ";
-      cin >> choice;
+      cout << "Command: ";
+      getline(cin, choice);
       if (choice == options.quitNotation) {
         break;
       }

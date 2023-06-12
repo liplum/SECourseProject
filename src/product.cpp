@@ -4,10 +4,14 @@
 
 #include "product.h"
 #include "nlohmann/json.hpp"
+#include "utils.h"
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <utility>
+
+#include <algorithm> // for std::transform
+#include <sstream> // for std::istringstream
 
 using namespace std;
 
@@ -22,13 +26,37 @@ optional<Product> ProductSet::findById(int id) {
 
 vector<Product> ProductSet::findByName(const string &name) {
   vector<Product> foundProducts;
+
+  // Convert the search query to lowercase for case-insensitive matching
+  string lowercaseQuery = toLowercase(name);
+
+  // Split the query into separate conditions
+  istringstream iss(name);
+  vector<string> conditions;
+  copy(istream_iterator<string>(iss), istream_iterator<string>(), back_inserter(conditions));
+
   for (auto &product: products) {
-    if (product.name.find(name) != string::npos) {
+    // Convert the product name to lowercase for case-insensitive matching
+    string lowercaseProductName = toLowercase(product.name);
+
+    // Check if all conditions are satisfied
+    bool allConditionsSatisfied = true;
+    for (const auto &condition: conditions) {
+      if (lowercaseProductName.find(condition) == string::npos) {
+        allConditionsSatisfied = false;
+        break;
+      }
+    }
+
+    // If all conditions are satisfied, add the product to the result
+    if (allConditionsSatisfied) {
       foundProducts.push_back(product);
     }
   }
+
   return std::move(foundProducts);
 }
+
 
 int ProductSet::addProduct(const string &name, double price, double discount, double premiumPrice) {
   int id = curId++;
