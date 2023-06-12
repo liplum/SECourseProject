@@ -24,24 +24,24 @@ optional<Product> ProductSet::findById(int id) {
   return nullopt;
 }
 
-vector<Product> ProductSet::findByName(const string &name) {
-  vector<Product> foundProducts;
-
+vector<Product> ProductSet::findByName(const string &query) {
   // Convert the search query to lowercase for case-insensitive matching
-  string lowercaseQuery = toLowercase(name);
-
   // Split the query into separate conditions
-  istringstream iss(name);
+  istringstream iss(toLowercase(query));
   vector<string> conditions;
   copy(istream_iterator<string>(iss), istream_iterator<string>(), back_inserter(conditions));
 
+  vector<Product> foundProducts;
   for (auto &product: products) {
-    // Convert the product name to lowercase for case-insensitive matching
+    // Convert the product query to lowercase for case-insensitive matching
     string lowercaseProductName = toLowercase(product.name);
 
     // Check if all conditions are satisfied
     bool allConditionsSatisfied = true;
     for (const auto &condition: conditions) {
+      if (condition == "*") {
+        continue;
+      }
       if (lowercaseProductName.find(condition) == string::npos) {
         allConditionsSatisfied = false;
         break;
@@ -144,14 +144,4 @@ ProductSet::ProductSet(const string &filename) {
   }
   // ignore missing file
   file.close();
-}
-
-template<typename IteratorType>
-IteratorType ProductSet::begin() {
-  return products.begin();
-}
-
-template<typename IteratorType>
-IteratorType ProductSet::end() {
-  return products.end();
 }

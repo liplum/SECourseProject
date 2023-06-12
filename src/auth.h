@@ -72,11 +72,13 @@ public:
 
   bool saveToFile(const string &filename);
 
-  template<typename IteratorType>
-  IteratorType begin();
+  auto begin() {
+    return users.begin();
+  }
 
-  template<typename IteratorType>
-  IteratorType end();
+  auto end() {
+    return users.end();
+  }
 };
 
 #endif //PRODMANAGESYS_AUTH_H

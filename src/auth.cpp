@@ -120,12 +120,3 @@ Auth::Auth(const string &filename) {
   file.close();
 }
 
-template<typename IteratorType>
-IteratorType Auth::begin() {
-  return users.begin();
-}
-
-template<typename IteratorType>
-IteratorType Auth::end() {
-  return users.end();
-}

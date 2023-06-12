@@ -53,7 +53,12 @@ public:
 
   optional<Product> findById(int id);
 
-  vector<Product> findByName(const string &name);
+  /**
+   * wildcard enabled.
+   * @param query
+   * @return
+   */
+  vector<Product> findByName(const string &query);
 
   int addProduct(const string &name, double price, double discount, double premiumPrice);
 
@@ -63,11 +68,13 @@ public:
 
   bool saveToFile(const string &filename);
 
-  template <typename IteratorType>
-  IteratorType begin();
+  auto begin() {
+    return products.begin();
+  }
 
-  template <typename IteratorType>
-  IteratorType end();
+  auto end() {
+    return products.end();
+  }
 };
 
 #endif //PRODMANAGESYS_PRODUCT_H

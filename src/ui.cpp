@@ -244,24 +244,29 @@ namespace ui {
     }
   }
 
+  void printUser(User& user){
+    cout << "Account: " << user.account
+         << ", Can manage product: " << user.permission.modifyProduct
+         << ", Can manage user: " << user.permission.modifyUser << endl;
+  }
+
   void searchUser(Auth &auth) {
     string account;
-    cout << "Enter the account of the user to search: ";
+    cout << "Enter the account or wildcard(*) to search: ";
     getline(cin, account);
 
-    auto user = auth.findUserByAccount(account);
-    if (!user.has_value()) {
-      cout << "User not found." << endl;
-      return;
+    if (account == "*") {
+      for (auto& user: auth) {
+        printUser(user);
+      }
+    } else {
+      auto user = auth.findUserByAccount(account);
+      if (!user.has_value()) {
+        cout << "User not found." << endl;
+        return;
+      }
+      printUser(*user);
     }
-
-    User &targetUser = user.value();
-
-    // Display user information
-    cout << "Account: " << targetUser.account
-         << ", Can manage product: " << targetUser.permission.modifyProduct
-         << ", Can manage user: " << targetUser.permission.modifyUser << endl;
-    // Display other relevant information about the user if available
   }
 
   void clearScreen() {

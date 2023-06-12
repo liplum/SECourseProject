@@ -27,6 +27,10 @@ namespace ui {
 
   bool deleteUser(Auth &auth, User &curUser);
 
+  /**
+   * wildcard enabled.
+   * @param auth
+   */
   void searchUser(Auth &auth);
 
   void clearScreen();
