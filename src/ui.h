@@ -8,31 +8,25 @@
 #include "auth.h"
 #include "product.h"
 
-/**
- *
- * @param users all users
- * @return
- */
-User *tryLogin(vector<User> &users);
-
+namespace ui {
 // Function to add a new product
-void addProduct(ProductSet &products);
+  void addProduct(ProductSet &products);
 
 // Function to delete a product
-void deleteProduct(ProductSet &products);
+  void deleteProduct(ProductSet &products);
 
 // Function to modify a product
-void modifyProduct(ProductSet &products);
+  void modifyProduct(ProductSet &products);
 
 // Function to search for a product by name or ID
-void searchProduct(ProductSet &products);
+  void searchProduct(ProductSet &products);
 
-bool addUser(Auth &auth);
+  bool addUser(Auth &auth);
 
-bool modifyUser(Auth &auth);
+  bool modifyUser(Auth &auth);
 
-bool deleteUser(Auth &auth, User &curUser);
+  bool deleteUser(Auth &auth, User &curUser);
 
-void searchUser(Auth &auth);
-
+  void searchUser(Auth &auth);
+}
 #endif //PRODMANAGESYS_UI_H

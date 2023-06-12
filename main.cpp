@@ -1,11 +1,11 @@
 #include <iostream>
-#include "terminal.h"
+#include "src/terminal.h"
 
 const auto usersDbPath = "users.json";
 const auto productsDbPath = "products.json";
 
 int main() {
-  Terminal terminal(usersDbPath, productsDbPath);
+  ui::Terminal terminal(usersDbPath, productsDbPath);
   if (terminal.login()) {
     terminal.init();
     terminal.start();

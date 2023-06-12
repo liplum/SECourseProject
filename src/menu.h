@@ -26,22 +26,23 @@ public:
   void execute() const;
 };
 
-class Menu {
-private:
-  map<string, Command> menuItems;
+namespace ui {
+  class Menu {
+  private:
+    map<string, Command> menuItems;
 
-public:
-  const string header;
+  public:
+    const string header;
 
-  explicit Menu(string header) : header(std::move(header)) {}
+    explicit Menu(string header) : header(std::move(header)) {}
 
-  void cmd(const string &cmdName, const string &desc, const Callback &callback);
+    void cmd(const string &cmdName, const string &desc, const Callback &callback);
 
-  void displayMenu();
+    void displayMenu();
 
-  void handleInput(const string &choice);
+    void handleInput(const string &choice);
 
-  void startLoop();
-};
-
+    void startLoop();
+  };
+}
 #endif //PRODMANAGESYS_MENU_H

@@ -13,32 +13,32 @@
 #include "menu.h"
 
 using namespace std;
+namespace ui {
+  class Terminal {
+  private:
+    void saveAll();
 
-class Terminal {
-private:
-  void saveAll();
+    User *curUser{nullptr};
 
-  User *curUser{nullptr};
+  public:
+    static const int maxAttempts = 3;
+    const string userDbPath;
+    const string productDbPath;
+    ProductSet *products;
+    Auth *auth;
+    Menu mainMenu{"Main Menu"};
+    Menu userMenu{"User Management"};
 
-public:
-  static const int maxAttempts = 3;
-  const string userDbPath;
-  const string productDbPath;
-  ProductSet *products;
-  Auth *auth;
-  Menu mainMenu{"Main Menu"};
-  Menu userMenu{"User Management"};
+    Terminal(const string &userDbPath, const string &productDbPath);
 
-  Terminal(const string &userDbPath, const string &productDbPath);
+    ~Terminal();
 
-  ~Terminal();
+    void init();
 
-  void init();
+    bool login();
 
-  bool login();
-
-  void start();
-};
-
+    void start();
+  };
+}
 
 #endif //PRODMANAGESYS_TERMINAL_H
