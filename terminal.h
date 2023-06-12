@@ -10,24 +10,25 @@
 #include <string>
 #include "product.h"
 #include "auth.h"
-#include "ui/ui.h"
+#include "menu.h"
 
 using namespace std;
 
 class Terminal {
+private:
+  void saveAll();
+
 public:
   const string userDbPath;
   const string productDbPath;
-  ProductSet* products;
-  vector<User> *users;
-  ui::Menu main{"Main Menu"};
-  ui::Menu user{"User Management"};
+  ProductSet *products;
+  Auth *auth;
+  Menu main{"Main Menu"};
+  Menu user{"User Management"};
 
-  Terminal(const string& userDbPath, const string& productDbPath);
+  Terminal(const string &userDbPath, const string &productDbPath);
 
   void init();
-
-  void loadResource();
 
   void start();
 };

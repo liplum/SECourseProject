@@ -63,7 +63,7 @@ public:
 
   explicit Auth(const string &filename);
 
-  User *findByAccount(const string &account);
+  User *findUserByAccount(const string &account);
 
   bool addUser(const string &account, const string &password, const PermissionSet &permission);
 
@@ -71,7 +71,7 @@ public:
 
   bool updateUser(User &user);
 
-  bool saveToFile(const string &filename);
+  bool saveToFile(const string &filename) ;
 };
 
 #endif //PRODMANAGESYS_AUTH_H
