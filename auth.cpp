@@ -39,20 +39,20 @@ json PermissionSet::toJson() const {
   return std::move(obj);
 }
 
-User *Auth::findUserByAccount(const string &account) {
+optional<User> Auth::findUserByAccount(const string &account) {
   auto it = find_if(users.begin(), users.end(), [account](const User &user) {
     return user.account == account;
   });
 
   if (it != users.end()) {
-    return &(*it);
+    return *it;
   } else {
-    return nullptr;
+    return nullopt;
   }
 }
 
 bool Auth::addUser(const string &account, const string &password, const PermissionSet &permission) {
-  if (findUserByAccount(account) == nullptr) {
+  if (!findUserByAccount(account).has_value()) {
     users.emplace_back(account, password, permission);
     markDirty();
     return true;

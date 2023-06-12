@@ -63,7 +63,7 @@ public:
 
   explicit Auth(const string &filename);
 
-  User *findUserByAccount(const string &account);
+  optional<User> findUserByAccount(const string &account);
 
   bool addUser(const string &account, const string &password, const PermissionSet &permission);
 

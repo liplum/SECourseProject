@@ -11,13 +11,13 @@
 
 using namespace std;
 
-Product *ProductSet::findById(int id) {
+optional<Product> ProductSet::findById(int id) {
   for (auto &product: products) {
     if (product.id == id) {
-      return &product;
+      return product;
     }
   }
-  return nullptr;
+  return nullopt;
 }
 
 vector<Product> ProductSet::findByName(const string &name) {

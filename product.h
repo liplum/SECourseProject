@@ -51,7 +51,7 @@ public:
 
   explicit ProductSet(const string &filename);
 
-  Product *findById(int id);
+  optional<Product> findById(int id);
 
   vector<Product> findByName(const string &name);
 

@@ -16,7 +16,7 @@ std::string toLowercase(const std::string &str) {
   result.reserve(str.length());
   auto locale = std::locale();
   for (auto c: str) {
-    result.push_back(std::tolower(c, locale));
+    result.push_back(tolower(c, locale));
   }
 
   return std::move(result);

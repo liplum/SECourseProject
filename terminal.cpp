@@ -114,7 +114,7 @@ void Terminal::saveAll() {
 }
 
 // Function to authenticate userMenu login
-User *tryLogin(Auth &auth) {
+optional<User> tryLogin(Auth &auth) {
   string account, password;
 
   cout << "Enter account: ";
@@ -122,28 +122,28 @@ User *tryLogin(Auth &auth) {
   cout << "Enter password: ";
   cin >> password;
 
-  User *user = auth.findUserByAccount(account);
+  auto user = auth.findUserByAccount(account);
 
-  if (user != nullptr && user->password == password) {
+  if (user.has_value() && user->password == password) {
     cout << "Login successful." << endl;
-    return user;
+    return *user;
   } else {
-    return nullptr;
+    return nullopt;
   }
 }
 
 bool Terminal::login() {
   int attempts = 0;
   while (attempts < Terminal::maxAttempts) {
-    curUser = tryLogin(*auth);
-    if (curUser == nullptr) {
+    auto user = tryLogin(*auth);
+    if (user.has_value()) {
+      curUser = &*user;
+      return true;
+    } else {
       cout << "Invalid account or password. Please try again." << endl;
       attempts++;
-    } else {
-      return true;
     }
   }
-  cout << "Maximum login attempts exceeded. Exiting program." << endl;
   return false;
 }
 
@@ -196,7 +196,7 @@ void modifyProduct(ProductSet &products) {
   auto product = products.findById(id);
 
   // Check if the product exists
-  if (product) {
+  if (product.has_value()) {
     // Get input for the updated product details
     string name;
     double price, discount, premiumPrice;
@@ -216,7 +216,7 @@ void modifyProduct(ProductSet &products) {
     product->price = price;
     product->discount = discount;
     product->premiumPrice = premiumPrice;
-
+    products.updateProduct(*product);
     cout << "Product modified successfully!" << endl;
   } else {
     cout << "Product not found." << endl;
@@ -255,7 +255,7 @@ void searchProduct(ProductSet &products) {
   auto productId = tryStoi(searchQuery);
   if (productId.has_value()) {
     auto productById = products.findById(*productId);
-    if (productById != nullptr) {
+    if (productById.has_value()) {
       found.push_back(*productById);
     }
   }
