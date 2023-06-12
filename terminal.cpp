@@ -39,62 +39,69 @@ void modifyProduct(ProductSet &products);
 void searchProduct(ProductSet &products);
 
 void Terminal::init() {
+  if (curUser == nullptr) {
+    cout << "Unauthorized.";
+    return;
+  }
   // Main menu
-  main.cmd("add", "Add product", [this]() {
-    // Add product callback implementation
-    addProduct(*products);
-    saveAll();
-  });
+  if (curUser->permission.modifyProduct) {
+    mainMenu.cmd("add", "Add product", [this]() {
+      // Add product callback implementation
+      addProduct(*products);
+      saveAll();
+    });
 
-  main.cmd("del", "Delete product", [this]() {
-    // Delete product callback implementation
-    deleteProduct(*products);
-    saveAll();
-  });
+    mainMenu.cmd("del", "Delete product", [this]() {
+      // Delete product callback implementation
+      deleteProduct(*products);
+      saveAll();
+    });
 
-  main.cmd("edit", "Modify product", [this]() {
-    // Modify product callback implementation
-    modifyProduct(*products);
-    saveAll();
-  });
+    mainMenu.cmd("edit", "Modify product", [this]() {
+      // Modify product callback implementation
+      modifyProduct(*products);
+      saveAll();
+    });
+  }
+  if (curUser->permission.retrieveProduct) {
+    mainMenu.cmd("search", "Search product", [this]() {
+      // Search product callback implementation
+      searchProduct(*products);
+    });
 
-  main.cmd("search", "Search product", [this]() {
-    // Search product callback implementation
-    searchProduct(*products);
-  });
-
-  main.cmd("show", "Display product rankings", [this]() {
-    // Display product rankings callback implementation
-  });
-
-  main.cmd("user", "User management", [this]() {
-    user.startLoop();
-  });
-
+    mainMenu.cmd("show", "Display product rankings", [this]() {
+      // Display product rankings callback implementation
+    });
+  }
+  if (curUser->permission.modifyUser) {
+    mainMenu.cmd("userMenu", "User management", [this]() {
+      userMenu.startLoop();
+    });
+  }
   // User management
-  user.cmd("add", "Add user", [this]() {
-    // Add user callback implementation
+  userMenu.cmd("add", "Add userMenu", [this]() {
+    // Add userMenu callback implementation
     // ...
   });
 
-  user.cmd("del", "Delete user", [this]() {
-    // Delete user callback implementation
+  userMenu.cmd("del", "Delete userMenu", [this]() {
+    // Delete userMenu callback implementation
     // ...
   });
 
-  user.cmd("edit", "Modify user", [this]() {
-    // Modify user callback implementation
+  userMenu.cmd("edit", "Modify userMenu", [this]() {
+    // Modify userMenu callback implementation
     // ...
   });
 
-  user.cmd("search", "Search user", [this]() {
-    // Search user callback implementation
+  userMenu.cmd("search", "Search userMenu", [this]() {
+    // Search userMenu callback implementation
     // ...
   });
 }
 
 void Terminal::start() {
-  main.startLoop();
+  mainMenu.startLoop();
 }
 
 void Terminal::saveAll() {
@@ -106,30 +113,38 @@ void Terminal::saveAll() {
   }
 }
 
-// Function to authenticate user login
+// Function to authenticate userMenu login
 User *tryLogin(Auth &auth) {
   string account, password;
+
+  cout << "Enter account: ";
+  cin >> account;
+  cout << "Enter password: ";
+  cin >> password;
+
+  User *user = auth.findUserByAccount(account);
+
+  if (user != nullptr && user->password == password) {
+    cout << "Login successful." << endl;
+    return user;
+  } else {
+    return nullptr;
+  }
+}
+
+bool Terminal::login() {
   int attempts = 0;
-
-  while (attempts < 3) {
-    cout << "Enter account: ";
-    cin >> account;
-    cout << "Enter password: ";
-    cin >> password;
-
-    User *user = auth.findUserByAccount(account);
-
-    if (user != nullptr && user->password == password) {
-      cout << "Login successful." << endl;
-      return user;
-    } else {
+  while (attempts < Terminal::maxAttempts) {
+    curUser = tryLogin(*auth);
+    if (curUser == nullptr) {
       cout << "Invalid account or password. Please try again." << endl;
       attempts++;
+    } else {
+      return true;
     }
   }
-
   cout << "Maximum login attempts exceeded. Exiting program." << endl;
-  return nullptr;
+  return false;
 }
 
 // Function to add a new product

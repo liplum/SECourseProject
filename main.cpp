@@ -5,7 +5,11 @@ const auto productsDbPath = "products.json";
 
 int main() {
   Terminal terminal(usersDbPath, productsDbPath);
-  terminal.init();
-  terminal.start();
-  return 0;
+  if (terminal.login()) {
+    terminal.init();
+    terminal.start();
+    return 0;
+  } else {
+    return 1;
+  }
 }

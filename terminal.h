@@ -18,19 +18,24 @@ class Terminal {
 private:
   void saveAll();
 
+  User *curUser{nullptr};
+
 public:
+  static const int maxAttempts = 3;
   const string userDbPath;
   const string productDbPath;
   ProductSet *products;
   Auth *auth;
-  Menu main{"Main Menu"};
-  Menu user{"User Management"};
+  Menu mainMenu{"Main Menu"};
+  Menu userMenu{"User Management"};
 
   Terminal(const string &userDbPath, const string &productDbPath);
 
   ~Terminal();
 
   void init();
+
+  bool login();
 
   void start();
 };
