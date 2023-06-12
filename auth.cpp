@@ -11,12 +11,16 @@
 
 using namespace std;
 
-PermissionSet::PermissionSet(const json &obj) const {
-
+PermissionSet::PermissionSet(const json &obj) {
+  retrieveProduct = obj["retrieveProduct"];
+  modifyProduct = obj["modifyProduct"];
+  modifyUser = obj["modifyUser"];
 }
 
 User::User(const json &obj) {
-
+  account = obj["account"];
+  password = obj["password"];
+  permission = PermissionSet(obj["permission"]);
 }
 
 json User::toJson() const {
@@ -47,63 +51,62 @@ User *Auth::findByAccount(const string &account) {
   }
 }
 
-bool Auth::addUser(const string &account, string password, PermissionSet permission) {
-
+bool Auth::addUser(const string &account, const string &password, const PermissionSet &permission) {
+  if (findByAccount(account) == nullptr) {
+    users.emplace_back(account, password, permission);
+    markDirty();
+    return true;
+  } else {
+    // already exists.
+    return false;
+  }
 }
 
-bool Auth::removeUserByAccount(int account) {
-
+bool Auth::removeUserByAccount(const string &account) {
+  for (auto it = users.begin(); it != users.end(); ++it) {
+    if (it->account == account) {
+      users.erase(it);
+      markDirty();
+      return true;
+    }
+  }
+  return false;
 }
 
 bool Auth::updateUser(User &user) {
-
+  for (auto &u: users) {
+    if (u.account == user.account) {
+      u = user; // Update the user
+      markDirty();
+      return true;
+    }
+  }
+  return false; // User not found
 }
 
-void writeUserToJson()
+void writeUserList(json &arr, const vector<User> &users) {
+  for (const auto &user: users) {
+    arr.push_back(user.toJson());
+  }
+}
 
 bool Auth::saveToFile(const string &filename) {
-  json jsonData;
-  for (const auto &user: users) {
-    json userData;
-    userData["account"] = user.account;
-    userData["password"] = user.password;
-    userData["permission"]["retrieveProduct"] = user.permission.retrieveProduct;
-    userData["permission"]["modifyProduct"] = user.permission.modifyProduct;
-    userData["permission"]["modifyUser"] = user.permission.modifyUser;
-    jsonData.push_back(userData);
-  }
+  json root;
+  writeUserList(root, users);
 
   ofstream file(filename);
   if (file.is_open()) {
-    file << setw(2) << jsonData << endl;
-    cout << "User data saved to " << filename << endl;
+    file << setw(2) << root << endl;
+    return true;
   } else {
-    cerr << "Unable to save user data to file." << endl;
+    return false;
   }
-  file.close();
 }
 
-// Function to load user information from JSON file
-vector<User> loadUsersFromFile(const string &filename) {
-  vector<User> users;
-  ifstream file(filename);
-  if (file.is_open()) {
-    json jsonData;
-    file >> jsonData;
-    for (const auto &userData: jsonData) {
-      User user;
-      user.account = userData["account"];
-      user.password = userData["password"];
-      user.permission.retrieveProduct = userData["permission"]["retrieveProduct"];
-      user.permission.modifyProduct = userData["permission"]["modifyProduct"];
-      user.permission.modifyUser = userData["permission"]["modifyUser"];
-      users.push_back(user);
-    }
-    cout << "User data loaded from " << filename << endl;
+void readUserListFromJson(const json &arr, vector<User> &in) {
+  for (const auto &obj: arr) {
+    in.emplace_back(obj);
   }
-  // ignore missing file
-  file.close();
-  return std::move(users);
 }
 
 Auth::Auth(const string &filename) {

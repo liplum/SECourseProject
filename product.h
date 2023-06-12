@@ -5,6 +5,7 @@
 #define PRODMANAGESYS_PRODUCT_H
 
 #include <string>
+#include <utility>
 #include <vector>
 #include "nlohmann/json.hpp"
 #include "dirty.h"
@@ -24,6 +25,19 @@ public:
   Product() = default;
 
   explicit Product(const json &obj);
+
+  explicit Product(
+    int id,
+    string name,
+    double price,
+    double discount,
+    double premiumPrice
+  ) : id(id),
+      name(std::move(name)),
+      price(price),
+      discount(discount),
+      premiumPrice(premiumPrice) {
+  }
 
   json toJson() const;
 };

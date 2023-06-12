@@ -31,15 +31,10 @@ vector<Product> ProductSet::findByName(const string &name) {
 }
 
 int ProductSet::addProduct(const string &name, double price, double discount, double premiumPrice) {
-  Product p;
-  p.id = ++lastId;
-  p.name = name;
-  p.price = price;
-  p.discount = discount;
-  p.premiumPrice = premiumPrice;
-  products.push_back(p);
+  int id = lastId++;
+  products.emplace_back(id, name, price, discount, premiumPrice);
   markDirty();
-  return p.id;
+  return id;
 }
 
 bool ProductSet::removeProductById(int prod) {

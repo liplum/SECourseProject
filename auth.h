@@ -5,6 +5,7 @@
 #ifndef PRODMANAGESYS_AUTH_H
 #define PRODMANAGESYS_AUTH_H
 
+#include <utility>
 #include <vector>
 #include "string"
 #include "dirty.h"
@@ -40,6 +41,15 @@ struct User {
 
   User() = default;
 
+  explicit User(
+    string account,
+    string password,
+    const PermissionSet &permission
+  ) : account(std::move(account)),
+      password(std::move(password)),
+      permission(permission) {
+  }
+
   explicit User(const json &obj);
 
   json toJson() const;
@@ -53,11 +63,11 @@ public:
 
   explicit Auth(const string &filename);
 
-  User *findByAccount(const string& account);
+  User *findByAccount(const string &account);
 
-  bool addUser(const string &account, string password, PermissionSet permission);
+  bool addUser(const string &account, const string &password, const PermissionSet &permission);
 
-  bool removeUserByAccount(int account);
+  bool removeUserByAccount(const string &account);
 
   bool updateUser(User &user);
 
