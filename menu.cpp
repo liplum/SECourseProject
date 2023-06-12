@@ -25,8 +25,19 @@ void Command::execute() const {
   callback();
 }
 
+std::string toLowercase(const std::string &str) {
+  std::string result;
+  result.reserve(str.length());
+  auto locale = std::locale();
+  for (auto c: str) {
+    result.push_back(std::tolower(c, locale));
+  }
+
+  return std::move(result);
+}
+
 void Menu::cmd(const string &cmdName, const string &desc, const Callback &callback) {
-  menuItems[cmdName] = Command(desc, callback);
+  menuItems[toLowercase(cmdName)] = Command(desc, callback);
 }
 
 void Menu::displayMenu() {
@@ -42,11 +53,6 @@ void Menu::displayMenu() {
 }
 
 void Menu::handleInput(const string &choice) {
-  if (choice == "#") {
-    cout << "Quit..." << endl;
-    return;
-  }
-
   auto it = menuItems.find(choice);
   if (it != menuItems.end()) {
     it->second.execute();
@@ -61,9 +67,9 @@ void Menu::startLoop() {
     displayMenu();
     cout << "Enter your choice: ";
     cin >> choice;
-    handleInput(choice);
     if (choice == "#") {
       break;
     }
+    handleInput(toLowercase(choice));
   }
 }

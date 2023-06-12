@@ -74,7 +74,7 @@ void Terminal::init() {
     });
   }
   if (curUser->permission.modifyUser) {
-    mainMenu.cmd("userMenu", "User management", [this]() {
+    mainMenu.cmd("user", "User management", [this]() {
       userMenu.startLoop();
     });
   }
