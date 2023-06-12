@@ -7,8 +7,11 @@
 
 #include <vector>
 #include "string"
+#include "dirty.h"
+#include "nlohmann/json.hpp"
 
 using namespace std;
+using json = nlohmann::json;
 
 // User type with hardcoded permissions
 struct PermissionSet {
@@ -23,6 +26,10 @@ struct PermissionSet {
   ) : retrieveProduct(retrieveProduct),
       modifyProduct(modifyProduct),
       modifyUser(modifyUser) {}
+
+  explicit PermissionSet(const json &obj);
+
+  json toJson() const;
 };
 
 // User information
@@ -30,17 +37,31 @@ struct User {
   string account;
   string password;
   PermissionSet permission;
+
+  User() = default;
+
+  explicit User(const json &obj);
+
+  json toJson() const;
 };
 
-class Auth {
+class Auth : public DirtyMarkMixin {
 private:
-  vector<User>* users;
+  vector<User> users;
+public:
+  Auth() = default;
+
+  explicit Auth(const string &filename);
+
+  User *findByAccount(const string& account);
+
+  bool addUser(const string &account, string password, PermissionSet permission);
+
+  bool removeUserByAccount(int account);
+
+  bool updateUser(User &user);
+
+  bool saveToFile(const string &filename);
 };
-
-void saveUsersToFile(const vector<User> &users, const string &filename);
-
-vector<User> loadUsersFromFile(const string &filename);
-
-User *findUserByUsername(vector<User> &users, const string &username);
 
 #endif //PRODMANAGESYS_AUTH_H

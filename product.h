@@ -7,6 +7,7 @@
 #include <string>
 #include <vector>
 #include "nlohmann/json.hpp"
+#include "dirty.h"
 
 using namespace std;
 using json = nlohmann::json;
@@ -27,28 +28,14 @@ public:
   json toJson() const;
 };
 
-class ProductSet {
+class ProductSet : public DirtyMarkMixin {
 private:
   int lastId{0};
   vector<Product> products{};
-  /**
-   * whether the product list or lastId is changed.
-   */
-  bool dirty{false};
-
-  void markDirty();
-
 public:
   ProductSet() = default;
 
   explicit ProductSet(const string &filename);
-  /**
-   * Clear the dirty mark.
-   * @return whether is dirty.
-   */
-  bool clearDirty();
-
-  bool isDirty();
 
   Product *findById(int id);
 
@@ -61,8 +48,6 @@ public:
   bool updateProduct(Product &product);
 
   bool saveToFile(const string &filename);
-
-  static ProductSet *loadFromFile(const string &filename);
 };
 
 #endif //PRODMANAGESYS_PRODUCT_H

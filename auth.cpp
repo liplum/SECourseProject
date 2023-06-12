@@ -8,13 +8,60 @@
 #include <fstream>
 #include <vector>
 #include <string>
-#include "nlohmann/json.hpp"
 
-using json = nlohmann::json;
 using namespace std;
 
-// Function to serialize user information to JSON file
-void saveUsersToFile(const vector<User> &users, const string &filename) {
+PermissionSet::PermissionSet(const json &obj) const {
+
+}
+
+User::User(const json &obj) {
+
+}
+
+json User::toJson() const {
+  json obj;
+  obj["account"] = account;
+  obj["password"] = password;
+  obj["permission"] = permission.toJson();
+  return obj;
+}
+
+json PermissionSet::toJson() const {
+  json obj;
+  obj["retrieveProduct"] = retrieveProduct;
+  obj["modifyProduct"] = modifyProduct;
+  obj["modifyUser"] = modifyUser;
+  return std::move(obj);
+}
+
+User *Auth::findByAccount(const string &account) {
+  auto it = find_if(users.begin(), users.end(), [account](const User &user) {
+    return user.account == account;
+  });
+
+  if (it != users.end()) {
+    return &(*it);
+  } else {
+    return nullptr;
+  }
+}
+
+bool Auth::addUser(const string &account, string password, PermissionSet permission) {
+
+}
+
+bool Auth::removeUserByAccount(int account) {
+
+}
+
+bool Auth::updateUser(User &user) {
+
+}
+
+void writeUserToJson()
+
+bool Auth::saveToFile(const string &filename) {
   json jsonData;
   for (const auto &user: users) {
     json userData;
@@ -59,15 +106,13 @@ vector<User> loadUsersFromFile(const string &filename) {
   return std::move(users);
 }
 
-// Function to find a user by account
-User *findUserByUsername(vector<User> &users, const string &username) {
-  auto it = find_if(users.begin(), users.end(), [username](const User &user) {
-    return user.account == username;
-  });
-
-  if (it != users.end()) {
-    return &(*it);
-  } else {
-    return nullptr;
+Auth::Auth(const string &filename) {
+  ifstream file(filename);
+  if (file.is_open()) {
+    json jsonData;
+    file >> jsonData;
+    readUserListFromJson(jsonData["products"], users);
   }
+  // ignore missing file
+  file.close();
 }

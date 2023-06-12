@@ -11,20 +11,6 @@
 
 using namespace std;
 
-void ProductSet::markDirty() {
-  dirty = true;
-}
-
-bool ProductSet::clearDirty() {
-  bool isDirty = dirty;
-  dirty = false;
-  return isDirty;
-}
-
-bool ProductSet::isDirty() {
-  return dirty;
-}
-
 Product *ProductSet::findById(int id) {
   for (auto &product: products) {
     if (product.id == id) {
