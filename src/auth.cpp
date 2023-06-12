@@ -12,9 +12,8 @@
 using namespace std;
 
 PermissionSet::PermissionSet(const json &obj) {
-  retrieveProduct = obj["retrieveProduct"];
-  modifyProduct = obj["modifyProduct"];
-  modifyUser = obj["modifyUser"];
+  manageProduct = obj["manageProduct"];
+  manageUser = obj["manageUser"];
 }
 
 User::User(const json &obj) {
@@ -33,9 +32,8 @@ json User::toJson() const {
 
 json PermissionSet::toJson() const {
   json obj;
-  obj["retrieveProduct"] = retrieveProduct;
-  obj["modifyProduct"] = modifyProduct;
-  obj["modifyUser"] = modifyUser;
+  obj["manageProduct"] = manageProduct;
+  obj["manageUser"] = manageUser;
   return std::move(obj);
 }
 

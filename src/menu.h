@@ -31,8 +31,8 @@ namespace ui {
     const bool askForLoop;
     const string quitNotation;
 
-    explicit MenuOptions(bool loopSection = true, string quitNotation = "#") :
-      askForLoop(loopSection), quitNotation(std::move(quitNotation)) {};
+    explicit MenuOptions(bool loopSection = true, string quitNotation = "#")
+      : askForLoop(loopSection), quitNotation(std::move(quitNotation)) {};
   };
 
   const auto defaultOptions = MenuOptions();
@@ -45,8 +45,8 @@ namespace ui {
     const string header;
     const MenuOptions options;
 
-    explicit Menu(string header, MenuOptions options = defaultOptions) :
-      header(std::move(header)), options(std::move(options)) {}
+    explicit Menu(string header, MenuOptions options = defaultOptions)
+      : header(std::move(header)), options(std::move(options)) {}
 
     void cmd(const string &cmdName, const string &desc, const Callback &callback);
 

@@ -1,7 +1,6 @@
 //
 // Created by Liplum on 6/6/23.
 //
-
 #include "product.h"
 #include "nlohmann/json.hpp"
 #include "utils.h"
@@ -34,7 +33,7 @@ vector<Product> ProductSet::findByName(const string &query) {
   vector<Product> foundProducts;
   for (auto &product: products) {
     // Convert the product query to lowercase for case-insensitive matching
-    string lowercaseProductName = toLowercase(product.name);
+    auto productName = toLowercase(product.name);
 
     // Check if all conditions are satisfied
     bool allConditionsSatisfied = true;
@@ -42,7 +41,7 @@ vector<Product> ProductSet::findByName(const string &query) {
       if (condition == "*") {
         continue;
       }
-      if (lowercaseProductName.find(condition) == string::npos) {
+      if (productName.find(condition) == string::npos) {
         allConditionsSatisfied = false;
         break;
       }
@@ -56,7 +55,6 @@ vector<Product> ProductSet::findByName(const string &query) {
 
   return std::move(foundProducts);
 }
-
 
 int ProductSet::addProduct(const string &name, double price, double discount, double premiumPrice) {
   int id = curId++;
@@ -86,7 +84,6 @@ bool ProductSet::updateProduct(Product &product) {
   }
   return false; // Product not found
 }
-
 
 json Product::toJson() const {
   json obj;

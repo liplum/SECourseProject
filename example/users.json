@@ -3,9 +3,8 @@
     "account": "admin",
     "password": "admin",
     "permission": {
-      "modifyProduct": true,
-      "modifyUser": true,
-      "retrieveProduct": true
+      "manageProduct": true,
+      "manageUser": true
     }
   }
 ]

@@ -26,63 +26,53 @@ namespace ui {
       return;
     }
     // Main menu
-    if (curUser->permission.modifyProduct) {
+    if (curUser->permission.manageProduct) {
       mainMenu.cmd("add", "Add Product", [this]() {
-        // Add product callback implementation
         addProduct(*products);
         saveAll();
       });
 
       mainMenu.cmd("del", "Delete Product", [this]() {
-        // Delete product callback implementation
         deleteProduct(*products);
         saveAll();
       });
 
       mainMenu.cmd("edit", "Modify Product", [this]() {
-        // Modify product callback implementation
         modifyProduct(*products);
         saveAll();
       });
     }
 
-    if (curUser->permission.retrieveProduct) {
-      mainMenu.cmd("search", "Search Product", [this]() {
-        // Search product callback implementation
-        searchProduct(*products);
-      });
+    mainMenu.cmd("search", "Search Product", [this]() {
+      searchProduct(*products);
+    });
 
-      mainMenu.cmd("show", "Display Product Ranks", [this]() {
-        // Display product rankings callback implementation
-      });
-    }
+    mainMenu.cmd("show", "Display Product Ranks", [this]() {
+      // Display product rankings callback implementation
+    });
 
-    if (curUser->permission.modifyUser) {
+    if (curUser->permission.manageUser) {
       mainMenu.cmd("user", "User Management", [this]() {
         userMenu.startLoop();
       });
 
       // User management
       userMenu.cmd("add", "Add User", [this]() {
-        // Add userMenu callback implementation
         addUser(*auth);
         saveAll();
       });
 
       userMenu.cmd("del", "Delete User", [this]() {
-        // Delete userMenu callback implementation
         deleteUser(*auth, *curUser);
         saveAll();
       });
 
       userMenu.cmd("edit", "Modify User", [this]() {
-        // Modify userMenu callback implementation
         modifyUser(*auth);
         saveAll();
       });
 
       userMenu.cmd("search", "Search User", [this]() {
-        // Search userMenu callback implementation
         searchUser(*auth);
       });
     }

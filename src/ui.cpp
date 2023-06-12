@@ -173,11 +173,10 @@ namespace ui {
 
     PermissionSet permission;
     if (permissionLevel >= 0) {
-      permission.retrieveProduct = true;
     }
     if (permissionLevel >= 1) {
-      permission.modifyProduct = true;
-      permission.modifyUser = true;
+      permission.manageProduct = true;
+      permission.manageUser = true;
     }
     return permission;
   }
@@ -246,8 +245,8 @@ namespace ui {
 
   void printUser(User& user){
     cout << "Account: " << user.account
-         << ", Can manage product: " << user.permission.modifyProduct
-         << ", Can manage user: " << user.permission.modifyUser << endl;
+         << ", Can manage product: " << user.permission.manageProduct
+         << ", Can manage user: " << user.permission.manageUser << endl;
   }
 
   void searchUser(Auth &auth) {

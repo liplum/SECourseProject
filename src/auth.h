@@ -16,17 +16,14 @@ using json = nlohmann::json;
 
 // User type with hardcoded permissions
 struct PermissionSet {
-  bool retrieveProduct = false;
-  bool modifyProduct = false;
-  bool modifyUser = false;
+  bool manageProduct = false;
+  bool manageUser = false;
 
   explicit PermissionSet(
-    bool retrieveProduct = false,
     bool modifyProduct = false,
     bool modifyUser = false
-  ) : retrieveProduct(retrieveProduct),
-      modifyProduct(modifyProduct),
-      modifyUser(modifyUser) {}
+  ) : manageProduct(modifyProduct),
+      manageUser(modifyUser) {}
 
   explicit PermissionSet(const json &obj);
 
