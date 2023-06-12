@@ -11,8 +11,8 @@ void Command::execute() const {
   callback();
 }
 
-std::string toLowercase(const std::string &str) {
-  std::string result;
+string toLowercase(const string &str) {
+  string result;
   result.reserve(str.length());
   auto locale = std::locale();
   for (auto c: str) {
@@ -35,14 +35,55 @@ namespace ui {
       cout << "[" << menuItem.first << "] " << menuItem.second.description << endl;
     }
 
-    cout << "[#] Quit" << endl;
+    cout << "[" << options.quitNotation << "] Quit" << endl;
     cout << "=====================" << endl;
+  }
+
+  /**
+   * # Yes
+   * y, yes, ok
+   * # No
+   * n, no
+   * @param input the case-insensitive user input that indicates `yes` or `no`.
+   * @return true for `yes`, false for `no`.
+   */
+  bool yesOrNo(const string &input) {
+    // Convert input to lowercase for case-insensitive comparison
+    string lowercaseInput = toLowercase(input);
+
+    // List of valid affirmative and negative responses
+    const vector<string> affirmative = {"y", "yes", "ok"};
+    const vector<string> negative = {"n", "no"};
+
+    // Check if the input matches any affirmative or negative response
+    if (std::find(affirmative.begin(), affirmative.end(), lowercaseInput) != affirmative.end()) {
+      return true; // Affirmative response
+    } else if (std::find(negative.begin(), negative.end(), lowercaseInput) != negative.end()) {
+      return false; // Negative response
+    }
+
+    // Invalid response, default to false (no)
+    return false;
   }
 
   void Menu::handleInput(const string &choice) {
     auto it = menuItems.find(choice);
     if (it != menuItems.end()) {
-      it->second.execute();
+      if (options.askForLoop) {
+        while (true) {
+          it->second.execute();
+          string leave;
+          cout << "Continue(y/n)? ";
+          getline(cin, leave);
+          if (leave.empty() || yesOrNo(leave)) {
+            continue;
+          } else {
+            break;
+          }
+        }
+      } else {
+        it->second.execute();
+      }
     } else {
       cout << "Invalid option. Please try again." << endl;
     }
@@ -54,7 +95,7 @@ namespace ui {
       displayMenu();
       cout << "Enter your choice: ";
       cin >> choice;
-      if (choice == "#") {
+      if (choice == options.quitNotation) {
         break;
       }
       handleInput(toLowercase(choice));

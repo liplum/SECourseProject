@@ -33,7 +33,7 @@ namespace ui {
 
     ~Terminal();
 
-    void init();
+    void initMenu();
 
     bool login();
 

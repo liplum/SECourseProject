@@ -5,14 +5,6 @@
 #ifndef PRODMANAGESYS_DIRTY_H
 #define PRODMANAGESYS_DIRTY_H
 
-#include <concepts>
-
-template<typename T>
-concept TMarkDirty = requires(T t) {
-  { t.clearDirty() } -> std::convertible_to<bool>;
-  { t.isDirty() } -> std::convertible_to<bool>;
-};
-
 class DirtyMarkMixin {
 protected:
   /**

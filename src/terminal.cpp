@@ -20,7 +20,7 @@ namespace ui {
     delete products;
   }
 
-  void Terminal::init() {
+  void Terminal::initMenu() {
     if (curUser == nullptr) {
       cout << "Unauthorized.";
       return;

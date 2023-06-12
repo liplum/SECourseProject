@@ -7,7 +7,7 @@ const auto productsDbPath = "products.json";
 int main() {
   ui::Terminal terminal(usersDbPath, productsDbPath);
   if (terminal.login()) {
-    terminal.init();
+    terminal.initMenu();
     terminal.start();
     return 0;
   } else {

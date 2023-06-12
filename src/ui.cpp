@@ -266,4 +266,12 @@ namespace ui {
          << ", Can manage user: " << targetUser.permission.modifyUser << endl;
     // Display other relevant information about the user if available
   }
+
+  void clearScreen() {
+#ifdef _WIN32
+    system("cls");
+#else
+    system("clear");
+#endif
+  }
 }

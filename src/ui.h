@@ -28,5 +28,7 @@ namespace ui {
   bool deleteUser(Auth &auth, User &curUser);
 
   void searchUser(Auth &auth);
+
+  void clearScreen();
 }
 #endif //PRODMANAGESYS_UI_H
