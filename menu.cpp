@@ -7,20 +7,6 @@
 
 using namespace std;
 
-// Function to display product rankings based on discount price
-void displayProductRankings(const vector<Product> &products) {
-  vector<Product> sortedProducts = products;
-  sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &p1, const Product &p2) {
-    return p1.discount < p2.discount;
-  });
-
-  cout << "Product Rankings (based on discount price):" << endl;
-  for (const auto &product: sortedProducts) {
-    cout << "ID: " << product.id << ", Name: " << product.name << ", Discount: " << product.discount
-         << endl;
-  }
-}
-
 void Command::execute() const {
   callback();
 }

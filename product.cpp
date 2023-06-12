@@ -23,7 +23,7 @@ Product *ProductSet::findById(int id) {
 vector<Product> ProductSet::findByName(const string &name) {
   vector<Product> foundProducts;
   for (auto &product: products) {
-    if (product.name == name) {
+    if (product.name.find(name) != string::npos) {
       foundProducts.push_back(product);
     }
   }

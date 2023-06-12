@@ -229,6 +229,18 @@ void printProductDetails(const Product &product) {
        << ", Premium Price: " << product.premiumPrice << endl;
 }
 
+optional<int> tryStoi(const std::string &input) {
+  try {
+    return std::stoi(input);
+  } catch (const std::invalid_argument &) {
+    // Conversion failed due to invalid argument
+    return std::nullopt;
+  } catch (const std::out_of_range &) {
+    // Conversion failed due to out of range
+    return std::nullopt;
+  }
+}
+
 // Function to search for a product by name or ID
 void searchProduct(ProductSet &products) {
   string searchQuery;
@@ -236,25 +248,39 @@ void searchProduct(ProductSet &products) {
   cin.ignore(); // Ignore any remaining newline characters
   getline(cin, searchQuery);
 
-  // Search by ID
-  int productId = stoi(searchQuery);
-  auto productById = products.findById(productId);
-
   // Search by name
-  auto productsByName = products.findByName(searchQuery);
+  auto found = products.findByName(searchQuery);
 
-  if (productById) {
-    // Product found by ID
-    cout << "Product found by ID:" << endl;
-    printProductDetails(*productById);
-  } else if (!productsByName.empty()) {
+  // Search by ID
+  auto productId = tryStoi(searchQuery);
+  if (productId.has_value()) {
+    auto productById = products.findById(*productId);
+    if (productById != nullptr) {
+      found.push_back(*productById);
+    }
+  }
+  if (!found.empty()) {
     // Products found by name
-    cout << "Found " << productsByName.size() << " product(s) by name:" << endl;
-    for (const auto &product: productsByName) {
+    cout << "Found " << found.size() << " product(s) by name:" << endl;
+    for (const auto &product: found) {
       printProductDetails(product);
     }
   } else {
     // No products found
     cout << "Product not found." << endl;
+  }
+}
+
+// Function to display product rankings based on discount price
+void displayProductRankings(const vector<Product> &products) {
+  vector<Product> sortedProducts = products;
+  sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &p1, const Product &p2) {
+    return p1.discount < p2.discount;
+  });
+
+  cout << "Product Rankings (based on discount price):" << endl;
+  for (const auto &product: sortedProducts) {
+    cout << "ID: " << product.id << ", Name: " << product.name << ", Discount: " << product.discount
+         << endl;
   }
 }
