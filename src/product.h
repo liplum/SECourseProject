@@ -62,6 +62,12 @@ public:
   bool updateProduct(Product &product);
 
   bool saveToFile(const string &filename);
+
+  template <typename IteratorType>
+  IteratorType begin();
+
+  template <typename IteratorType>
+  IteratorType end();
 };
 
 #endif //PRODMANAGESYS_PRODUCT_H

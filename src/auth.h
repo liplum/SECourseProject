@@ -33,7 +33,6 @@ struct PermissionSet {
   json toJson() const;
 };
 
-// User information
 struct User {
   string account;
   string password;
@@ -71,7 +70,13 @@ public:
 
   bool updateUser(User &user);
 
-  bool saveToFile(const string &filename) ;
+  bool saveToFile(const string &filename);
+
+  template<typename IteratorType>
+  IteratorType begin();
+
+  template<typename IteratorType>
+  IteratorType end();
 };
 
 #endif //PRODMANAGESYS_AUTH_H

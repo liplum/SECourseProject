@@ -117,3 +117,13 @@ ProductSet::ProductSet(const string &filename) {
   // ignore missing file
   file.close();
 }
+
+template<typename IteratorType>
+IteratorType ProductSet::begin() {
+  return products.begin();
+}
+
+template<typename IteratorType>
+IteratorType ProductSet::end() {
+  return products.end();
+}

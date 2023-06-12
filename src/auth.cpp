@@ -28,7 +28,7 @@ json User::toJson() const {
   obj["account"] = account;
   obj["password"] = password;
   obj["permission"] = permission.toJson();
-  return obj;
+  return std::move(obj);
 }
 
 json PermissionSet::toJson() const {
@@ -118,4 +118,14 @@ Auth::Auth(const string &filename) {
   }
   // ignore missing file
   file.close();
+}
+
+template<typename IteratorType>
+IteratorType Auth::begin() {
+  return users.begin();
+}
+
+template<typename IteratorType>
+IteratorType Auth::end() {
+  return users.end();
 }
