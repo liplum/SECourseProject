@@ -25,7 +25,7 @@ void Command::execute() const {
   callback();
 }
 
-void Menu::registerCommand(const string &cmdName, const string &desc, const Callback &callback) {
+void Menu::cmd(const string &cmdName, const string &desc, const Callback &callback) {
   menuItems[cmdName] = Command(desc, callback);
 }
 
@@ -33,13 +33,11 @@ void Menu::displayMenu() {
   cout << "===== " << header << " =====" << endl;
   cout << "Choose an option:" << endl;
 
-  int optionNum = 1;
   for (const auto &menuItem: menuItems) {
-    cout << optionNum << ". " << menuItem.second.description << endl;
-    optionNum++;
+    cout << "[" << menuItem.first << "] " << menuItem.second.description << endl;
   }
 
-  cout << "#. Quit" << endl;
+  cout << "[#] Quit" << endl;
   cout << "=====================" << endl;
 }
 

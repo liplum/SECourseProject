@@ -31,7 +31,7 @@ vector<Product> ProductSet::findByName(const string &name) {
 }
 
 int ProductSet::addProduct(const string &name, double price, double discount, double premiumPrice) {
-  int id = lastId++;
+  int id = curId++;
   products.emplace_back(id, name, price, discount, premiumPrice);
   markDirty();
   return id;
@@ -87,16 +87,14 @@ void writeProductList(json &arr, const vector<Product> &products) {
 // Function to serialize products to JSON file
 bool ProductSet::saveToFile(const string &filename) {
   json root;
-  root["lastId"] = lastId;
+  root["curId"] = curId;
   writeProductList(root["products"], products);
 
   ofstream file(filename);
   if (file.is_open()) {
     file << setw(2) << root << endl;
     return true;
-    // cout << "Product data saved to " << filename << endl;
   } else {
-    // cerr << "Unable to save product data to file." << endl;
     return false;
   }
 }
@@ -113,7 +111,7 @@ ProductSet::ProductSet(const string &filename) {
   if (file.is_open()) {
     json jsonData;
     file >> jsonData;
-    lastId = jsonData["lastId"];
+    curId = jsonData["curId"];
     readProductListFromJson(jsonData["products"], products);
   }
   // ignore missing file

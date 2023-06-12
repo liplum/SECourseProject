@@ -33,9 +33,9 @@ private:
 public:
   const string header;
 
-  Menu(string header) : header(std::move(header)) {}
+  explicit Menu(string header) : header(std::move(header)) {}
 
-  void registerCommand(const string &cmdName, const string &desc, const Callback &callback);
+  void cmd(const string &cmdName, const string &desc, const Callback &callback);
 
   void displayMenu();
 

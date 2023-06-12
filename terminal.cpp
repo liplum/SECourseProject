@@ -14,6 +14,11 @@ Terminal::Terminal(const string &userDbPath, const string &productDbPath)
   products = new ProductSet(productDbPath);
 }
 
+Terminal::~Terminal() {
+  delete auth;
+  delete products;
+}
+
 /**
  *
  * @param users all users
@@ -35,61 +40,55 @@ void searchProduct(ProductSet &products);
 
 void Terminal::init() {
   // Main menu
-  main.registerCommand("add", "Add product", [this]() {
+  main.cmd("add", "Add product", [this]() {
     // Add product callback implementation
     addProduct(*products);
     saveAll();
   });
 
-  main.registerCommand("del", "Delete product", [this]() {
+  main.cmd("del", "Delete product", [this]() {
     // Delete product callback implementation
     deleteProduct(*products);
     saveAll();
   });
 
-  main.registerCommand("edit", "Modify product", [this]() {
+  main.cmd("edit", "Modify product", [this]() {
     // Modify product callback implementation
     modifyProduct(*products);
     saveAll();
   });
 
-  main.registerCommand("search", "Search product", [this]() {
+  main.cmd("search", "Search product", [this]() {
     // Search product callback implementation
-    // ...
+    searchProduct(*products);
   });
 
-  main.registerCommand("show", "Display product rankings", [this]() {
+  main.cmd("show", "Display product rankings", [this]() {
     // Display product rankings callback implementation
-    // ...
   });
 
-  main.registerCommand("user", "User management", [this]() {
-
+  main.cmd("user", "User management", [this]() {
+    user.startLoop();
   });
 
   // User management
-  user.registerCommand("1", "Add user", [this]() {
+  user.cmd("add", "Add user", [this]() {
     // Add user callback implementation
     // ...
   });
 
-  user.registerCommand("2", "Delete user", [this]() {
+  user.cmd("del", "Delete user", [this]() {
     // Delete user callback implementation
     // ...
   });
 
-  user.registerCommand("3", "Modify user", [this]() {
+  user.cmd("edit", "Modify user", [this]() {
     // Modify user callback implementation
     // ...
   });
 
-  user.registerCommand("4", "Search user", [this]() {
+  user.cmd("search", "Search user", [this]() {
     // Search user callback implementation
-    // ...
-  });
-
-  user.registerCommand("0", "Back to main menu", [this]() {
-    // Back to main menu callback implementation
     // ...
   });
 }

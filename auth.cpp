@@ -114,7 +114,7 @@ Auth::Auth(const string &filename) {
   if (file.is_open()) {
     json jsonData;
     file >> jsonData;
-    readUserListFromJson(jsonData["products"], users);
+    readUserListFromJson(jsonData, users);
   }
   // ignore missing file
   file.close();

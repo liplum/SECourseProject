@@ -44,7 +44,7 @@ public:
 
 class ProductSet : public DirtyMarkMixin {
 private:
-  int lastId{0};
+  int curId{0};
   vector<Product> products{};
 public:
   ProductSet() = default;

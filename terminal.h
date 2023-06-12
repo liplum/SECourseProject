@@ -28,6 +28,8 @@ public:
 
   Terminal(const string &userDbPath, const string &productDbPath);
 
+  ~Terminal();
+
   void init();
 
   void start();
