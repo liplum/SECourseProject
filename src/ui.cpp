@@ -170,6 +170,7 @@ namespace ui {
     int permissionLevel;
     cout << "Enter the permission level (0 for regular, 1 for admin): ";
     cin >> permissionLevel;
+    cin.ignore();
 
     PermissionSet permission;
     if (permissionLevel >= 0) {

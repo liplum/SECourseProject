@@ -6,17 +6,36 @@ set(CMAKE_CXX_STANDARD 23)
 # Include the FetchContent module
 include(FetchContent)
 
-# Define the target name for nlohmann/json
-set(JSON_LIBRARY_TARGET_NAME nlohmann_json)
-
 # Fetch and configure nlohmann/json
 FetchContent_Declare(
-        ${JSON_LIBRARY_TARGET_NAME}
+        nlohmann_json
         GIT_REPOSITORY https://github.com/nlohmann/json.git
         GIT_TAG v3.11.2  # Specify the desired version or commit hash
 )
-FetchContent_MakeAvailable(${JSON_LIBRARY_TARGET_NAME})
+FetchContent_MakeAvailable(nlohmann_json)
 
-add_executable(ProdManageSys main.cpp src/product.cpp src/product.h src/auth.cpp src/auth.h src/menu.cpp src/menu.h src/terminal.cpp src/terminal.h src/dirty.cpp src/dirty.h src/ui.cpp src/ui.h src/utils.cpp src/utils.h)
+FetchContent_Declare(
+        Catch2
+        GIT_REPOSITORY https://github.com/catchorg/Catch2.git
+        GIT_TAG v3.3.2 # or a later release
+)
 
+FetchContent_MakeAvailable(Catch2)
+
+set(
+        COMMON_SOURCES
+        src/product.cpp src/product.h
+        src/auth.cpp src/auth.h
+        src/menu.cpp src/menu.h
+        src/terminal.cpp src/terminal.h
+        src/dirty.cpp src/dirty.h
+        src/ui.cpp src/ui.h
+        src/utils.cpp src/utils.h
+)
+
+add_executable(ProdManageSys main.cpp ${COMMON_SOURCES})
 target_link_libraries(ProdManageSys PRIVATE nlohmann_json::nlohmann_json)
+
+add_executable(Tests test.cpp ${COMMON_SOURCES})
+target_link_libraries(Tests PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(Tests PRIVATE Catch2::Catch2WithMain)
