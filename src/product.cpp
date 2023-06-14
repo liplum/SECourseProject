@@ -6,7 +6,6 @@
 #include "utils.h"
 #include <fstream>
 #include <iomanip>
-#include <iostream>
 #include <utility>
 
 #include <algorithm> // for std::transform
@@ -77,8 +76,15 @@ bool ProductSet::removeProductById(int prod) {
 bool ProductSet::updateProduct(Product &product) {
   for (auto &p: products) {
     if (p.id == product.id) {
-      p = product; // Update the product
-      markDirty();
+      if (
+        p.name != product.name ||
+        p.price != product.price ||
+        p.discount != product.discount ||
+        p.premiumPrice != product.premiumPrice
+        ) {
+        p = product; // Update the product
+        markDirty();
+      }
       return true;
     }
   }

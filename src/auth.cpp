@@ -74,8 +74,10 @@ bool Auth::removeUserByAccount(const string &account) {
 bool Auth::updateUser(User &user) {
   for (auto &u: users) {
     if (u.account == user.account) {
-      u = user; // Update the userMenu
-      markDirty();
+      if (u.password != user.password) {
+        u = user; // Update the userMenu
+        markDirty();
+      }
       return true;
     }
   }
