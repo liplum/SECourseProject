@@ -6,20 +6,53 @@
 #include "ui.h"
 
 namespace ui {
-// Function to add a new product
+  void inputProduct(Product& p) {
+    cout << "Enter the name: ";
+    p.name = inputString();
+
+    // Input and validate price
+    while (true) {
+      cout << "Enter the price: ";
+      p.price = inputDouble();
+      if (p.price >= 0) {
+        break;
+      } else {
+        cout << "Invalid price. Please enter a non-negative value." << endl;
+      }
+    }
+
+    // Input and validate discount
+    while (true) {
+      cout << "Enter the discount: ";
+      p.discount = inputDouble();
+      if (p.discount >= 0 && p.discount <= 1) {
+        break;
+      } else {
+        cout << "Invalid discount. Please enter a value between 0 and 1." << endl;
+      }
+    }
+
+    // Input and validate premium price
+    while (true) {
+      cout << "Enter the premium price: ";
+      p.premiumPrice = inputDouble();
+      if (p.premiumPrice >= 0) {
+        break;
+      } else {
+        cout << "Invalid premium price. Please enter a non-negative value." << endl;
+      }
+    }
+  }
+
+
+  // Function to add a new product
   void addProduct(ProductSet &products) {
     // Get input for the new product details
-    cout << "Enter the name: ";
-    auto name = inputString();
-    cout << "Enter the price: ";
-    auto price = inputDouble();
-    cout << "Enter the discount: ";
-    auto discount = inputDouble();
-    cout << "Enter the premium price: ";
-    auto premiumPrice = inputDouble();
+    Product p;
+    inputProduct(p);
 
     // Add the new product to the ProductSet
-    products.addProduct(name, price, discount, premiumPrice);
+    products.addProduct(p.name, p.price, p.discount, p.premiumPrice);
     cout << "Product added successfully!" << endl;
   }
 
@@ -52,20 +85,7 @@ namespace ui {
       return false;
     }
     // Get input for the updated product details
-    cout << "Enter the name: ";
-    auto name = inputString();
-    cout << "Enter the price: ";
-    auto price = inputDouble();
-    cout << "Enter the discount: ";
-    auto discount = inputDouble();
-    cout << "Enter the premium price: ";
-    auto premiumPrice = inputDouble();
-
-    // Update the product
-    product->name = name;
-    product->price = price;
-    product->discount = discount;
-    product->premiumPrice = premiumPrice;
+    inputProduct(*product);
     products.updateProduct(*product);
     cout << "Product modified successfully!" << endl;
     return true;
