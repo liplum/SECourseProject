@@ -16,7 +16,7 @@ namespace ui {
   void deleteProduct(ProductSet &products);
 
 // Function to modify a product
-  void modifyProduct(ProductSet &products);
+  bool modifyProduct(ProductSet &products);
 
 // Function to search for a product by name or ID
   void searchProduct(ProductSet &products);
@@ -34,5 +34,11 @@ namespace ui {
   void searchUser(Auth &auth);
 
   void clearScreen();
+
+  int inputInt();
+
+  double inputDouble();
+
+  string inputString();
 }
 #endif //PRODMANAGESYS_UI_H

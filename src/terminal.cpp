@@ -93,12 +93,10 @@ namespace ui {
 
 // Function to authenticate userMenu login
   optional<User> tryLogin(Auth &auth) {
-    string account, password;
-
     cout << "Enter account: ";
-    getline(cin, account);
+    auto account = inputString();
     cout << "Enter password: ";
-    getline(cin, password);
+    auto password = inputString();
 
     auto user = auth.findUserByAccount(account);
 

@@ -8,18 +8,15 @@
 namespace ui {
 // Function to add a new product
   void addProduct(ProductSet &products) {
-    string name;
-    double price, discount, premiumPrice;
-
     // Get input for the new product details
     cout << "Enter the name: ";
-    getline(cin, name);
+    auto name = inputString();
     cout << "Enter the price: ";
-    cin >> price;
+    auto price = inputDouble();
     cout << "Enter the discount: ";
-    cin >> discount;
+    auto discount = inputDouble();
     cout << "Enter the premium price: ";
-    cin >> premiumPrice;
+    auto premiumPrice = inputDouble();
 
     // Add the new product to the ProductSet
     products.addProduct(name, price, discount, premiumPrice);
@@ -28,14 +25,12 @@ namespace ui {
 
 // Function to delete a product
   void deleteProduct(ProductSet &products) {
-    int productId;
-
     // Get the ID of the product to delete
     cout << "Enter the product ID to delete: ";
-    cin >> productId;
+    auto id = inputInt();
 
     // Attempt to remove the product by ID
-    if (products.removeProductById(productId)) {
+    if (products.removeProductById(id)) {
       cout << "Product deleted successfully!" << endl;
     } else {
       cout << "Product not found." << endl;
@@ -43,41 +38,37 @@ namespace ui {
   }
 
 // Function to modify a product
-  void modifyProduct(ProductSet &products) {
-    int id;
-
+  bool modifyProduct(ProductSet &products) {
     // Get the ID of the product to modify
     cout << "Enter the product ID to modify: ";
-    cin >> id;
+    auto id = inputInt();
 
     // Find the product by ID
     auto product = products.findById(id);
 
     // Check if the product exists
-    if (product.has_value()) {
-      // Get input for the updated product details
-      string name;
-      double price, discount, premiumPrice;
-
-      cout << "Enter the new product name: ";
-      getline(cin, name);
-      cout << "Enter the new product price: ";
-      cin >> price;
-      cout << "Enter the new product discount: ";
-      cin >> discount;
-      cout << "Enter the new product premium price: ";
-      cin >> premiumPrice;
-
-      // Update the product
-      product->name = name;
-      product->price = price;
-      product->discount = discount;
-      product->premiumPrice = premiumPrice;
-      products.updateProduct(*product);
-      cout << "Product modified successfully!" << endl;
-    } else {
+    if (!product.has_value()) {
       cout << "Product not found." << endl;
+      return false;
     }
+    // Get input for the updated product details
+    cout << "Enter the name: ";
+    auto name = inputString();
+    cout << "Enter the price: ";
+    auto price = inputDouble();
+    cout << "Enter the discount: ";
+    auto discount = inputDouble();
+    cout << "Enter the premium price: ";
+    auto premiumPrice = inputDouble();
+
+    // Update the product
+    product->name = name;
+    product->price = price;
+    product->discount = discount;
+    product->premiumPrice = premiumPrice;
+    products.updateProduct(*product);
+    cout << "Product modified successfully!" << endl;
+    return true;
   }
 
   void printProductDetails(const Product &product) {
@@ -100,9 +91,8 @@ namespace ui {
 
 // Function to search for a product by name or ID
   void searchProduct(ProductSet &products) {
-    string searchQuery;
     cout << "Enter the product name or ID to search: ";
-    getline(cin, searchQuery);
+    auto searchQuery = inputString();
 
     // Search by name
     auto found = products.findByName(searchQuery);
@@ -142,9 +132,8 @@ namespace ui {
   }
 
   bool deleteUser(Auth &auth, User &curUser) {
-    string account;
     cout << "Enter the account of the user to delete: ";
-    getline(cin, account);
+    auto account = inputString();
 
     if (account == curUser.account) {
       cout << "Cannot delete the current user." << endl;
@@ -167,10 +156,8 @@ namespace ui {
   }
 
   PermissionSet inputPermission() {
-    int permissionLevel;
     cout << "Enter the permission level (0 for regular, 1 for admin): ";
-    cin >> permissionLevel;
-    cin.ignore();
+    auto permissionLevel = inputInt();
 
     PermissionSet permission;
     if (permissionLevel >= 0) {
@@ -183,9 +170,8 @@ namespace ui {
   }
 
   bool addUser(Auth &auth) {
-    string account, password;
     cout << "Enter the account name: ";
-    getline(cin, account);
+    auto account = inputString();
 
     auto existingUser = auth.findUserByAccount(account);
     if (existingUser.has_value()) {
@@ -194,7 +180,7 @@ namespace ui {
     }
 
     cout << "Enter the password: ";
-    getline(cin, password);
+    auto password = inputString();
 
     auto permission = inputPermission();
 
@@ -208,9 +194,8 @@ namespace ui {
   }
 
   bool modifyUser(Auth &auth) {
-    string account;
     cout << "Enter the account of the user to modify: ";
-    getline(cin, account);
+    auto account = inputString();
 
     auto user = auth.findUserByAccount(account);
     if (!user.has_value()) {
@@ -220,13 +205,11 @@ namespace ui {
 
     User &targetUser = user.value();
 
-    // Prevent modifying the account name
+    // Prevent modifying the account.
     cout << "Modifying user: " << targetUser.account << endl;
 
-    string newPassword;
-
     cout << "Enter the new password (leave empty to keep current password): ";
-    getline(cin, newPassword);
+    auto newPassword = inputString();
 
     if (!newPassword.empty()) {
       targetUser.password = newPassword;
@@ -244,19 +227,18 @@ namespace ui {
     }
   }
 
-  void printUser(User& user){
+  void printUser(User &user) {
     cout << "Account: " << user.account
          << ", Can manage product: " << user.permission.manageProduct
          << ", Can manage user: " << user.permission.manageUser << endl;
   }
 
   void searchUser(Auth &auth) {
-    string account;
     cout << "Enter the account or wildcard(*) to search: ";
-    getline(cin, account);
+    string account = inputString();
 
     if (account == "*") {
-      for (auto& user: auth) {
+      for (auto &user: auth) {
         printUser(user);
       }
     } else {
@@ -275,5 +257,25 @@ namespace ui {
 #else
     system("clear");
 #endif
+  }
+
+  int inputInt() {
+    int i;
+    cin >> i;
+    cin.ignore();
+    return i;
+  }
+
+  double inputDouble() {
+    double f;
+    cin >> f;
+    cin.ignore();
+    return f;
+  }
+
+  string inputString() {
+    string s;
+    getline(cin, s);
+    return std::move(s);
   }
 }

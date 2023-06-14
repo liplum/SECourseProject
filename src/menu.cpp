@@ -5,6 +5,7 @@
 #include "menu.h"
 #include "utils.h"
 #include <iostream>
+#include "ui.h"
 
 using namespace std;
 
@@ -62,9 +63,8 @@ namespace ui {
       if (options.askForLoop) {
         while (true) {
           it->second.execute();
-          string leave;
           cout << "Continue(y/n)? ";
-          getline(cin, leave);
+          string leave = inputString();
           if (leave.empty() || yesOrNo(leave)) {
             continue;
           } else {
@@ -80,11 +80,10 @@ namespace ui {
   }
 
   void Menu::startLoop() {
-    string choice;
     while (true) {
       displayMenu();
       cout << "Command: ";
-      getline(cin, choice);
+      auto choice = inputString();
       if (choice == options.quitNotation) {
         break;
       }
