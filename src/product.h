@@ -68,13 +68,7 @@ public:
 
   bool saveToFile(const string &filename);
 
-  auto begin() {
-    return products.begin();
-  }
-
-  auto end() {
-    return products.end();
-  }
+  vector<Product> getProducts();
 };
 
 #endif //PRODMANAGESYS_PRODUCT_H

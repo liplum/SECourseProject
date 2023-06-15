@@ -13,6 +13,24 @@
 
 using namespace std;
 
+json Product::toJson() const {
+  json obj;
+  obj["id"] = id;
+  obj["name"] = name;
+  obj["price"] = price;
+  obj["discount"] = discount;
+  obj["premiumPrice"] = premiumPrice;
+  return std::move(obj);
+}
+
+Product::Product(const json &obj) {
+  id = obj["id"];
+  name = obj["name"];
+  price = obj["price"];
+  discount = obj["discount"];
+  premiumPrice = obj["premiumPrice"];
+}
+
 optional<Product> ProductSet::findById(int id) {
   for (auto &product: products) {
     if (product.id == id) {
@@ -91,22 +109,8 @@ bool ProductSet::updateProduct(Product &product) {
   return false; // Product not found
 }
 
-json Product::toJson() const {
-  json obj;
-  obj["id"] = id;
-  obj["name"] = name;
-  obj["price"] = price;
-  obj["discount"] = discount;
-  obj["premiumPrice"] = premiumPrice;
-  return std::move(obj);
-}
-
-Product::Product(const json &obj) {
-  id = obj["id"];
-  name = obj["name"];
-  price = obj["price"];
-  discount = obj["discount"];
-  premiumPrice = obj["premiumPrice"];
+vector<Product> ProductSet::getProducts() {
+  return products;
 }
 
 void writeProductList(json &arr, const vector<Product> &products) {

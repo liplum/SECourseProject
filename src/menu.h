@@ -11,7 +11,11 @@
 #include "auth.h"
 #include "product.h"
 
-using Callback = function<void()>;
+enum CommandSignal {
+  end, waitNext,
+};
+
+using Callback = function<CommandSignal()>;
 
 class Command {
 public:
@@ -23,7 +27,8 @@ public:
   Command(string desc, Callback cb)
     : description(std::move(desc)), callback(std::move(cb)) {}
 
-  void execute() const;
+  [[nodiscard]]
+  CommandSignal execute() const;
 };
 
 namespace ui {

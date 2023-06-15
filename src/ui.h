@@ -18,6 +18,8 @@ namespace ui {
 // Function to modify a product
   bool modifyProduct(ProductSet &products);
 
+  void showProductRankings(ProductSet &products);
+
 // Function to search for a product by name or ID
   void searchProduct(ProductSet &products);
 

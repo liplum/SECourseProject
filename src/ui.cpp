@@ -6,7 +6,7 @@
 #include "ui.h"
 
 namespace ui {
-  void inputProduct(Product& p) {
+  void inputProduct(Product &p) {
     cout << "Enter the name: ";
     p.name = inputString();
 
@@ -138,16 +138,15 @@ namespace ui {
   }
 
 // Function to display product rankings based on discount price
-  void displayProductRankings(const vector<Product> &products) {
-    vector<Product> sortedProducts = products;
-    sort(sortedProducts.begin(), sortedProducts.end(), [](const Product &p1, const Product &p2) {
-      return p1.discount < p2.discount;
+  void showProductRankings(ProductSet &products) {
+    vector<Product> sorted = products.getProducts();
+    sort(sorted.begin(), sorted.end(), [](const Product &p1, const Product &p2) {
+      return p1.price < p2.price;
     });
 
-    cout << "Product Rankings (based on discount price):" << endl;
-    for (const auto &product: sortedProducts) {
-      cout << "ID: " << product.id << ", Name: " << product.name << ", Discount: " << product.discount
-           << endl;
+    cout << "Product Rankings (based on price):" << endl;
+    for (const auto &product: sorted) {
+      printProductDetails(product);
     }
   }
 
@@ -258,7 +257,7 @@ namespace ui {
     string account = inputString();
 
     if (account == "*") {
-      for (auto &user: auth) {
+      for (auto &user: auth.getUsers()) {
         printUser(user);
       }
     } else {

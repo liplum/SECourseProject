@@ -9,8 +9,8 @@
 
 using namespace std;
 
-void Command::execute() const {
-  callback();
+CommandSignal Command::execute() const {
+  return callback();
 }
 
 namespace ui {
@@ -62,13 +62,17 @@ namespace ui {
     if (it != menuItems.end()) {
       if (options.askForLoop) {
         while (true) {
-          it->second.execute();
-          cout << "Continue(y/n)? ";
-          string leave = inputString();
-          if (leave.empty() || yesOrNo(leave)) {
-            continue;
-          } else {
+          auto signal = it->second.execute();
+          if (signal == CommandSignal::end) {
             break;
+          } else if (signal == CommandSignal::waitNext) {
+            cout << "Continue(y/n)? ";
+            string leave = inputString();
+            if (leave.empty() || yesOrNo(leave)) {
+              continue;
+            } else {
+              break;
+            }
           }
         }
       } else {

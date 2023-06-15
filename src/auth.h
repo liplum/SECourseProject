@@ -69,13 +69,7 @@ public:
 
   bool saveToFile(const string &filename);
 
-  auto begin() {
-    return users.begin();
-  }
-
-  auto end() {
-    return users.end();
-  }
+  vector<User> getUsers();
 };
 
 #endif //PRODMANAGESYS_AUTH_H

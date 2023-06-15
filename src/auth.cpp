@@ -37,6 +37,10 @@ json PermissionSet::toJson() const {
   return std::move(obj);
 }
 
+vector<User> Auth::getUsers() {
+  return users;
+}
+
 optional<User> Auth::findUserByAccount(const string &account) {
   auto it = find_if(users.begin(), users.end(), [account](const User &user) {
     return user.account == account;
