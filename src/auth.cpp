@@ -11,6 +11,10 @@
 
 using namespace std;
 
+PermissionSet PermissionSet::all() {
+  return PermissionSet(true, true);
+}
+
 PermissionSet::PermissionSet(const json &obj) {
   manageProduct = obj["manageProduct"];
   manageUser = obj["manageUser"];
