@@ -109,6 +109,14 @@ namespace ui {
   }
 
   bool Terminal::login() {
+    // check if any user is available
+    if (auth->begin() == auth->end()) {
+      auth->addUser("admin", "admin", PermissionSet::all());
+      cout << "Because there's no user available for now, an administrator is created.";
+      cout << R"(account: "admin", password: "admin".)" << endl;
+      saveAll();
+    }
+
     int attempts = 0;
     while (attempts < Terminal::maxAttempts) {
       auto user = tryLogin(*auth);

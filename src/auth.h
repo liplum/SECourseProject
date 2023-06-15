@@ -27,6 +27,8 @@ struct PermissionSet {
 
   explicit PermissionSet(const json &obj);
 
+  static PermissionSet all();
+
   json toJson() const;
 };
 
