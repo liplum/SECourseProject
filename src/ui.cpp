@@ -57,16 +57,30 @@ namespace ui {
   }
 
 // Function to delete a product
-  void deleteProduct(ProductSet &products) {
+  bool deleteProduct(ProductSet &products) {
     // Get the ID of the product to delete
     cout << "Enter the product ID to delete: ";
     auto id = inputInt();
 
+    auto product = products.findById(id);
+    if (!product.has_value()) {
+      cout << "Product not found." << endl;
+      return false;
+    }
+
+    cout << "Ensure to delete product " << product->name << "?";
+    bool ensure = inputInt();
+    if (!ensure) {
+      return false;
+    }
+
     // Attempt to remove the product by ID
     if (products.removeProductById(id)) {
       cout << "Product deleted successfully!" << endl;
+      return true;
     } else {
-      cout << "Product not found." << endl;
+      cout << "Failed to delete product." << endl;
+      return false;
     }
   }
 
@@ -86,9 +100,13 @@ namespace ui {
     }
     // Get input for the updated product details
     inputProduct(*product);
-    products.updateProduct(*product);
-    cout << "Product modified successfully!" << endl;
-    return true;
+    if (products.updateProduct(*product)) {
+      cout << "Product modified successfully!" << endl;
+      return true;
+    } else {
+      cout << "Failed to delete product." << endl;
+      return false;
+    }
   }
 
   void printProductDetails(const Product &product) {
@@ -162,6 +180,12 @@ namespace ui {
     auto user = auth.findUserByAccount(account);
     if (!user.has_value()) {
       cout << "User not found." << endl;
+      return false;
+    }
+
+    cout << "Ensure to delete user " << user->account << "?";
+    bool ensure = inputInt();
+    if (!ensure) {
       return false;
     }
 

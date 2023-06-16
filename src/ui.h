@@ -13,7 +13,7 @@ namespace ui {
   void addProduct(ProductSet &products);
 
 // Function to delete a product
-  void deleteProduct(ProductSet &products);
+  bool deleteProduct(ProductSet &products);
 
 // Function to modify a product
   bool modifyProduct(ProductSet &products);
