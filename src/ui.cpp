@@ -68,7 +68,7 @@ namespace ui {
       return false;
     }
 
-    cout << "Ensure to delete product " << product->name << "?";
+    cout << "Ensure to delete product " << product->name << "? ";
     bool ensure = inputInt();
     if (!ensure) {
       return false;
@@ -157,10 +157,19 @@ namespace ui {
 
 // Function to display product rankings based on discount price
   void showProductRankings(ProductSet &products) {
+    cout << R"(Enter "+" to sort by ascending, "-" by descending, "+" by default: )";
+    auto sortType = inputString();
+
     vector<Product> sorted = products.getProducts();
-    sort(sorted.begin(), sorted.end(), [](const Product &p1, const Product &p2) {
-      return p1.price < p2.price;
-    });
+    sort(sorted.begin(), sorted.end(),
+         sortType == "-" ?
+         [](const Product &p1, const Product &p2) {
+           return p1.price > p2.price;
+         } :
+         [](const Product &p1, const Product &p2) {
+           return p1.price < p2.price;
+         }
+    );
 
     cout << "Product Rankings (based on price):" << endl;
     for (const auto &product: sorted) {
