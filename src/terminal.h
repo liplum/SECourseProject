@@ -16,8 +16,6 @@ using namespace std;
 namespace ui {
   class Terminal {
   private:
-    void saveAll();
-
     User *curUser{nullptr};
 
   public:
@@ -32,6 +30,8 @@ namespace ui {
     Terminal(const string &userDbPath, const string &productDbPath);
 
     ~Terminal();
+
+    void saveAll();
 
     void initMenu();
 
