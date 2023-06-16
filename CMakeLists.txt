@@ -39,3 +39,5 @@ target_link_libraries(ProdManageSys PRIVATE nlohmann_json::nlohmann_json)
 add_executable(Tests test.cpp ${COMMON_SOURCES})
 target_link_libraries(Tests PRIVATE nlohmann_json::nlohmann_json)
 target_link_libraries(Tests PRIVATE Catch2::Catch2WithMain)
+
+set_target_properties(ProdManageSys PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
