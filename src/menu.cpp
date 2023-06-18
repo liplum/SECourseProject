@@ -83,11 +83,11 @@ namespace ui {
     while (true) {
       displayMenu();
       cout << "Command: ";
-      auto choice = inputString();
-      if (choice == options.quitNotation) {
+      auto cmd = toLowercase(inputString());
+      if (cmd == options.quitNotation) {
         break;
       }
-      handleInput(toLowercase(choice));
+      handleInput(cmd);
     }
   }
 }
