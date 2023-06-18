@@ -27,17 +27,15 @@ public:
   Command(string desc, Callback cb)
     : description(std::move(desc)), callback(std::move(cb)) {}
 
-  [[nodiscard]]
-  CommandSignal execute() const;
+  [[nodiscard]] CommandSignal execute() const;
 };
 
 namespace ui {
   struct MenuOptions {
-    const bool askForLoop;
     const string quitNotation;
 
-    explicit MenuOptions(bool loopSection = true, string quitNotation = "#")
-      : askForLoop(loopSection), quitNotation(std::move(quitNotation)) {};
+    explicit MenuOptions(string quitNotation = "#")
+      : quitNotation(std::move(quitNotation)) {};
   };
 
   const auto defaultOptions = MenuOptions();

@@ -60,23 +60,19 @@ namespace ui {
   void Menu::handleInput(const string &choice) {
     auto it = menuItems.find(choice);
     if (it != menuItems.end()) {
-      if (options.askForLoop) {
-        while (true) {
-          auto signal = it->second.execute();
-          if (signal == CommandSignal::end) {
+      while (true) {
+        auto signal = it->second.execute();
+        if (signal == CommandSignal::end) {
+          break;
+        } else if (signal == CommandSignal::waitNext) {
+          cout << "Continue(y/n)? ";
+          string leave = inputString();
+          if (leave.empty() || yesOrNo(leave)) {
+            continue;
+          } else {
             break;
-          } else if (signal == CommandSignal::waitNext) {
-            cout << "Continue(y/n)? ";
-            string leave = inputString();
-            if (leave.empty() || yesOrNo(leave)) {
-              continue;
-            } else {
-              break;
-            }
           }
         }
-      } else {
-        it->second.execute();
       }
     } else {
       cout << "Invalid option. Please try again." << endl;

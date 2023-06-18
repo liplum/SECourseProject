@@ -39,6 +39,7 @@ public:
       premiumPrice(premiumPrice) {
   }
 
+  [[nodiscard]]
   json toJson() const;
 };
 
