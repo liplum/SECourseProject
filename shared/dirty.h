@@ -2,8 +2,8 @@
 // Created by Liplum on 6/12/23.
 //
 
-#ifndef PRODMANAGESYS_DIRTY_H
-#define PRODMANAGESYS_DIRTY_H
+#ifndef SHARED_DIRTY_H
+#define SHARED_DIRTY_H
 
 class DirtyMarkMixin {
 protected:
@@ -24,4 +24,4 @@ public:
   bool isDirty();
 };
 
-#endif //PRODMANAGESYS_DIRTY_H
+#endif //SHARED_DIRTY_H

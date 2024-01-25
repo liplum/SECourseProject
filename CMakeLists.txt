@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(ProdManageSys)
+project(SECourseProject)
 
 set(CMAKE_CXX_STANDARD 23)
 
@@ -23,21 +23,28 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(Catch2)
 
 set(
-        COMMON_SOURCES
-        prod-mgmt/src/product.cpp prod-mgmt/src/product.h
-        prod-mgmt/src/auth.cpp prod-mgmt/src/auth.h
-        prod-mgmt/src/menu.cpp prod-mgmt/src/menu.h
-        prod-mgmt/src/terminal.cpp prod-mgmt/src/terminal.h
-        prod-mgmt/src/dirty.cpp prod-mgmt/src/dirty.h
-        prod-mgmt/src/ui.cpp prod-mgmt/src/ui.h
-        prod-mgmt/src/utils.cpp prod-mgmt/src/utils.h
+        SHARED_SOURCES
+        shared/dirty.cpp shared/dirty.h
+        shared/auth.cpp shared/auth.h
+        shared/menu.cpp shared/menu.h
+        shared/utils.cpp shared/utils.h
 )
 
-add_executable(ProdManageSys prod-mgmt/main.cpp ${COMMON_SOURCES})
-target_link_libraries(ProdManageSys PRIVATE nlohmann_json::nlohmann_json)
+set(
+        COMMON_SOURCES
+        prod-mgmt/src/auth.cpp prod-mgmt/src/auth.h
+        prod-mgmt/src/product.cpp prod-mgmt/src/product.h
+        prod-mgmt/src/terminal.cpp prod-mgmt/src/terminal.h
+        prod-mgmt/src/ui.cpp prod-mgmt/src/ui.h
+)
 
-add_executable(ProdManageSysTests prod-mgmt/test.cpp ${COMMON_SOURCES})
-target_link_libraries(ProdManageSysTests PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(ProdManageSysTests PRIVATE Catch2::Catch2WithMain)
+add_library(ProdMgmtLib ${SHARED_SOURCES} ${COMMON_SOURCES})
+target_link_libraries(ProdMgmtLib PUBLIC nlohmann_json::nlohmann_json)
 
-set_target_properties(ProdManageSys PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+add_executable(ProdMgmt prod-mgmt/main.cpp)
+target_link_libraries(ProdMgmt PRIVATE ProdMgmtLib)
+
+add_executable(ProdMgmtTests prod-mgmt/test.cpp)
+target_link_libraries(ProdMgmtTests PRIVATE ProdMgmtLib Catch2::Catch2WithMain)
+
+set_target_properties(ProdMgmt PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

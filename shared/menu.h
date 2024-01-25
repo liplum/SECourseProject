@@ -2,14 +2,14 @@
 // Created by Liplum on 6/6/23.
 //
 
-#ifndef PRODMANAGESYS_MENU_H
-#define PRODMANAGESYS_MENU_H
+#ifndef SHARED_MENU_H
+#define SHARED_MENU_H
 
 #include <functional>
 #include <map>
 #include <utility>
-#include "auth.h"
-#include "product.h"
+#include "../prod-mgmt/src/auth.h"
+#include "../prod-mgmt/src/product.h"
 
 enum CommandSignal {
   end, waitNext,
@@ -60,4 +60,4 @@ namespace ui {
     void startLoop();
   };
 }
-#endif //PRODMANAGESYS_MENU_H
+#endif //SHARED_MENU_H

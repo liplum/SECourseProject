@@ -10,35 +10,35 @@
 #include <string>
 #include "product.h"
 #include "auth.h"
-#include "menu.h"
+#include "../../shared/menu.h"
 
 using namespace std;
 namespace ui {
-  class Terminal {
-  private:
-    User *curUser{nullptr};
+    class Terminal {
+    private:
+        KUser *curUser{nullptr};
 
-  public:
-    static const int maxAttempts = 3;
-    const string userDbPath;
-    const string productDbPath;
-    ProductSet *products;
-    Auth *auth;
-    Menu mainMenu{"Main Menu"};
-    Menu userMenu{"User Management"};
+    public:
+        static const int maxAttempts = 3;
+        const string userDbPath;
+        const string productDbPath;
+        ProductSet *products;
+        KAuth *auth;
+        Menu mainMenu{"Main Menu"};
+        Menu userMenu{"User Management"};
 
-    Terminal(const string &userDbPath, const string &productDbPath);
+        Terminal(const string &userDbPath, const string &productDbPath);
 
-    ~Terminal();
+        ~Terminal();
 
-    void saveAll();
+        void saveAll();
 
-    void initMenu();
+        void initMenu();
 
-    bool login();
+        bool login();
 
-    void start();
-  };
+        void start();
+    };
 }
 
 #endif //PRODMANAGESYS_TERMINAL_H

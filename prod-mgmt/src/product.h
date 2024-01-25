@@ -8,7 +8,7 @@
 #include <utility>
 #include <vector>
 #include "nlohmann/json.hpp"
-#include "dirty.h"
+#include "../../shared/dirty.h"
 
 using namespace std;
 using json = nlohmann::json;
