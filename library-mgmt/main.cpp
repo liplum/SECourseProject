@@ -3,10 +3,10 @@
 #include "src/terminal.h"
 
 const auto usersDbPath = "users.json";
-const auto productsDbPath = "products.json";
+const auto booksDbPath = "books.json";
 
 int main() {
-  ui::Terminal terminal(usersDbPath, productsDbPath);
+  ui::Terminal terminal(usersDbPath, booksDbPath);
   static auto exitHandler = [&terminal]() {
     terminal.saveAll();
     cout << "Program exit.";

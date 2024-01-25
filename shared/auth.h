@@ -12,17 +12,11 @@
 #include <fstream>
 #include "dirty.h"
 #include "nlohmann/json.hpp"
+#include "model.h"
 
 using namespace std;
-using json = nlohmann::json;
 
-template<typename TPer>
-concept IPermission = requires(TPer per)
-{
-    { per.toJson() } -> std::same_as<json>;
-};
-
-template<typename TPer> requires IPermission<TPer>
+template<typename TPer> requires IToJson<TPer>
 struct User {
     string account;
     string password;
@@ -54,7 +48,7 @@ struct User {
     }
 };
 
-template<typename TPer> requires IPermission<TPer>
+template<typename TPer> requires IToJson<TPer>
 class Auth : public DirtyMarkMixin {
 private:
     vector<User<TPer>> users;
@@ -139,7 +133,7 @@ public:
 };
 
 template<typename TPer>
-requires IPermission<TPer>
+requires IToJson<TPer>
 void writeUserList(json &arr, const vector<User<TPer>> &users) {
     for (const auto &user: users) {
         arr.push_back(user.toJson());
@@ -147,7 +141,7 @@ void writeUserList(json &arr, const vector<User<TPer>> &users) {
 }
 
 template<typename TPer>
-requires IPermission<TPer>
+requires IToJson<TPer>
 void readUserListFromJson(const json &arr, vector<User<TPer>> &in) {
     for (const auto &obj: arr) {
         in.emplace_back(obj);

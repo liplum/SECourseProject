@@ -9,7 +9,7 @@
 
 using namespace std;
 namespace ui {
-    template<typename TPer> requires IPermission<TPer>
+    template<typename TPer> requires IToJson<TPer>
     class BasicTerminal {
     protected:
         User<TPer> *curUser{nullptr};
