@@ -22,18 +22,5 @@ namespace ui {
 
 // Function to search for a product by name or ID
   void searchProduct(DataSet<Product> &products);
-
-  bool addUser(KAuth &auth);
-
-  bool modifyUser(KAuth &auth);
-
-  bool deleteUser(KAuth &auth, KUser &curUser);
-
-  /**
-   * wildcard enabled.
-   * @param auth
-   */
-  void searchUser(KAuth &auth);
-
 }
 #endif //PRODMGMT_UI_H

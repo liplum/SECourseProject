@@ -129,7 +129,6 @@ public:
             return false;
         }
     }
-
 };
 
 template<typename TPer>
@@ -148,4 +147,133 @@ void readUserListFromJson(const json &arr, vector<User<TPer>> &in) {
     }
 }
 
+namespace ui {
+    template<typename TPer>
+    requires JsonSerializable<TPer>
+    bool addUser(Auth <TPer> &auth, TPer inputPermission()) {
+        cout << "Enter the account name: ";
+        auto account = inputString();
+
+        auto existingUser = auth.findUserByAccount(account);
+        if (existingUser.has_value()) {
+            cout << "User with the same account already exists." << endl;
+            return false;
+        }
+
+        cout << "Enter the password: ";
+        auto password = inputString();
+
+        auto permission = inputPermission();
+
+        if (auth.addUser(account, password, permission)) {
+            cout << "User added successfully." << endl;
+            return true;
+        } else {
+            cout << "Failed to add user." << endl;
+            return false;
+        }
+    }
+
+    template<typename TPer>
+    requires JsonSerializable<TPer>
+    bool modifyUser(Auth <TPer> &auth, TPer inputPermission()) {
+        cout << "Enter the account of the user to modify: ";
+        auto account = inputString();
+
+        auto user = auth.findUserByAccount(account);
+        if (!user.has_value()) {
+            cout << "User not found." << endl;
+            return false;
+        }
+
+        User<TPer> &targetUser = user.value();
+
+        // Prevent modifying the account.
+        cout << "Modifying user: " << targetUser.account << endl;
+
+        cout << "Enter the new password (leave empty to keep current password): ";
+        auto newPassword = inputString();
+
+        if (!newPassword.empty()) {
+            targetUser.password = newPassword;
+        }
+
+        auto permission = inputPermission();
+        targetUser.permission = permission;
+
+        if (auth.updateUser(targetUser)) {
+            cout << "User modified successfully." << endl;
+            return true;
+        } else {
+            cout << "Failed to modify user." << endl;
+            return false;
+        }
+    }
+
+    template<typename TPer>
+    requires JsonSerializable<TPer>
+    bool deleteUser(Auth <TPer> &auth, User <TPer> &curUser) {
+        cout << "Enter the account of the user to delete: ";
+        auto account = inputString();
+
+        if (account == curUser.account) {
+            cout << "Cannot delete the current user." << endl;
+            return false;
+        }
+
+        auto user = auth.findUserByAccount(account);
+        if (!user.has_value()) {
+            cout << "User not found." << endl;
+            return false;
+        }
+
+        cout << "Ensure to delete user " << user->account << "?";
+        bool ensure = inputInt();
+        if (!ensure) {
+            return false;
+        }
+
+        if (auth.removeUserByAccount(account)) {
+            cout << "User deleted successfully." << endl;
+            return true;
+        } else {
+            cout << "Failed to delete user." << endl;
+            return false;
+        }
+    }
+
+    template<typename TPer> requires JsonSerializable<TPer>
+    vector<User < TPer>>
+    searchUser(Auth<TPer>
+    &auth) {
+    cout << "Enter the account or wildcard(*) to search: ";
+    vector<User < TPer>>
+    result;
+    string account = inputString();
+    if (account == "*") {
+    for (
+    auto &user
+    : auth.
+
+    getUsers()
+
+    ) {
+    result.
+    push_back(user);
+}
+} else {
+auto user = auth.findUserByAccount(account);
+if (user.
+
+has_value()
+
+) {
+result.
+push_back(user.value());
+}
+}
+return
+result;
+}
+}
 #endif //SHARED_AUTH_H
