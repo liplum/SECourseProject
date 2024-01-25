@@ -122,7 +122,7 @@ namespace ui {
     // check if any user is available
     if (auth->getUsers().empty()) {
       auth->addUser("admin", "admin", PermissionSet::all());
-      cout << "Because there's no user available for now, an administrator is created.";
+      cout << "Because there's no user available for now, an administrator wass created." << endl;
       cout << R"(account: "admin", password: "admin".)" << endl;
       saveAll();
     }
