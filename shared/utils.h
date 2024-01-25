@@ -9,4 +9,14 @@
 using namespace std;
 
 string toLowercase(const string &str);
+
+namespace ui {
+    void clearScreen();
+
+    int inputInt();
+
+    double inputDouble();
+
+    string inputString();
+}
 #endif //SHARED_UTILS_H

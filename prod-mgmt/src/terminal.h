@@ -10,7 +10,7 @@
 #include <string>
 #include "product.h"
 #include "auth.h"
-#include "../../shared/menu.h"
+#include "../../shared/terminal.h"
 
 using namespace std;
 namespace ui {

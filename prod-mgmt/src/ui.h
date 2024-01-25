@@ -35,12 +35,5 @@ namespace ui {
    */
   void searchUser(KAuth &auth);
 
-  void clearScreen();
-
-  int inputInt();
-
-  double inputDouble();
-
-  string inputString();
 }
 #endif //PRODMGMT_UI_H
