@@ -2,13 +2,13 @@
 // Created by Liplum on 6/6/23.
 //
 
-#ifndef PRODMANAGESYS_AUTH_H
-#define PRODMANAGESYS_AUTH_H
+#ifndef PRODMGMT_AUTH_H
+#define PRODMGMT_AUTH_H
 
 #include <utility>
 #include <vector>
 #include "string"
-#include "dirty.h"
+#include "../../shared/dirty.h"
 #include "nlohmann/json.hpp"
 
 using namespace std;
@@ -74,4 +74,4 @@ public:
   vector<User> getUsers();
 };
 
-#endif //PRODMANAGESYS_AUTH_H
+#endif //PRODMGMT_AUTH_H

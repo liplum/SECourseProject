@@ -3,7 +3,7 @@
 //
 #include "product.h"
 #include "nlohmann/json.hpp"
-#include "utils.h"
+#include "../../shared/utils.h"
 #include <fstream>
 #include <iomanip>
 #include <utility>

@@ -2,15 +2,15 @@
 // Created by Liplum on 6/8/23.
 //
 
-#ifndef PRODMANAGESYS_TERMINAL_H
-#define PRODMANAGESYS_TERMINAL_H
+#ifndef PRODMGMT_TERMINAL_H
+#define PRODMGMT_TERMINAL_H
 
 #include <utility>
 
 #include <string>
 #include "product.h"
 #include "auth.h"
-#include "menu.h"
+#include "../../shared/menu.h"
 
 using namespace std;
 namespace ui {
@@ -41,4 +41,4 @@ namespace ui {
   };
 }
 
-#endif //PRODMANAGESYS_TERMINAL_H
+#endif //PRODMGMT_TERMINAL_H
