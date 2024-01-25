@@ -6,7 +6,6 @@
 #define PRODMGMT_TERMINAL_H
 
 #include <utility>
-
 #include <string>
 #include "product.h"
 #include "auth.h"

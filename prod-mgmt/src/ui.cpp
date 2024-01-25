@@ -117,18 +117,6 @@ namespace ui {
              << ", Premium Price: " << product.premiumPrice << endl;
     }
 
-    optional<int> tryStoi(const std::string &input) {
-        try {
-            return std::stoi(input);
-        } catch (const std::invalid_argument &) {
-            // Conversion failed due to invalid argument
-            return std::nullopt;
-        } catch (const std::out_of_range &) {
-            // Conversion failed due to out of range
-            return std::nullopt;
-        }
-    }
-
 // Function to search for a product by name or ID
     void searchProduct(DataSet<Product> &products) {
         cout << "Enter the product name or ID to search: ";

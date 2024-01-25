@@ -8,7 +8,7 @@
 #include "../../shared/utils.h"
 
 namespace ui {
-    void inputProduct(Product &p) {
+    void inputBook(Book &p) {
         cout << "Enter the name: ";
         p.name = inputString();
 
@@ -48,25 +48,25 @@ namespace ui {
 
 
     // Function to add a new product
-    void addProduct(DataSet<Product> &products) {
+    void addBook(DataSet<Book> &books) {
         // Get input for the new product details
-        Product p;
-        inputProduct(p);
+        Book p;
+        inputBook(p);
 
-        // Add the new product to the DataSet<Product>
-        products.addProduct(p.name, p.price, p.discount, p.premiumPrice);
-        cout << "Product added successfully!" << endl;
+        // Add the new product to the DataSet<Book>
+        books.addRow(p.name, p.price, p.discount, p.premiumPrice);
+        cout << "Book added successfully!" << endl;
     }
 
 // Function to delete a product
-    bool deleteProduct(DataSet<Product> &products) {
+    bool deleteBook(DataSet<Book> &books) {
         // Get the ID of the product to delete
         cout << "Enter the product ID to delete: ";
         auto id = inputInt();
 
-        auto product = products.findById(id);
+        auto product = books.findById(id);
         if (!product.has_value()) {
-            cout << "Product not found." << endl;
+            cout << "Book not found." << endl;
             return false;
         }
 
@@ -77,8 +77,8 @@ namespace ui {
         }
 
         // Attempt to remove the product by ID
-        if (products.removeProductById(id)) {
-            cout << "Product deleted successfully!" << endl;
+        if (books.removeById(id)) {
+            cout << "Book deleted successfully!" << endl;
             return true;
         } else {
             cout << "Failed to delete product." << endl;
@@ -87,23 +87,23 @@ namespace ui {
     }
 
 // Function to modify a product
-    bool modifyProduct(DataSet<Product> &products) {
+    bool modifyBook(DataSet<Book> &books) {
         // Get the ID of the product to modify
         cout << "Enter the product ID to modify: ";
         auto id = inputInt();
 
         // Find the product by ID
-        auto product = products.findById(id);
+        auto product = books.findById(id);
 
         // Check if the product exists
         if (!product.has_value()) {
-            cout << "Product not found." << endl;
+            cout << "Book not found." << endl;
             return false;
         }
         // Get input for the updated product details
-        inputProduct(*product);
-        if (products.updateProduct(*product)) {
-            cout << "Product modified successfully!" << endl;
+        inputBook(*product);
+        if (books.update(*product)) {
+            cout << "Book modified successfully!" << endl;
             return true;
         } else {
             cout << "Failed to delete product." << endl;
@@ -111,7 +111,7 @@ namespace ui {
         }
     }
 
-    void printProductDetails(const Product &product) {
+    void printBookDetails(const Book &product) {
         cout << "ID: " << product.id << ", Name: " << product.name
              << ", Price: " << product.price << ", Discount: " << product.discount
              << ", Premium Price: " << product.premiumPrice << endl;
@@ -130,52 +130,30 @@ namespace ui {
     }
 
 // Function to search for a product by name or ID
-    void searchProduct(DataSet<Product> &products) {
+    void searchBook(DataSet<Book> &books) {
         cout << "Enter the product name or ID to search: ";
         auto searchQuery = inputString();
 
         // Search by name
-        auto found = products.findByName(searchQuery);
+        auto found = books.findByName(searchQuery);
 
         // Search by ID
         auto productId = tryStoi(searchQuery);
         if (productId.has_value()) {
-            auto productById = products.findById(*productId);
+            auto productById = books.findById(*productId);
             if (productById.has_value()) {
                 found.push_back(*productById);
             }
         }
         if (!found.empty()) {
-            // Products found by name
+            // Books found by name
             cout << "Found " << found.size() << " product(s) by name:" << endl;
             for (const auto &product: found) {
-                printProductDetails(product);
+                printBookDetails(product);
             }
         } else {
-            // No products found
-            cout << "Product not found." << endl;
-        }
-    }
-
-// Function to display product rankings based on discount price
-    void showProductRankings(DataSet<Product> &products) {
-        cout << R"(Enter "+" to sort by ascending, "-" by descending, "+" by default: )";
-        auto sortType = inputString();
-
-        vector<Product> sorted = products.getProducts();
-        sort(sorted.begin(), sorted.end(),
-             sortType == "-" ?
-             [](const Product &p1, const Product &p2) {
-                 return p1.price > p2.price;
-             } :
-             [](const Product &p1, const Product &p2) {
-                 return p1.price < p2.price;
-             }
-        );
-
-        cout << "Product Rankings (based on price):" << endl;
-        for (const auto &product: sorted) {
-            printProductDetails(product);
+            // No books found
+            cout << "Book not found." << endl;
         }
     }
 }
