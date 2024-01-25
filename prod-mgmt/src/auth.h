@@ -2,8 +2,8 @@
 // Created by Liplum on 1/25/24.
 //
 
-#ifndef PRODMANAGESYS_AUTH_H
-#define PRODMANAGESYS_AUTH_H
+#ifndef PRODMGMT_AUTH_H
+#define PRODMGMT_AUTH_H
 
 #include "../../shared/auth.h"
 
@@ -28,4 +28,4 @@ struct PermissionSet {
 using KUser = User<PermissionSet>;
 using KAuth = Auth<PermissionSet>;
 
-#endif //PRODMANAGESYS_AUTH_H
+#endif //PRODMGMT_AUTH_H

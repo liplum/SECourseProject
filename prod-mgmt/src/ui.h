@@ -2,8 +2,8 @@
 // Created by Liplum on 6/12/2023.
 //
 
-#ifndef PRODMANAGESYS_UI_H
-#define PRODMANAGESYS_UI_H
+#ifndef PRODMGMT_UI_H
+#define PRODMGMT_UI_H
 
 #include "auth.h"
 #include "product.h"
@@ -43,4 +43,4 @@ namespace ui {
 
   string inputString();
 }
-#endif //PRODMANAGESYS_UI_H
+#endif //PRODMGMT_UI_H

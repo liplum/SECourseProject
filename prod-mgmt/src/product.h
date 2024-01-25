@@ -1,8 +1,8 @@
 //
 // Created by Liplum on 6/6/23.
 //
-#ifndef PRODMANAGESYS_PRODUCT_H
-#define PRODMANAGESYS_PRODUCT_H
+#ifndef PRODMGMT_PRODUCT_H
+#define PRODMGMT_PRODUCT_H
 
 #include <string>
 #include <utility>
@@ -72,4 +72,4 @@ public:
   vector<Product> getProducts();
 };
 
-#endif //PRODMANAGESYS_PRODUCT_H
+#endif //PRODMGMT_PRODUCT_H
