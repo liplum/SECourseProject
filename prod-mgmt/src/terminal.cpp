@@ -100,44 +100,4 @@ namespace ui {
       auth->saveToFile(userDbPath);
     }
   }
-
-// Function to authenticate userMenu login
-  optional<KUser> tryLogin(KAuth &auth) {
-    cout << "Enter account: ";
-    auto account = inputString();
-    cout << "Enter password: ";
-    auto password = inputString();
-
-    auto user = auth.findUserByAccount(account);
-
-    if (user.has_value() && user->password == password) {
-      cout << "Login successful." << endl;
-      return *user;
-    } else {
-      return nullopt;
-    }
-  }
-
-  bool Terminal::login() {
-    // check if any user is available
-    if (auth->getUsers().empty()) {
-      auth->addUser("admin", "admin", PermissionSet::all());
-      cout << "Because there's no user available for now, an administrator wass created." << endl;
-      cout << R"(account: "admin", password: "admin".)" << endl;
-      saveAll();
-    }
-
-    int attempts = 0;
-    while (attempts < Terminal::maxAttempts) {
-      auto user = tryLogin(*auth);
-      if (user.has_value()) {
-        curUser = &*user;
-        return true;
-      } else {
-        cout << "Invalid account or password. Please try again." << endl;
-        attempts++;
-      }
-    }
-    return false;
-  }
 }

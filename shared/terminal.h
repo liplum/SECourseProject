@@ -52,7 +52,7 @@ namespace ui {
 
             int attempts = 0;
             while (attempts < maxAttempts) {
-                auto user = tryLogin(*auth);
+                auto user = tryLogin();
                 if (user.has_value()) {
                     curUser = &*user;
                     return true;

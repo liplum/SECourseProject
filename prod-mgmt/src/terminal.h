@@ -14,16 +14,14 @@
 
 using namespace std;
 namespace ui {
-    class Terminal {
+    class Terminal : public BasicTerminal<PermissionSet> {
     private:
         KUser *curUser{nullptr};
 
     public:
-        static const int maxAttempts = 3;
         const string userDbPath;
         const string productDbPath;
         ProductSet *products;
-        KAuth *auth;
         Menu mainMenu{"Main Menu"};
         Menu userMenu{"User Management"};
 
@@ -34,8 +32,6 @@ namespace ui {
         void saveAll();
 
         void initMenu();
-
-        bool login();
 
         void start();
     };
