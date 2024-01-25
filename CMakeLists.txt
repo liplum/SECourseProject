@@ -24,20 +24,20 @@ FetchContent_MakeAvailable(Catch2)
 
 set(
         COMMON_SOURCES
-        src/product.cpp src/product.h
-        src/auth.cpp src/auth.h
-        src/menu.cpp src/menu.h
-        src/terminal.cpp src/terminal.h
-        src/dirty.cpp src/dirty.h
-        src/ui.cpp src/ui.h
-        src/utils.cpp src/utils.h
+        prod-mgmt/src/product.cpp prod-mgmt/src/product.h
+        prod-mgmt/src/auth.cpp prod-mgmt/src/auth.h
+        prod-mgmt/src/menu.cpp prod-mgmt/src/menu.h
+        prod-mgmt/src/terminal.cpp prod-mgmt/src/terminal.h
+        prod-mgmt/src/dirty.cpp prod-mgmt/src/dirty.h
+        prod-mgmt/src/ui.cpp prod-mgmt/src/ui.h
+        prod-mgmt/src/utils.cpp prod-mgmt/src/utils.h
 )
 
-add_executable(ProdManageSys main.cpp ${COMMON_SOURCES})
+add_executable(ProdManageSys prod-mgmt/main.cpp ${COMMON_SOURCES})
 target_link_libraries(ProdManageSys PRIVATE nlohmann_json::nlohmann_json)
 
-add_executable(Tests test.cpp ${COMMON_SOURCES})
-target_link_libraries(Tests PRIVATE nlohmann_json::nlohmann_json)
-target_link_libraries(Tests PRIVATE Catch2::Catch2WithMain)
+add_executable(ProdManageSysTests prod-mgmt/test.cpp ${COMMON_SOURCES})
+target_link_libraries(ProdManageSysTests PRIVATE nlohmann_json::nlohmann_json)
+target_link_libraries(ProdManageSysTests PRIVATE Catch2::Catch2WithMain)
 
 set_target_properties(ProdManageSys PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

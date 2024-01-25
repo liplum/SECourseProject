@@ -1,6 +1,6 @@
-# Product Management System
+# Software Engineering Course Project
 
-It's a course project of Software Engineering.
+My course projects of Software Engineering.
 
 ## Features
 - Writing in pure C++ 23
