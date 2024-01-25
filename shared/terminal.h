@@ -11,13 +11,12 @@ using namespace std;
 namespace ui {
     template<typename TPer> requires IPermission<TPer>
     class BasicTerminal {
-    private:
+    protected:
         User<TPer> *curUser{nullptr};
+        Auth<TPer> *auth;
+        static const int maxAttempts = 3;
 
     public:
-        static const int maxAttempts = 3;
-        Auth<TPer> *auth;
-
         virtual void initMenu() = 0;
 
         virtual void start() = 0;

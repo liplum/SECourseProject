@@ -15,9 +15,6 @@
 using namespace std;
 namespace ui {
     class Terminal : public BasicTerminal<PermissionSet> {
-    private:
-        KUser *curUser{nullptr};
-
     public:
         const string userDbPath;
         const string productDbPath;
