@@ -12,7 +12,7 @@ namespace ui {
     : userDbPath(userDbPath),
       productDbPath(productDbPath) {
     auth = new KAuth(userDbPath);
-    products = new ProductSet(productDbPath);
+    products = new DataSet<Product>(productDbPath);
   }
 
   Terminal::~Terminal() {

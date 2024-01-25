@@ -48,18 +48,18 @@ namespace ui {
 
 
     // Function to add a new product
-    void addProduct(ProductSet &products) {
+    void addProduct(DataSet<Product> &products) {
         // Get input for the new product details
         Product p;
         inputProduct(p);
 
-        // Add the new product to the ProductSet
+        // Add the new product to the DataSet<Product>
         products.addProduct(p.name, p.price, p.discount, p.premiumPrice);
         cout << "Product added successfully!" << endl;
     }
 
 // Function to delete a product
-    bool deleteProduct(ProductSet &products) {
+    bool deleteProduct(DataSet<Product> &products) {
         // Get the ID of the product to delete
         cout << "Enter the product ID to delete: ";
         auto id = inputInt();
@@ -87,7 +87,7 @@ namespace ui {
     }
 
 // Function to modify a product
-    bool modifyProduct(ProductSet &products) {
+    bool modifyProduct(DataSet<Product> &products) {
         // Get the ID of the product to modify
         cout << "Enter the product ID to modify: ";
         auto id = inputInt();
@@ -130,7 +130,7 @@ namespace ui {
     }
 
 // Function to search for a product by name or ID
-    void searchProduct(ProductSet &products) {
+    void searchProduct(DataSet<Product> &products) {
         cout << "Enter the product name or ID to search: ";
         auto searchQuery = inputString();
 
@@ -158,7 +158,7 @@ namespace ui {
     }
 
 // Function to display product rankings based on discount price
-    void showProductRankings(ProductSet &products) {
+    void showProductRankings(DataSet<Product> &products) {
         cout << R"(Enter "+" to sort by ascending, "-" by descending, "+" by default: )";
         auto sortType = inputString();
 

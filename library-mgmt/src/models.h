@@ -35,33 +35,4 @@ public:
     json toJson() const;
 };
 
-class BookSet : public DirtyMarkMixin {
-private:
-    int curId{0};
-    vector<Book> products{};
-public:
-    BookSet() = default;
-
-    explicit BookSet(const string &filename);
-
-    optional<Book> findById(int id);
-
-    /**
-     * wildcard enabled.
-     * @param query
-     * @return
-     */
-    vector<Book> findByName(const string &query);
-
-    int addBook(const string &name);
-
-    bool removeBookById(int prod);
-
-    bool updateBook(Book &book);
-
-    bool saveToFile(const string &filename);
-
-    vector<Book> getBooks();
-};
-
 #endif //LIBRARYMGMT_MODELS_H

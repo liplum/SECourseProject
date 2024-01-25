@@ -9,7 +9,7 @@
 
 using namespace std;
 namespace ui {
-    template<typename TPer> requires IToJson<TPer>
+    template<typename TPer> requires JsonSerializable<TPer>
     class BasicTerminal {
     protected:
         User<TPer> *curUser{nullptr};

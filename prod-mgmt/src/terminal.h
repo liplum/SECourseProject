@@ -18,7 +18,7 @@ namespace ui {
     public:
         const string userDbPath;
         const string productDbPath;
-        ProductSet *products;
+        DataSet<Product> *products;
         Menu mainMenu{"Main Menu"};
         Menu userMenu{"User Management"};
 

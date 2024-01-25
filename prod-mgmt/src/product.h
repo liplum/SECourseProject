@@ -43,33 +43,4 @@ public:
   json toJson() const;
 };
 
-class ProductSet : public DirtyMarkMixin {
-private:
-  int curId{0};
-  vector<Product> products{};
-public:
-  ProductSet() = default;
-
-  explicit ProductSet(const string &filename);
-
-  optional<Product> findById(int id);
-
-  /**
-   * wildcard enabled.
-   * @param query
-   * @return
-   */
-  vector<Product> findByName(const string &query);
-
-  int addProduct(const string &name, double price, double discount, double premiumPrice);
-
-  bool removeProductById(int prod);
-
-  bool updateProduct(Product &product);
-
-  bool saveToFile(const string &filename);
-
-  vector<Product> getProducts();
-};
-
 #endif //PRODMGMT_PRODUCT_H

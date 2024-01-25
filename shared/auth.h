@@ -16,7 +16,7 @@
 
 using namespace std;
 
-template<typename TPer> requires IToJson<TPer>
+template<typename TPer> requires JsonSerializable<TPer>
 struct User {
     string account;
     string password;
@@ -48,7 +48,7 @@ struct User {
     }
 };
 
-template<typename TPer> requires IToJson<TPer>
+template<typename TPer> requires JsonSerializable<TPer>
 class Auth : public DirtyMarkMixin {
 private:
     vector<User<TPer>> users;
@@ -133,7 +133,7 @@ public:
 };
 
 template<typename TPer>
-requires IToJson<TPer>
+requires JsonSerializable<TPer>
 void writeUserList(json &arr, const vector<User<TPer>> &users) {
     for (const auto &user: users) {
         arr.push_back(user.toJson());
@@ -141,7 +141,7 @@ void writeUserList(json &arr, const vector<User<TPer>> &users) {
 }
 
 template<typename TPer>
-requires IToJson<TPer>
+requires JsonSerializable<TPer>
 void readUserListFromJson(const json &arr, vector<User<TPer>> &in) {
     for (const auto &obj: arr) {
         in.emplace_back(obj);

@@ -27,6 +27,7 @@ set(
         shared/dirty.cpp shared/dirty.h
         shared/auth.h
         shared/menu.cpp shared/menu.h
+        shared/model.h
         shared/terminal.h
         shared/utils.cpp shared/utils.h
 )

@@ -10,18 +10,18 @@
 
 namespace ui {
 // Function to add a new product
-  void addProduct(ProductSet &products);
+  void addProduct(DataSet<Product> &products);
 
 // Function to delete a product
-  bool deleteProduct(ProductSet &products);
+  bool deleteProduct(DataSet<Product> &products);
 
 // Function to modify a product
-  bool modifyProduct(ProductSet &products);
+  bool modifyProduct(DataSet<Product> &products);
 
-  void showProductRankings(ProductSet &products);
+  void showProductRankings(DataSet<Product> &products);
 
 // Function to search for a product by name or ID
-  void searchProduct(ProductSet &products);
+  void searchProduct(DataSet<Product> &products);
 
   bool addUser(KAuth &auth);
 

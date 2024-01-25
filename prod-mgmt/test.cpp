@@ -6,19 +6,19 @@
 #include "src/product.h"
 
 TEST_CASE("Add Product") {
-  ProductSet products;
+  DataSet<Product> products;
   auto id = products.addProduct("test case 101", 999, 0.1, 999);
   REQUIRE(products.findById(id).has_value());
 }
 
 TEST_CASE("Delete Product") {
-  ProductSet products;
+  DataSet<Product> products;
   auto id = products.addProduct("test case 101", 999, 0.1, 999);
   REQUIRE(products.removeProductById(id));
 }
 
 TEST_CASE("Modify Product") {
-  ProductSet products;
+  DataSet<Product> products;
   auto id = products.addProduct("test case 101", 999, 0.1, 999);
   Product p(id, "test case 202", 799, 0, 199);
   products.updateProduct(p);
