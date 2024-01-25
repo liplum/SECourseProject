@@ -4,16 +4,16 @@
 
 #include "auth.h"
 
-PermissionSet PermissionSet::all() {
-    return PermissionSet(true, true);
+ProductPermissionSet ProductPermissionSet::all() {
+    return ProductPermissionSet(true, true);
 }
 
-PermissionSet::PermissionSet(const json &obj) {
+ProductPermissionSet::ProductPermissionSet(const json &obj) {
     manageProduct = obj["manageProduct"];
     manageUser = obj["manageUser"];
 }
 
-json PermissionSet::toJson() const {
+json ProductPermissionSet::toJson() const {
     json obj;
     obj["manageProduct"] = manageProduct;
     obj["manageUser"] = manageUser;

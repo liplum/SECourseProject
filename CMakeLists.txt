@@ -31,15 +31,16 @@ set(
         shared/utils.cpp shared/utils.h
 )
 
+# Product management
 set(
-        COMMON_SOURCES
+        PROD_MGMT_SOURCES
         prod-mgmt/src/auth.cpp prod-mgmt/src/auth.h
         prod-mgmt/src/product.cpp prod-mgmt/src/product.h
         prod-mgmt/src/terminal.cpp prod-mgmt/src/terminal.h
         prod-mgmt/src/ui.cpp prod-mgmt/src/ui.h
 )
 
-add_library(ProdMgmtLib ${SHARED_SOURCES} ${COMMON_SOURCES})
+add_library(ProdMgmtLib ${SHARED_SOURCES} ${PROD_MGMT_SOURCES})
 target_link_libraries(ProdMgmtLib PUBLIC nlohmann_json::nlohmann_json)
 
 add_executable(ProdMgmt prod-mgmt/main.cpp)
@@ -49,3 +50,21 @@ add_executable(ProdMgmtTests prod-mgmt/test.cpp)
 target_link_libraries(ProdMgmtTests PRIVATE ProdMgmtLib Catch2::Catch2WithMain)
 
 set_target_properties(ProdMgmt PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# Library management
+
+set(
+        LIBRARY_MGMT_SOURCES
+        library-mgmt/src/auth.cpp library-mgmt/src/auth.h
+        library-mgmt/src/models.cpp library-mgmt/src/models.h
+        library-mgmt/src/terminal.cpp library-mgmt/src/terminal.h
+        library-mgmt/src/ui.cpp library-mgmt/src/ui.h
+)
+
+add_library(LibaryMgmtLib ${SHARED_SOURCES} ${LIBRARY_MGMT_SOURCES})
+target_link_libraries(LibaryMgmtLib PUBLIC nlohmann_json::nlohmann_json)
+
+add_executable(LibaryMgmt prod-mgmt/main.cpp)
+target_link_libraries(LibaryMgmt PRIVATE ProdMgmtLib)
+
+set_target_properties(LibaryMgmt PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

@@ -209,11 +209,11 @@ namespace ui {
         }
     }
 
-    ProductPermissionSet inputPermission() {
+    PermissionSet inputPermission() {
         cout << "Enter the permission level (0 for regular, 1 for admin): ";
         auto permissionLevel = inputInt();
 
-        ProductPermissionSet permission;
+        PermissionSet permission;
         if (permissionLevel >= 0) {
         }
         if (permissionLevel >= 1) {

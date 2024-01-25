@@ -14,24 +14,24 @@
 #include "../../shared/auth.h"
 
 // User type with hardcoded permissions
-struct PermissionSet {
+struct ProductPermissionSet {
     bool manageProduct = false;
     bool manageUser = false;
 
-    explicit PermissionSet(
+    explicit ProductPermissionSet(
             bool modifyProduct = false,
             bool modifyUser = false
     ) : manageProduct(modifyProduct),
         manageUser(modifyUser) {}
 
-    explicit PermissionSet(const json &obj);
+    explicit ProductPermissionSet(const json &obj);
 
-    static PermissionSet all();
+    static ProductPermissionSet all();
 
     json toJson() const;
 };
 
-using KUser = User<PermissionSet>;
-using KAuth = Auth<PermissionSet>;
+using KUser = User<ProductPermissionSet>;
+using KAuth = Auth<ProductPermissionSet>;
 
 #endif //PRODMGMT_AUTH_H
