@@ -2,11 +2,11 @@
 #include <cstdlib>
 #include "src/terminal.h"
 
-const auto usersDbPath = "users.json";
-const auto productsDbPath = "products.json";
+const auto userDbPath = "users.json";
+const auto productDbPath = "products.json";
 
 int main() {
-  ui::Terminal terminal(usersDbPath, productsDbPath);
+  ui::Terminal terminal(userDbPath, productDbPath);
   static auto exitHandler = [&terminal]() {
     terminal.saveAll();
     cout << "Program exit.";

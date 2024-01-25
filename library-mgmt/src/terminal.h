@@ -17,8 +17,8 @@ namespace ui {
     class Terminal : public BasicTerminal<LibraryPermissionSet> {
     public:
         const string userDbPath;
-        const string productDbPath;
-        DataSet<Product> *products;
+        const string bookDbPath;
+        DataSet<Book> *books;
         Menu mainMenu{"Main Menu"};
         Menu userMenu{"User Management"};
         Menu bookMenu{"Book Management"};

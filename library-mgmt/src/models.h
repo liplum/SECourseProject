@@ -19,6 +19,8 @@ class Book {
 public:
     int id{0};
     string name;
+    int collection;
+    int rest;
 
     Book() = default;
 
@@ -26,9 +28,13 @@ public:
 
     explicit Book(
             int id,
-            string name
+            string name,
+            int collection,
+            int rest,
     ) : id(id),
-        name(std::move(name)) {
+        name(std::move(name)),
+        collection(collection),
+        rest(rest) {
     }
 
     [[nodiscard]]
