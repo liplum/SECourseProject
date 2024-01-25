@@ -25,6 +25,7 @@ FetchContent_MakeAvailable(Catch2)
 set(
         SHARED_SOURCES
         shared/dirty.cpp shared/dirty.h
+        shared/auth.h
         shared/menu.cpp shared/menu.h
         shared/utils.cpp shared/utils.h
 )
