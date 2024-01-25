@@ -23,17 +23,17 @@ namespace ui {
 // Function to search for a product by name or ID
   void searchProduct(ProductSet &products);
 
-  bool addUser(Auth &auth);
+  bool addUser(KAuth &auth);
 
-  bool modifyUser(Auth &auth);
+  bool modifyUser(KAuth &auth);
 
-  bool deleteUser(Auth &auth, User &curUser);
+  bool deleteUser(KAuth &auth, KUser &curUser);
 
   /**
    * wildcard enabled.
    * @param auth
    */
-  void searchUser(Auth &auth);
+  void searchUser(KAuth &auth);
 
   void clearScreen();
 

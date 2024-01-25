@@ -177,7 +177,7 @@ namespace ui {
     }
   }
 
-  bool deleteUser(Auth &auth, User &curUser) {
+  bool deleteUser(KAuth &auth, KUser &curUser) {
     cout << "Enter the account of the user to delete: ";
     auto account = inputString();
 
@@ -221,7 +221,7 @@ namespace ui {
     return permission;
   }
 
-  bool addUser(Auth &auth) {
+  bool addUser(KAuth &auth) {
     cout << "Enter the account name: ";
     auto account = inputString();
 
@@ -245,7 +245,7 @@ namespace ui {
     }
   }
 
-  bool modifyUser(Auth &auth) {
+  bool modifyUser(KAuth &auth) {
     cout << "Enter the account of the user to modify: ";
     auto account = inputString();
 
@@ -255,7 +255,7 @@ namespace ui {
       return false;
     }
 
-    User &targetUser = user.value();
+    KUser &targetUser = user.value();
 
     // Prevent modifying the account.
     cout << "Modifying user: " << targetUser.account << endl;
@@ -279,13 +279,13 @@ namespace ui {
     }
   }
 
-  void printUser(User &user) {
+  void printUser(KUser &user) {
     cout << "Account: " << user.account
          << ", Can manage product: " << user.permission.manageProduct
          << ", Can manage user: " << user.permission.manageUser << endl;
   }
 
-  void searchUser(Auth &auth) {
+  void searchUser(KAuth &auth) {
     cout << "Enter the account or wildcard(*) to search: ";
     string account = inputString();
 

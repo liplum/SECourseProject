@@ -11,7 +11,7 @@ namespace ui {
   Terminal::Terminal(const string &userDbPath, const string &productDbPath)
     : userDbPath(userDbPath),
       productDbPath(productDbPath) {
-    auth = new Auth(userDbPath);
+    auth = new KAuth(userDbPath);
     products = new ProductSet(productDbPath);
   }
 
@@ -102,7 +102,7 @@ namespace ui {
   }
 
 // Function to authenticate userMenu login
-  optional<User> tryLogin(Auth &auth) {
+  optional<KUser> tryLogin(KAuth &auth) {
     cout << "Enter account: ";
     auto account = inputString();
     cout << "Enter password: ";
