@@ -4,10 +4,6 @@
 
 #include "auth.h"
 
-LibraryPermissionSet LibraryPermissionSet::all() {
-    return LibraryPermissionSet(true, true);
-}
-
 LibraryPermissionSet::LibraryPermissionSet(const json &obj) {
     manageBook = obj["manageBook"];
     manageUser = obj["manageUser"];

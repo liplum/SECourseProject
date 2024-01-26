@@ -21,7 +21,7 @@ template<typename T>
 concept IPermission = JsonSerializable<T> && requires
 {
     { T() } -> std::same_as<T>;
-    { T::all() } -> std::same_as<T>;
+    { T::admin() } -> std::same_as<T>;
 };
 
 template<typename TPer> requires IPermission<TPer>

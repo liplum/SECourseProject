@@ -22,7 +22,7 @@ namespace ui {
     Terminal::Terminal(const string &userDbPath, const string &bookDbPath)
             : userDbPath(userDbPath),
               bookDbPath(bookDbPath) {
-        auth = new Auth<ProductPermissionSet>(userDbPath);
+        auth = new Auth<LibraryPermissionSet>(userDbPath);
         books = new DataSet<Book>(bookDbPath);
     }
 

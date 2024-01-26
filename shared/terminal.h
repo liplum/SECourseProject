@@ -43,7 +43,7 @@ namespace ui {
         bool login() {
             // check if any user is available
             if (auth->getUsers().empty()) {
-                auth->addUser("admin", "admin", TPer::all());
+                auth->addUser("admin", "admin", TPer::admin());
                 cout << "Because there's no user available for now, an administrator was created." << endl;
                 cout << R"(account: "admin", password: "admin".)" << endl;
                 saveAll();

@@ -26,7 +26,9 @@ struct LibraryPermissionSet {
 
     explicit LibraryPermissionSet(const json &obj);
 
-    static LibraryPermissionSet all();
+    static LibraryPermissionSet admin() {
+        return LibraryPermissionSet(true, true);
+    }
 
     json toJson() const;
 };

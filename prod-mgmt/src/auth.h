@@ -26,7 +26,9 @@ struct ProductPermissionSet {
 
     explicit ProductPermissionSet(const json &obj);
 
-    static ProductPermissionSet all();
+    static ProductPermissionSet admin() {
+        return ProductPermissionSet(true, true);
+    }
 
     json toJson() const;
 };
