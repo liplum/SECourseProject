@@ -9,7 +9,7 @@
 #include <map>
 #include <utility>
 #include "../prod-mgmt/src/auth.h"
-#include "../prod-mgmt/src/product.h"
+#include "../prod-mgmt/src/models.h"
 
 enum CommandSignal {
   end, waitNext,

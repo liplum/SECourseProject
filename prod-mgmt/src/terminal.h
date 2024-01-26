@@ -7,7 +7,7 @@
 
 #include <utility>
 #include <string>
-#include "product.h"
+#include "models.h"
 #include "auth.h"
 #include "../../shared/terminal.h"
 

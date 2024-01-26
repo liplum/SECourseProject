@@ -3,7 +3,7 @@
 //
 
 #include <catch2/catch_test_macros.hpp>
-#include "src/product.h"
+#include "src/models.h"
 
 TEST_CASE("Add Product") {
   DataSet<Product> products;

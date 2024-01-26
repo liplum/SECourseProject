@@ -36,7 +36,7 @@ set(
 set(
         PROD_MGMT_SOURCES
         prod-mgmt/src/auth.cpp prod-mgmt/src/auth.h
-        prod-mgmt/src/product.cpp prod-mgmt/src/product.h
+        prod-mgmt/src/models.cpp prod-mgmt/src/models.h
         prod-mgmt/src/terminal.cpp prod-mgmt/src/terminal.h
         prod-mgmt/src/ui.cpp prod-mgmt/src/ui.h
 )

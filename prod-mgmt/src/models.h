@@ -1,8 +1,8 @@
 //
 // Created by Liplum on 6/6/23.
 //
-#ifndef PRODMGMT_PRODUCT_H
-#define PRODMGMT_PRODUCT_H
+#ifndef PRODMGMT_MODELS_H
+#define PRODMGMT_MODELS_H
 
 #include <string>
 #include <utility>
@@ -43,4 +43,4 @@ public:
   json toJson() const;
 };
 
-#endif //PRODMGMT_PRODUCT_H
+#endif //PRODMGMT_MODELS_H

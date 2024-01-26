@@ -6,7 +6,7 @@
 #define PRODMGMT_UI_H
 
 #include "auth.h"
-#include "product.h"
+#include "models.h"
 
 namespace ui {
 // Function to add a new product
