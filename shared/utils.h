@@ -12,98 +12,40 @@
 
 using namespace std;
 
-string toLowercase(const string &str) {
-    string result;
-    result.reserve(str.length());
-
-#ifdef _WIN32
-    for (auto c: str) {
-      result.push_back(tolower(c));
-    }
-#else
-    auto locale = std::locale();
-    for (auto c: str) {
-        result.push_back(tolower(c, locale));
-    }
-#endif
-
-    return std::move(result);
-}
+string toLowercase(const string &str);
 
 namespace ui {
-    void clearScreen() {
-#ifdef _WIN32
-        system("cls");
-#else
-        system("clear");
-#endif
-    }
+    void clearScreen();
 
-    int inputInt() {
-        int i;
-        cin >> i;
-        cin.ignore();
-        return i;
-    }
+    int inputInt();
 
-    double inputDouble() {
-        double f;
-        cin >> f;
-        cin.ignore();
-        return f;
-    }
+    double inputDouble();
 
-    string inputString() {
-        string s;
-        getline(cin, s);
-        return std::move(s);
-    }
+    string inputString();
 
-    optional<int> tryStoi(const std::string &input) {
-        try {
-            return std::stoi(input);
-        } catch (const std::invalid_argument &) {
-            // Conversion failed due to invalid argument
-            return std::nullopt;
-        } catch (const std::out_of_range &) {
-            // Conversion failed due to out of range
-            return std::nullopt;
-        }
-    }
-
-    template<typename T>
-    class InputValidator {
-    public:
-        function<bool(T)> test;
-
-        string errorPrompt;
-
-        // Constructor that takes a lambda function and an error prompt
-        explicit InputValidator(function<bool(T)> testFunc, const std::string &errorPrompt)
-                : test(testFunc), errorPrompt(errorPrompt) {
-        }
-    };
+    optional<int> tryStoi(const std::string &input);
 
     template<typename T>
     class InputBox {
     private:
         T (*input)();
 
-        vector<InputValidator<T>> validators;;
+        function<bool(T)> test;
+
+        string errorPrompt;
     public:
         explicit InputBox(
                 T (*input)(),
-                initializer_list<InputValidator<T>> validators
-        ) : input(input), validators(validators) {}
+                function<bool(T)> test, const std::string &errorPrompt
+        ) : input(input), test(test), errorPrompt(errorPrompt) {}
 
-        T getInput(const string &name, ...) {
+        T getInput(const string &name) {
             while (true) {
                 cout << "Enter " << name << " :";
                 T t = input();
-                for (auto &validator: validators) {
-                    if (!validator.test(t)) {
-                        cout << "Invalid " << name << "." << validator.errorPrompt << endl;
-                    }
+                if (!test(t)) {
+                    cout << "Invalid " << name << "." << errorPrompt << endl;
+                    continue;
                 }
                 return t;
             }
@@ -111,27 +53,14 @@ namespace ui {
     };
 
     template<typename T>
-    InputValidator<T> positiveValidator() {
-        return InputValidator(
-                function<bool(T)>([](T value) { return value > 0; }),
-                "Input must be positive."
-        );
+    InputBox<T> positiveInputBox(T (*input)()) {
+        return InputBox<T>(input, [](T value) { return value > 0; }, "Input must be positive.");
     }
 
     template<typename T>
-    InputValidator<T> nonNegativeValidator() {
-        return InputValidator(
-                function<bool(T)>([](T value) { return value >= 0; }),
-                "Input must not be negative."
-        );
+    InputBox<T> nonNegativeInputBox(T (*input)()) {
+        return InputBox<T>(input, [](T value) { return value >= 0; }, "Input must not be negative.");
     }
 
-    InputBox<int> intInputBox(initializer_list<InputValidator<int>> validators) {
-        return InputBox<int>(inputInt, validators);
-    }
-
-    InputBox<double> doubleInputBox(initializer_list<InputValidator<double>> validators) {
-        return InputBox<double>(inputDouble, validators);
-    }
 }
 #endif //SHARED_UTILS_H

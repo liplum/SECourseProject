@@ -29,7 +29,7 @@ set(
         shared/menu.cpp shared/menu.h
         shared/model.h
         shared/terminal.h
-        shared/utils.h
+        shared/utils.cpp shared/utils.h
 )
 
 # Product management

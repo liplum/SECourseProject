@@ -11,7 +11,7 @@ namespace ui {
     void inputBook(Book &p) {
         cout << "Enter the name: ";
         p.name = inputString();
-        auto $int = intInputBox( {nonNegativeValidator<int>()});
+        auto $int = intInputBox( nonNegativeValidator<int>());
         p.collection = $int.getInput("collection");
         p.rest = $int.getInput("rest");
     }

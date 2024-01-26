@@ -10,8 +10,7 @@ namespace ui {
     void inputProduct(Product &p) {
         cout << "Enter the name: ";
         p.name = inputString();
-        auto $double = doubleInputBox({nonNegativeValidator<double>()});
-
+        auto $double = nonNegativeInputBox(inputDouble);
         p.price = $double.getInput("price");
         p.discount = $double.getInput("discount");
         p.premiumPrice = $double.getInput("premium price");
