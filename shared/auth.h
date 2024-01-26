@@ -1,7 +1,3 @@
-//
-// Created by Liplum on 6/6/23.
-//
-
 #ifndef SHARED_AUTH_H
 #define SHARED_AUTH_H
 
@@ -128,7 +124,7 @@ public:
     bool saveToFile(const string &filename) {
         json root;
         writeUserList(root, users);
-
+        createParentFolders(filename);
         ofstream file(filename);
         if (file.is_open()) {
             file << setw(2) << root << endl;

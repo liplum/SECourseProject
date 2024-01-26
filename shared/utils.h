@@ -7,12 +7,18 @@
 
 #include <string>
 #include <functional>
+#include <filesystem>
 #include <optional>
 #include <iostream>
 
 using namespace std;
+namespace fs = std::filesystem;
 
 string toLowercase(const string &str);
+
+void createParentFolders(const fs::path &filePath);
+
+optional<int> tryStoi(const std::string &input);
 
 namespace ui {
     void clearScreen();
@@ -22,8 +28,6 @@ namespace ui {
     double inputDouble();
 
     string inputString();
-
-    optional<int> tryStoi(const std::string &input);
 
     template<typename T>
     class InputBox {
@@ -61,6 +65,5 @@ namespace ui {
     InputBox<T> nonNegativeInputBox(T (*input)()) {
         return InputBox<T>(input, [](T value) { return value >= 0; }, "Input must not be negative.");
     }
-
 }
 #endif //SHARED_UTILS_H

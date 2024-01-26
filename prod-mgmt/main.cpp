@@ -2,8 +2,8 @@
 #include <cstdlib>
 #include "src/terminal.h"
 
-const auto userDbPath = "users.json";
-const auto productDbPath = "products.json";
+const auto userDbPath = "prod-mgmt/users.json";
+const auto productDbPath = "prod-mgmt/products.json";
 
 int main() {
   ui::Terminal terminal(userDbPath, productDbPath);

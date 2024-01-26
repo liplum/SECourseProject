@@ -143,7 +143,7 @@ public:
         json root;
         root["curId"] = curId;
         writeList(root["rows"], rows);
-
+        
         ofstream file(filename);
         if (file.is_open()) {
             file << setw(2) << root << endl;

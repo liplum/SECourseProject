@@ -66,6 +66,6 @@ add_library(LibaryMgmtLib ${SHARED_SOURCES} ${LIBRARY_MGMT_SOURCES})
 target_link_libraries(LibaryMgmtLib PUBLIC nlohmann_json::nlohmann_json)
 
 add_executable(LibaryMgmt library-mgmt/main.cpp)
-target_link_libraries(LibaryMgmt PRIVATE ProdMgmtLib)
+target_link_libraries(LibaryMgmt PRIVATE LibaryMgmtLib)
 
 set_target_properties(LibaryMgmt PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

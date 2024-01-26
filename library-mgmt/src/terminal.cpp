@@ -57,7 +57,7 @@ namespace ui {
             });
         }
 
-        mainMenu.cmd("search", "Search Product", [this]() {
+        mainMenu.cmd("search", "Search Book", [this]() {
             searchBook(*books);
             return CommandSignal::waitNext;
         });
