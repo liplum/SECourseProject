@@ -39,10 +39,9 @@ concept Named = requires(T t)
 
 template<typename T> requires Identifiable<T> && JsonSerializable<T>
 class DataSet : public DirtyMarkMixin {
-private:
+public:
     int curId{0};
     vector<T> rows{};
-public:
     DataSet() = default;
 
     // Function to load products from JSON file
@@ -114,10 +113,6 @@ public:
             return false;
         }
     }
-
-    vector<T> getRows() {
-        return rows;
-    }
 };
 
 /**
@@ -135,7 +130,7 @@ vector<T> findByName(DataSet<T> &db, const string &query) {
     copy(istream_iterator<string>(iss), istream_iterator<string>(), back_inserter(conditions));
 
     vector<T> foundProducts;
-    for (auto &row: db.getRows()) {
+    for (auto &row: db.rows) {
         // Convert the product query to lowercase for case-insensitive matching
         auto productName = toLowercase(row.name);
 

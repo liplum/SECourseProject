@@ -19,11 +19,12 @@ namespace ui {
         return permission;
     }
 
-    Terminal::Terminal(const string &userDbPath, const string &bookDbPath)
+    Terminal::Terminal(const string &userDbPath, const string &bookDbPath, const string &rentDbPath)
             : userDbPath(userDbPath),
-              bookDbPath(bookDbPath) {
+              bookDbPath(bookDbPath), rentDbPath(rentDbPath) {
         auth = new Auth<LibraryPermissionSet>(userDbPath);
         books = new DataSet<Book>(bookDbPath);
+        bookRents = new DataSet<BookRent>(rentDbPath);
     }
 
     Terminal::~Terminal() {
@@ -59,6 +60,14 @@ namespace ui {
 
         mainMenu.cmd("search", "Search Book", [this]() {
             searchBook(*books);
+            return CommandSignal::waitNext;
+        });
+        mainMenu.cmd("rent", "Rent Book", [this]() {
+            rentBook(*curUser, *books, *bookRents);
+            return CommandSignal::waitNext;
+        });
+        mainMenu.cmd("return", "Return Book", [this]() {
+            returnBook(*curUser, *books, *bookRents);
             return CommandSignal::waitNext;
         });
 
@@ -113,6 +122,9 @@ namespace ui {
         }
         if (auth->clearDirty()) {
             auth->saveToFile(userDbPath);
+        }
+        if (bookRents->clearDirty()) {
+            bookRents->saveToFile(rentDbPath);
         }
     }
 }

@@ -120,7 +120,7 @@ namespace ui {
         cout << R"(Enter "+" to sort by ascending, "-" by descending, "+" by default: )";
         auto sortType = inputString();
 
-        vector<Product> sorted = products.getRows();
+        vector<Product> sorted = products.rows;
         sort(sorted.begin(), sorted.end(),
              sortType == "-" ?
              [](const Product &p1, const Product &p2) {

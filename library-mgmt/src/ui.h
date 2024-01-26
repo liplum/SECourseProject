@@ -10,16 +10,19 @@
 
 namespace ui {
 // Function to add a new product
-  void addBook(DataSet<Book> &products);
+    void addBook(DataSet<Book> &books);
 
 // Function to delete a product
-  bool deleteBook(DataSet<Book> &products);
+    bool deleteBook(DataSet<Book> &books);
 
 // Function to modify a product
-  bool modifyBook(DataSet<Book> &products);
+    bool modifyBook(DataSet<Book> &books);
 
 // Function to search for a product by name or ID
-  void searchBook(DataSet<Book> &products);
+    void searchBook(DataSet<Book> &books);
 
+    bool rentBook(User<LibraryPermissionSet>& user,DataSet<Book> &books, DataSet<BookRent> &rents);
+
+    bool returnBook(User<LibraryPermissionSet>& user,DataSet<Book> &books, DataSet<BookRent> &rents);
 }
 #endif //PRODMGMT_UI_H

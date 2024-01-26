@@ -18,7 +18,7 @@ namespace ui {
 
 
     // Function to add a new product
-    void addBook(DataSet <Book> &books) {
+    void addBook(DataSet<Book> &books) {
         // Get input for the new product details
         Book p;
         inputBook(p);
@@ -29,7 +29,7 @@ namespace ui {
     }
 
 // Function to delete a product
-    bool deleteBook(DataSet <Book> &books) {
+    bool deleteBook(DataSet<Book> &books) {
         // Get the ID of the product to delete
         cout << "Enter the product ID to delete: ";
         auto id = inputInt();
@@ -57,7 +57,7 @@ namespace ui {
     }
 
 // Function to modify a product
-    bool modifyBook(DataSet <Book> &books) {
+    bool modifyBook(DataSet<Book> &books) {
         // Get the ID of the product to modify
         cout << "Enter the product ID to modify: ";
         auto id = inputInt();
@@ -87,7 +87,7 @@ namespace ui {
     }
 
     // Function to search for a product by name or ID
-    void searchBook(DataSet <Book> &books) {
+    void searchBook(DataSet<Book> &books) {
         cout << "Enter the book name or ID to search: ";
         auto searchQuery = inputString();
 
@@ -112,5 +112,64 @@ namespace ui {
             // No books found
             cout << "Book not found." << endl;
         }
+    }
+
+    bool rentBook(User<LibraryPermissionSet> &user, DataSet<Book> &books, DataSet<BookRent> &rents) {
+        // Get the ID of the product to modify
+        cout << "Enter the book ID to rent: ";
+        auto id = inputInt();
+
+        // Find the product by ID
+        auto book = books.findById(id);
+
+        // Check if the product exists
+        if (!book.has_value()) {
+            cout << "Book not found." << endl;
+            return false;
+        }
+
+        if (book->rest <= 0) {
+            cout << book->name << " was borrowed out." << endl;
+            return false;
+        }
+
+        BookRent rent(user.account, book->id);
+        rents.addRow(rent);
+        (*book).rest--;
+        books.update(*book);
+        cout << book->name << " was borrowed by " << user.account << "." << endl;
+        return true;
+    }
+
+    bool returnBook(User<LibraryPermissionSet> &user, DataSet<Book> &books, DataSet<BookRent> &rents) {
+        // Get the ID of the product to modify
+        cout << "Enter the book ID to return: ";
+        auto id = inputInt();
+
+        // Find the product by ID
+        auto book = books.findById(id);
+
+        // Check if the product exists
+        if (!book.has_value()) {
+            cout << "Book not found." << endl;
+            return false;
+        }
+
+        if (book->collection >= book->rest) {
+            cout << book->name << " was already full." << endl;
+            return false;
+        }
+
+        auto it = find_if(rents.rows.begin(), rents.rows.end(), [&user, &book](const BookRent &rent) {
+            return rent.bookId == book->id && rent.userAccount == user.account;
+        });
+        if (it == rents.rows.end()) {
+            return false;
+        }
+        cout << book->name << " was returned by " << user.account << "." << endl;
+        rents.removeById(it->id);
+        (*book).rest++;
+        books.update(*book);
+        return true;
     }
 }

@@ -27,14 +27,13 @@ public:
     explicit Book(const json &obj);
 
     explicit Book(
-            int id,
             string name,
             int collection,
             int rest
-    ) : id(id),
-        name(std::move(name)),
-        collection(collection),
-        rest(rest) {
+    ) :
+            name(std::move(name)),
+            collection(collection),
+            rest(rest) {
     }
 
     [[nodiscard]]
@@ -44,18 +43,17 @@ public:
 class BookRent {
 public:
     int id{0};
-    int userId{0};
-    vector<int> books;
+    string userAccount;
+    int bookId;
 
     BookRent() = default;
 
     explicit BookRent(
-            int id,
-            int userId,
-            vector<int> books
-    ) : id(id),
-        userId(userId),
-        books(books) {
+            const string &userAccount,
+            int bookId
+    ) :
+            userAccount(std::move(userAccount)),
+            bookId(bookId) {
     }
 
     explicit BookRent(const json &obj);

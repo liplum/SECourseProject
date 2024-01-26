@@ -18,13 +18,14 @@ namespace ui {
     public:
         const string userDbPath;
         const string bookDbPath;
+        const string rentDbPath;
         DataSet<Book> *books;
         DataSet<BookRent> *bookRents;
         Menu mainMenu{"Main Menu"};
         Menu userMenu{"User Management"};
         Menu bookMenu{"Book Management"};
 
-        Terminal(const string &userDbPath, const string &bookDbPath);
+        Terminal(const string &userDbPath, const string &bookDbPath, const string &rentDbPath);
 
         ~Terminal();
 
