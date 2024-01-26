@@ -16,7 +16,15 @@
 
 using namespace std;
 
-template<typename TPer> requires JsonSerializable<TPer>
+
+template<typename T>
+concept IPermission = JsonSerializable<T> && requires
+{
+    { T() } -> std::same_as<T>;
+    { T::all() } -> std::same_as<T>;
+};
+
+template<typename TPer> requires IPermission<TPer>
 struct User {
     string account;
     string password;
@@ -48,7 +56,7 @@ struct User {
     }
 };
 
-template<typename TPer> requires JsonSerializable<TPer>
+template<typename TPer> requires IPermission<TPer>
 class Auth : public DirtyMarkMixin {
 private:
     vector<User<TPer>> users;

@@ -26,7 +26,7 @@ namespace ui {
     Terminal::Terminal(const string &userDbPath, const string &productDbPath)
             : userDbPath(userDbPath),
               productDbPath(productDbPath) {
-        auth = new KAuth(userDbPath);
+        auth = new Auth<ProductPermissionSet>(userDbPath);
         products = new DataSet<Product>(productDbPath);
     }
 

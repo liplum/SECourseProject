@@ -11,7 +11,7 @@ namespace ui {
     void inputBook(Book &p) {
         cout << "Enter the name: ";
         p.name = inputString();
-        auto $int = intInputBox( nonNegativeValidator<int>());
+        auto $int = nonNegativeInputBox(inputInt);
         p.collection = $int.getInput("collection");
         p.rest = $int.getInput("rest");
     }
@@ -24,7 +24,7 @@ namespace ui {
         inputBook(p);
 
         // Add the new product to the DataSet<Book>
-        books.addRow(p.name, p.price, p.discount, p.premiumPrice);
+        books.addRow(p);
         cout << "Book added successfully!" << endl;
     }
 
@@ -81,27 +81,14 @@ namespace ui {
         }
     }
 
-    void printBookDetails(const Book &product) {
-        cout << "ID: " << product.id << ", Name: " << product.name
-             << ", Price: " << product.price << ", Discount: " << product.discount
-             << ", Premium Price: " << product.premiumPrice << endl;
+    void printBookDetails(const Book &book) {
+        cout << "ID: " << book.id << ", Name: " << book.name
+             << ", Collection: " << book.rest << "/" << book.collection << endl;
     }
 
-    optional<int> tryStoi(const std::string &input) {
-        try {
-            return std::stoi(input);
-        } catch (const std::invalid_argument &) {
-            // Conversion failed due to invalid argument
-            return std::nullopt;
-        } catch (const std::out_of_range &) {
-            // Conversion failed due to out of range
-            return std::nullopt;
-        }
-    }
-
-// Function to search for a product by name or ID
+    // Function to search for a product by name or ID
     void searchBook(DataSet<Book> &books) {
-        cout << "Enter the product name or ID to search: ";
+        cout << "Enter the book name or ID to search: ";
         auto searchQuery = inputString();
 
         // Search by name
@@ -117,9 +104,9 @@ namespace ui {
         }
         if (!found.empty()) {
             // Books found by name
-            cout << "Found " << found.size() << " product(s) by name:" << endl;
-            for (const auto &product: found) {
-                printBookDetails(product);
+            cout << "Found " << found.size() << " book(s) by name:" << endl;
+            for (const auto &book: found) {
+                printBookDetails(book);
             }
         } else {
             // No books found

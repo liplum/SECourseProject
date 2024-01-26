@@ -31,7 +31,4 @@ struct ProductPermissionSet {
     json toJson() const;
 };
 
-using KUser = User<ProductPermissionSet>;
-using KAuth = Auth<ProductPermissionSet>;
-
 #endif //PRODMGMT_AUTH_H

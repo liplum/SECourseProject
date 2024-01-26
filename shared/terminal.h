@@ -9,7 +9,7 @@
 
 using namespace std;
 namespace ui {
-    template<typename TPer> requires JsonSerializable<TPer>
+    template<typename TPer> requires IPermission<TPer>
     class BasicTerminal {
     protected:
         User<TPer> *curUser{nullptr};
@@ -24,7 +24,7 @@ namespace ui {
         virtual void saveAll() = 0;
 
         // Function to authenticate userMenu login
-        optional<KUser> tryLogin() {
+        optional<User<TPer>> tryLogin() {
             cout << "Enter account: ";
             auto account = inputString();
             cout << "Enter password: ";
@@ -43,7 +43,7 @@ namespace ui {
         bool login() {
             // check if any user is available
             if (auth->getUsers().empty()) {
-                auth->addUser("admin", "admin", ProductPermissionSet::all());
+                auth->addUser("admin", "admin", TPer::all());
                 cout << "Because there's no user available for now, an administrator was created." << endl;
                 cout << R"(account: "admin", password: "admin".)" << endl;
                 saveAll();

@@ -30,7 +30,7 @@ public:
             int id,
             string name,
             int collection,
-            int rest,
+            int rest
     ) : id(id),
         name(std::move(name)),
         collection(collection),

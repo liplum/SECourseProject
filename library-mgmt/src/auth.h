@@ -31,7 +31,4 @@ struct LibraryPermissionSet {
     json toJson() const;
 };
 
-using KUser = User<LibraryPermissionSet>;
-using KAuth = Auth<LibraryPermissionSet>;
-
 #endif //LIBRARYMGMT_AUTH_H
