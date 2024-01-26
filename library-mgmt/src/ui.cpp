@@ -11,39 +11,9 @@ namespace ui {
     void inputBook(Book &p) {
         cout << "Enter the name: ";
         p.name = inputString();
-
-        // Input and validate price
-        while (true) {
-            cout << "Enter the price: ";
-            p.price = inputDouble();
-            if (p.price >= 0) {
-                break;
-            } else {
-                cout << "Invalid price. Please enter a non-negative value." << endl;
-            }
-        }
-
-        // Input and validate discount
-        while (true) {
-            cout << "Enter the discount: ";
-            p.discount = inputDouble();
-            if (p.discount >= 0 && p.discount <= 1) {
-                break;
-            } else {
-                cout << "Invalid discount. Please enter a value between 0 and 1." << endl;
-            }
-        }
-
-        // Input and validate premium price
-        while (true) {
-            cout << "Enter the premium price: ";
-            p.premiumPrice = inputDouble();
-            if (p.premiumPrice >= 0) {
-                break;
-            } else {
-                cout << "Invalid premium price. Please enter a non-negative value." << endl;
-            }
-        }
+        auto $int = intInputBox( {nonNegativeValidator<int>()});
+        p.collection = $int.getInput("collection");
+        p.rest = $int.getInput("rest");
     }
 
 

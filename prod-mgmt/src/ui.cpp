@@ -5,45 +5,16 @@
 #include <iostream>
 #include "ui.h"
 #include "auth.h"
-#include "../../shared/utils.h"
 
 namespace ui {
     void inputProduct(Product &p) {
         cout << "Enter the name: ";
         p.name = inputString();
+        auto $double = doubleInputBox({nonNegativeValidator<double>()});
 
-        // Input and validate price
-        while (true) {
-            cout << "Enter the price: ";
-            p.price = inputDouble();
-            if (p.price >= 0) {
-                break;
-            } else {
-                cout << "Invalid price. Please enter a non-negative value." << endl;
-            }
-        }
-
-        // Input and validate discount
-        while (true) {
-            cout << "Enter the discount: ";
-            p.discount = inputDouble();
-            if (p.discount >= 0 && p.discount <= 1) {
-                break;
-            } else {
-                cout << "Invalid discount. Please enter a value between 0 and 1." << endl;
-            }
-        }
-
-        // Input and validate premium price
-        while (true) {
-            cout << "Enter the premium price: ";
-            p.premiumPrice = inputDouble();
-            if (p.premiumPrice >= 0) {
-                break;
-            } else {
-                cout << "Invalid premium price. Please enter a non-negative value." << endl;
-            }
-        }
+        p.price = $double.getInput("price");
+        p.discount = $double.getInput("discount");
+        p.premiumPrice = $double.getInput("premium price");
     }
 
 

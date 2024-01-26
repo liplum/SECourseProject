@@ -269,7 +269,12 @@ has_value()
 
 ) {
 result.
-push_back(user.value());
+push_back(user
+.
+
+value()
+
+);
 }
 }
 return
