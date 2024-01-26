@@ -37,7 +37,7 @@ concept Named = requires(T t)
     { t.name } -> std::same_as<string &>;
 };
 
-template<typename T> requires Identifiable<T> && Named<T> && JsonSerializable<T>
+template<typename T> requires Identifiable<T> && JsonSerializable<T>
 class DataSet : public DirtyMarkMixin {
 private:
     int curId{0};
@@ -65,44 +65,6 @@ public:
             }
         }
         return nullopt;
-    }
-
-    /**
-     * wildcard enabled.
-     * @param query
-     * @return
-     */
-    vector<T> findByName(const string &query) {
-        // Convert the search query to lowercase for case-insensitive matching
-        // Split the query into separate conditions
-        istringstream iss(toLowercase(query));
-        vector<string> conditions;
-        copy(istream_iterator<string>(iss), istream_iterator<string>(), back_inserter(conditions));
-
-        vector<T> foundProducts;
-        for (auto &row: rows) {
-            // Convert the product query to lowercase for case-insensitive matching
-            auto productName = toLowercase(row.name);
-
-            // Check if all conditions are satisfied
-            bool allConditionsSatisfied = true;
-            for (const auto &condition: conditions) {
-                if (condition == "*") {
-                    continue;
-                }
-                if (productName.find(condition) == string::npos) {
-                    allConditionsSatisfied = false;
-                    break;
-                }
-            }
-
-            // If all conditions are satisfied, add the product to the result
-            if (allConditionsSatisfied) {
-                foundProducts.push_back(row);
-            }
-        }
-
-        return std::move(foundProducts);
     }
 
     int addRow(T &row) {
@@ -143,7 +105,7 @@ public:
         json root;
         root["curId"] = curId;
         writeList(root["rows"], rows);
-        
+
         ofstream file(filename);
         if (file.is_open()) {
             file << setw(2) << root << endl;
@@ -157,6 +119,46 @@ public:
         return rows;
     }
 };
+
+/**
+ * wildcard enabled.
+ * @param query
+ * @return
+ */
+template<typename T>
+requires Identifiable<T> && Named<T> && JsonSerializable<T>
+vector<T> findByName(DataSet<T> &db, const string &query) {
+    // Convert the search query to lowercase for case-insensitive matching
+    // Split the query into separate conditions
+    istringstream iss(toLowercase(query));
+    vector<string> conditions;
+    copy(istream_iterator<string>(iss), istream_iterator<string>(), back_inserter(conditions));
+
+    vector<T> foundProducts;
+    for (auto &row: db.getRows()) {
+        // Convert the product query to lowercase for case-insensitive matching
+        auto productName = toLowercase(row.name);
+
+        // Check if all conditions are satisfied
+        bool allConditionsSatisfied = true;
+        for (const auto &condition: conditions) {
+            if (condition == "*") {
+                continue;
+            }
+            if (productName.find(condition) == string::npos) {
+                allConditionsSatisfied = false;
+                break;
+            }
+        }
+
+        // If all conditions are satisfied, add the product to the result
+        if (allConditionsSatisfied) {
+            foundProducts.push_back(row);
+        }
+    }
+
+    return std::move(foundProducts);
+}
 
 template<typename T>
 requires JsonSerializable<T>

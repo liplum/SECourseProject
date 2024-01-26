@@ -41,4 +41,11 @@ public:
     json toJson() const;
 };
 
+class BookRent {
+public:
+    int id{0};
+    int userId{0};
+    vector<int> books;
+};
+
 #endif //LIBRARYMGMT_MODELS_H

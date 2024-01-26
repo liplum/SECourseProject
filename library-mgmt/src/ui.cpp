@@ -18,7 +18,7 @@ namespace ui {
 
 
     // Function to add a new product
-    void addBook(DataSet<Book> &books) {
+    void addBook(DataSet <Book> &books) {
         // Get input for the new product details
         Book p;
         inputBook(p);
@@ -29,7 +29,7 @@ namespace ui {
     }
 
 // Function to delete a product
-    bool deleteBook(DataSet<Book> &books) {
+    bool deleteBook(DataSet <Book> &books) {
         // Get the ID of the product to delete
         cout << "Enter the product ID to delete: ";
         auto id = inputInt();
@@ -57,7 +57,7 @@ namespace ui {
     }
 
 // Function to modify a product
-    bool modifyBook(DataSet<Book> &books) {
+    bool modifyBook(DataSet <Book> &books) {
         // Get the ID of the product to modify
         cout << "Enter the product ID to modify: ";
         auto id = inputInt();
@@ -87,12 +87,12 @@ namespace ui {
     }
 
     // Function to search for a product by name or ID
-    void searchBook(DataSet<Book> &books) {
+    void searchBook(DataSet <Book> &books) {
         cout << "Enter the book name or ID to search: ";
         auto searchQuery = inputString();
 
         // Search by name
-        auto found = books.findByName(searchQuery);
+        auto found = findByName(books, searchQuery);
 
         // Search by ID
         auto productId = tryStoi(searchQuery);

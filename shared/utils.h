@@ -45,7 +45,7 @@ namespace ui {
 
         T getInput(const string &name) {
             while (true) {
-                cout << "Enter " << name << " :";
+                cout << "Enter" << name << " : ";
                 T t = input();
                 if (!test(t)) {
                     cout << "Invalid " << name << "." << errorPrompt << endl;
