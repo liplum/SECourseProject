@@ -19,6 +19,7 @@ namespace ui {
         const string userDbPath;
         const string bookDbPath;
         DataSet<Book> *books;
+        DataSet<BookRent> *bookRents;
         Menu mainMenu{"Main Menu"};
         Menu userMenu{"User Management"};
         Menu bookMenu{"Book Management"};

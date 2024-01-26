@@ -23,3 +23,20 @@ Book::Book(const json &obj) {
     collection = obj["collection"];
     rest = obj["rest"];
 }
+
+json BookRent::toJson() const {
+    json obj;
+    obj["id"] = id;
+    obj["userId"] = userId;
+    obj["books"] = books;
+    return std::move(obj);
+}
+
+BookRent::BookRent(const json &obj) {
+    id = obj["id"];
+    userId = obj["userId"];
+    books = vector<int>();
+    for (auto &e: obj["books"]) {
+        books.push_back(e);
+    }
+}

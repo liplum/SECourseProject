@@ -46,6 +46,21 @@ public:
     int id{0};
     int userId{0};
     vector<int> books;
+
+    BookRent() = default;
+
+    explicit BookRent(
+            int id,
+            int userId,
+            vector<int> books
+    ) : id(id),
+        userId(userId),
+        books(books) {
+    }
+
+    explicit BookRent(const json &obj);
+
+    json toJson() const;
 };
 
 #endif //LIBRARYMGMT_MODELS_H
