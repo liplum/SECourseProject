@@ -93,7 +93,7 @@ namespace ui {
         auto searchQuery = inputString();
 
         // Search by name
-        auto found = products.findByName(searchQuery);
+        auto found = findByName(products,searchQuery);
 
         // Search by ID
         auto productId = tryStoi(searchQuery);

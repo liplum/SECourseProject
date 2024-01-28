@@ -36,7 +36,7 @@ namespace ui {
     }
 
     void Terminal::initMenu() {
-        if (curUser == nullptr) {
+        if (!curUser.has_value()) {
             cout << "Unauthorized.";
             return;
         }

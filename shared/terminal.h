@@ -12,7 +12,7 @@ namespace ui {
     template<typename TPer> requires IPermission<TPer>
     class BasicTerminal {
     protected:
-        User<TPer> *curUser{nullptr};
+        optional<User<TPer>> curUser{nullopt};
         Auth<TPer> *auth;
         static const int maxAttempts = 3;
 
@@ -34,7 +34,7 @@ namespace ui {
 
             if (user.has_value() && user->password == password) {
                 cout << "Login successful." << endl;
-                return *user;
+                return user;
             } else {
                 return nullopt;
             }
@@ -53,7 +53,7 @@ namespace ui {
             while (attempts < maxAttempts) {
                 auto user = tryLogin();
                 if (user.has_value()) {
-                    curUser = &*user;
+                    curUser = user;
                     return true;
                 } else {
                     cout << "Invalid account or password. Please try again." << endl;
