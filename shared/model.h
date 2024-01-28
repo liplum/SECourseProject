@@ -73,15 +73,16 @@ public:
         return row.id;
     }
 
-    bool removeById(int id) {
+    optional<T> removeById(int id) {
         for (auto it = rows.begin(); it != rows.end(); ++it) {
             if (it->id == id) {
+                auto obj = *it;
                 rows.erase(it);
                 markDirty();
-                return true;
+                return obj;
             }
         }
-        return false;
+        return nullopt;
     }
 
     bool update(T &row) {

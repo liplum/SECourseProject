@@ -33,19 +33,26 @@ namespace ui {
 
         void start();
 
+    private:
         void addBook();
 
-        bool deleteBook();
+        optional<Book> deleteBook();
 
         bool modifyBook();
 
         void searchBook() const;
 
-        bool rentBook();
+        bool borrowBook();
 
         bool returnBook();
 
-        bool showBorrowing();
+        void showBorrowing();
+
+        vector<BookRent> getBorrowedBooks(const string &account);
+
+        void removeRentOf(const string &account);
+
+        void removeRentOf(const int bookId);
     };
 }
 

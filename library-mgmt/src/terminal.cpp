@@ -41,6 +41,7 @@ namespace ui {
 
             mainMenu.cmd("del", "Delete Book", [this]() {
                 deleteBook();
+                removeRentOf(curUser->account);
                 saveAll();
                 return CommandSignal::waitNext;
             });
@@ -56,17 +57,24 @@ namespace ui {
             searchBook();
             return CommandSignal::waitNext;
         });
-        mainMenu.cmd("rent", "Rent Book", [this]() {
-            rentBook();
+        mainMenu.cmd("borrow", "Borrow Book", [this]() {
+            borrowBook();
+            saveAll();
             return CommandSignal::waitNext;
         });
         mainMenu.cmd("return", "Return Book", [this]() {
             returnBook();
+            saveAll();
+            return CommandSignal::waitNext;
+        });
+
+        mainMenu.cmd("borrowed", "Return Book", [this]() {
+            showBorrowing();
             return CommandSignal::waitNext;
         });
 
         if (curUser->permission.manageUser) {
-            mainMenu.cmd("curUser", "User Management", [this]() {
+            mainMenu.cmd("user", "User Management", [this]() {
                 userMenu.startLoop();
                 return CommandSignal::end;
             });
@@ -80,6 +88,7 @@ namespace ui {
 
             userMenu.cmd("del", "Delete User", [this]() {
                 deleteUser(auth, *curUser);
+                removeRentOf(curUser->account);
                 saveAll();
                 return CommandSignal::waitNext;
             });
@@ -129,7 +138,7 @@ namespace ui {
         p.collection = $int.getInput("collection");
         p.rest = $int.getInput("rest");
     }
-    
+
     void Terminal::addBook() {
         // Get input for the new product details
         Book p;
@@ -139,8 +148,8 @@ namespace ui {
         books.addRow(p);
         cout << "Book added successfully!" << endl;
     }
-    
-    bool Terminal:: deleteBook() {
+
+    optional<Book> Terminal::deleteBook() {
         // Get the ID of the product to delete
         cout << "Enter the product ID to delete: ";
         auto id = inputInt();
@@ -148,25 +157,26 @@ namespace ui {
         auto product = books.findById(id);
         if (!product.has_value()) {
             cout << "Book not found." << endl;
-            return false;
+            return nullopt;
         }
 
-        cout << "Ensure to delete product " << product->name << "? ";
+        cout << "Ensure to delete book " << product->name << "? ";
         bool ensure = inputInt();
         if (!ensure) {
-            return false;
+            return nullopt;
         }
 
         // Attempt to remove the product by ID
-        if (books.removeById(id)) {
+        auto removed = books.removeById(id);
+        if (removed.has_value()) {
             cout << "Book deleted successfully!" << endl;
-            return true;
+            return *removed;
         } else {
             cout << "Failed to delete product." << endl;
-            return false;
+            return nullopt;
         }
     }
-    
+
     bool Terminal::modifyBook() {
         // Get the ID of the product to modify
         cout << "Enter the product ID to modify: ";
@@ -223,7 +233,7 @@ namespace ui {
         }
     }
 
-    bool Terminal::rentBook() {
+    bool Terminal::borrowBook() {
         // Get the ID of the product to modify
         cout << "Enter the book ID to rent: ";
         auto id = inputInt();
@@ -284,7 +294,39 @@ namespace ui {
         return true;
     }
 
-    bool Terminal::showBorrowing(){
+    void Terminal::showBorrowing() {
+        auto borrowed = getBorrowedBooks(curUser->account);
+        if (borrowed.empty()) {
+            cout << curUser->account << " borrowed nothing. " << endl;
+        } else {
+            cout << curUser->account << " borrowed: " << endl;
+            for (auto &rent: borrowed) {
+                auto book = books.findById(rent.bookId);
+                if (book.has_value()) {
+                    cout << book->name << ", ";
+                }
+            }
+            cout << endl;
+        }
+    }
 
+    vector<BookRent> Terminal::getBorrowedBooks(const string &account) {
+        vector<BookRent> borrowed;
+        copy_if(bookRents.rows.begin(), bookRents.rows.end(), back_inserter(borrowed), [&account](const auto &rent) {
+            return rent.userAccount == account;
+        });
+        return std::move(borrowed);
+    }
+
+    void Terminal::removeRentOf(const string &account) {
+        remove_if(bookRents.rows.begin(), bookRents.rows.end(), [&account](const auto &rent) {
+            return rent.userAccount == account;
+        });
+    }
+
+    void Terminal::removeRentOf(const int bookId) {
+        remove_if(bookRents.rows.begin(), bookRents.rows.end(), [&bookId](const auto &rent) {
+            return rent.bookId == bookId;
+        });
     }
 }
