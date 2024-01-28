@@ -34,6 +34,20 @@ namespace ui {
         void initMenu();
 
         void start();
+
+        void addBook() const;
+
+        bool deleteBook() const;
+
+        bool modifyBook() const;
+
+        void searchBook() const;
+
+        bool rentBook();
+
+        bool returnBook();
+
+        bool showBorrowing();
     };
 }
 

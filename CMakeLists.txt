@@ -59,7 +59,6 @@ set(
         library-mgmt/src/auth.cpp library-mgmt/src/auth.h
         library-mgmt/src/models.cpp library-mgmt/src/models.h
         library-mgmt/src/terminal.cpp library-mgmt/src/terminal.h
-        library-mgmt/src/ui.cpp library-mgmt/src/ui.h
 )
 
 add_library(LibaryMgmtLib ${SHARED_SOURCES} ${LIBRARY_MGMT_SOURCES})
