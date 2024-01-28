@@ -13,7 +13,7 @@ namespace ui {
     class BasicTerminal {
     protected:
         optional<User<TPer>> curUser{nullopt};
-        Auth<TPer> *auth;
+        Auth<TPer> auth;
         static const int maxAttempts = 3;
 
     public:
@@ -30,7 +30,7 @@ namespace ui {
             cout << "Enter password: ";
             auto password = inputString();
 
-            auto user = auth->findUserByAccount(account);
+            auto user = auth.findUserByAccount(account);
 
             if (user.has_value() && user->password == password) {
                 cout << "Login successful." << endl;
@@ -42,8 +42,8 @@ namespace ui {
 
         bool login() {
             // check if any user is available
-            if (auth->getUsers().empty()) {
-                auth->addUser("admin", "admin", TPer::admin());
+            if (auth.getUsers().empty()) {
+                auth.addUser("admin", "admin", TPer::admin());
                 cout << "Because there's no user available for now, an administrator was created." << endl;
                 cout << R"(account: "admin", password: "admin".)" << endl;
                 saveAll();

@@ -21,14 +21,9 @@ namespace ui {
     Terminal::Terminal(const string &userDbPath, const string &bookDbPath, const string &rentDbPath)
             : userDbPath(userDbPath),
               bookDbPath(bookDbPath), rentDbPath(rentDbPath) {
-        auth = new Auth<LibraryPermissionSet>(userDbPath);
-        books = new DataSet<Book>(bookDbPath);
-        bookRents = new DataSet<BookRent>(rentDbPath);
-    }
-
-    Terminal::~Terminal() {
-        delete auth;
-        delete books;
+        auth = Auth<LibraryPermissionSet>(userDbPath);
+        books = DataSet<Book>(bookDbPath);
+        bookRents = DataSet<BookRent>(rentDbPath);
     }
 
     void Terminal::initMenu() {
@@ -78,25 +73,25 @@ namespace ui {
 
             // User management
             userMenu.cmd("add", "Add User", [this]() {
-                addUser(*auth, inputPermission);
+                addUser(auth, inputPermission);
                 saveAll();
                 return CommandSignal::waitNext;
             });
 
             userMenu.cmd("del", "Delete User", [this]() {
-                deleteUser(*auth, *curUser);
+                deleteUser(auth, *curUser);
                 saveAll();
                 return CommandSignal::waitNext;
             });
 
             userMenu.cmd("edit", "Modify User", [this]() {
-                modifyUser(*auth, inputPermission);
+                modifyUser(auth, inputPermission);
                 saveAll();
                 return CommandSignal::waitNext;
             });
 
             userMenu.cmd("search", "Search User", [this]() {
-                auto users = searchUser(*auth);
+                auto users = searchUser(auth);
                 if (users.empty()) {
                     cout << "User not found." << endl;
                 } else {
@@ -116,14 +111,14 @@ namespace ui {
     }
 
     void Terminal::saveAll() {
-        if (books->clearDirty()) {
-            books->saveToFile(bookDbPath);
+        if (books.clearDirty()) {
+            books.saveToFile(bookDbPath);
         }
-        if (auth->clearDirty()) {
-            auth->saveToFile(userDbPath);
+        if (auth.clearDirty()) {
+            auth.saveToFile(userDbPath);
         }
-        if (bookRents->clearDirty()) {
-            bookRents->saveToFile(rentDbPath);
+        if (bookRents.clearDirty()) {
+            bookRents.saveToFile(rentDbPath);
         }
     }
 
@@ -135,22 +130,22 @@ namespace ui {
         p.rest = $int.getInput("rest");
     }
     
-    void Terminal::addBook() const {
+    void Terminal::addBook() {
         // Get input for the new product details
         Book p;
         inputBook(p);
 
         // Add the new product to the DataSet<Book>
-        books->addRow(p);
+        books.addRow(p);
         cout << "Book added successfully!" << endl;
     }
     
-    bool Terminal:: deleteBook() const {
+    bool Terminal:: deleteBook() {
         // Get the ID of the product to delete
         cout << "Enter the product ID to delete: ";
         auto id = inputInt();
 
-        auto product = books->findById(id);
+        auto product = books.findById(id);
         if (!product.has_value()) {
             cout << "Book not found." << endl;
             return false;
@@ -163,7 +158,7 @@ namespace ui {
         }
 
         // Attempt to remove the product by ID
-        if (books->removeById(id)) {
+        if (books.removeById(id)) {
             cout << "Book deleted successfully!" << endl;
             return true;
         } else {
@@ -172,13 +167,13 @@ namespace ui {
         }
     }
     
-    bool Terminal::modifyBook() const {
+    bool Terminal::modifyBook() {
         // Get the ID of the product to modify
         cout << "Enter the product ID to modify: ";
         auto id = inputInt();
 
         // Find the product by ID
-        auto product = books->findById(id);
+        auto product = books.findById(id);
 
         // Check if the product exists
         if (!product.has_value()) {
@@ -187,7 +182,7 @@ namespace ui {
         }
         // Get input for the updated product details
         inputBook(*product);
-        if (books->update(*product)) {
+        if (books.update(*product)) {
             cout << "Book modified successfully!" << endl;
             return true;
         } else {
@@ -206,12 +201,12 @@ namespace ui {
         auto searchQuery = inputString();
 
         // Search by name
-        auto found = findByName(*books, searchQuery);
+        auto found = findByName(books, searchQuery);
 
         // Search by ID
         auto productId = tryStoi(searchQuery);
         if (productId.has_value()) {
-            auto productById = books->findById(*productId);
+            auto productById = books.findById(*productId);
             if (productById.has_value()) {
                 found.push_back(*productById);
             }
@@ -234,7 +229,7 @@ namespace ui {
         auto id = inputInt();
 
         // Find the product by ID
-        auto book = books->findById(id);
+        auto book = books.findById(id);
 
         // Check if the product exists
         if (!book.has_value()) {
@@ -248,9 +243,9 @@ namespace ui {
         }
 
         BookRent rent(curUser->account, book->id);
-        bookRents->addRow(rent);
+        bookRents.addRow(rent);
         (*book).rest--;
-        books->update(*book);
+        books.update(*book);
         cout << book->name << " was borrowed by " << curUser->account << "." << endl;
         cout << "Collection: " << book->rest << "/" << book->collection << "." << endl;
         return true;
@@ -262,7 +257,7 @@ namespace ui {
         auto id = inputInt();
 
         // Find the product by ID
-        auto book = books->findById(id);
+        auto book = books.findById(id);
 
         // Check if the product exists
         if (!book.has_value()) {
@@ -275,17 +270,17 @@ namespace ui {
             return false;
         }
 
-        auto it = find_if(bookRents->rows.begin(), bookRents->rows.end(), [&book, this](const BookRent &rent) {
+        auto it = find_if(bookRents.rows.begin(), bookRents.rows.end(), [&book, this](const BookRent &rent) {
             return rent.bookId == book->id && rent.userAccount == curUser->account;
         });
-        if (it == bookRents->rows.end()) {
+        if (it == bookRents.rows.end()) {
             return false;
         }
         cout << book->name << " was returned by " << curUser->account << "." << endl;
         cout << "Collection: " << book->rest << "/" << book->collection << "." << endl;
-        bookRents->removeById(it->id);
+        bookRents.removeById(it->id);
         (*book).rest++;
-        books->update(*book);
+        books.update(*book);
         return true;
     }
 

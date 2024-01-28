@@ -57,7 +57,7 @@ public:
         file.close();
     }
 
-    optional<T> findById(int id) {
+    optional<T> findById(int id) const {
         for (auto &row: rows) {
             if (row.id == id) {
                 return row;
@@ -122,7 +122,7 @@ public:
  */
 template<typename T>
 requires Identifiable<T> && Named<T> && JsonSerializable<T>
-vector<T> findByName(DataSet<T> &db, const string &query) {
+vector<T> findByName(const DataSet<T> &db, const string &query) {
     // Convert the search query to lowercase for case-insensitive matching
     // Split the query into separate conditions
     istringstream iss(toLowercase(query));

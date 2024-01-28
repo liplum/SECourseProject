@@ -59,7 +59,7 @@ private:
 public:
     Auth() = default;
 
-    Auth(const string &filename) {
+    explicit Auth(const string &filename) {
         ifstream file(filename);
         if (file.is_open()) {
             json jsonData;

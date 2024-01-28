@@ -26,13 +26,8 @@ namespace ui {
     Terminal::Terminal(const string &userDbPath, const string &productDbPath)
             : userDbPath(userDbPath),
               productDbPath(productDbPath) {
-        auth = new Auth<ProductPermissionSet>(userDbPath);
-        products = new DataSet<Product>(productDbPath);
-    }
-
-    Terminal::~Terminal() {
-        delete auth;
-        delete products;
+        auth = Auth<ProductPermissionSet>(userDbPath);
+        products = DataSet<Product>(productDbPath);
     }
 
     void Terminal::initMenu() {
@@ -43,31 +38,31 @@ namespace ui {
         // Main menu
         if (curUser->permission.manageProduct) {
             mainMenu.cmd("add", "Add Product", [this]() {
-                addProduct(*products);
+                addProduct(products);
                 saveAll();
                 return CommandSignal::waitNext;
             });
 
             mainMenu.cmd("del", "Delete Product", [this]() {
-                deleteProduct(*products);
+                deleteProduct(products);
                 saveAll();
                 return CommandSignal::waitNext;
             });
 
             mainMenu.cmd("edit", "Modify Product", [this]() {
-                modifyProduct(*products);
+                modifyProduct(products);
                 saveAll();
                 return CommandSignal::waitNext;
             });
         }
 
         mainMenu.cmd("search", "Search Product", [this]() {
-            searchProduct(*products);
+            searchProduct(products);
             return CommandSignal::waitNext;
         });
 
         mainMenu.cmd("rank", "Display Product Ranks", [this]() {
-            showProductRankings(*products);
+            showProductRankings(products);
             return CommandSignal::end;
         });
 
@@ -79,25 +74,25 @@ namespace ui {
 
             // User management
             userMenu.cmd("add", "Add User", [this]() {
-                addUser(*auth, inputPermission);
+                addUser(auth, inputPermission);
                 saveAll();
                 return CommandSignal::waitNext;
             });
 
             userMenu.cmd("del", "Delete User", [this]() {
-                deleteUser(*auth, *curUser);
+                deleteUser(auth, *curUser);
                 saveAll();
                 return CommandSignal::waitNext;
             });
 
             userMenu.cmd("edit", "Modify User", [this]() {
-                modifyUser(*auth, inputPermission);
+                modifyUser(auth, inputPermission);
                 saveAll();
                 return CommandSignal::waitNext;
             });
 
             userMenu.cmd("search", "Search User", [this]() {
-                auto users = searchUser(*auth);
+                auto users = searchUser(auth);
                 if (users.empty()) {
                     cout << "User not found." << endl;
                 } else {
@@ -117,11 +112,11 @@ namespace ui {
     }
 
     void Terminal::saveAll() {
-        if (products->clearDirty()) {
-            products->saveToFile(productDbPath);
+        if (products.clearDirty()) {
+            products.saveToFile(productDbPath);
         }
-        if (auth->clearDirty()) {
-            auth->saveToFile(userDbPath);
+        if (auth.clearDirty()) {
+            auth.saveToFile(userDbPath);
         }
     }
 

@@ -17,13 +17,11 @@ namespace ui {
     public:
         const string userDbPath;
         const string productDbPath;
-        DataSet<Product> *products;
+        DataSet<Product> products;
         Menu mainMenu{"Main Menu"};
         Menu userMenu{"User Management"};
 
         Terminal(const string &userDbPath, const string &productDbPath);
-
-        ~Terminal();
 
         void saveAll();
 

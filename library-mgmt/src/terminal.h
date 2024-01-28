@@ -19,15 +19,13 @@ namespace ui {
         const string userDbPath;
         const string bookDbPath;
         const string rentDbPath;
-        DataSet<Book> *books;
-        DataSet<BookRent> *bookRents;
+        DataSet<Book> books;
+        DataSet<BookRent> bookRents;
         Menu mainMenu{"Main Menu"};
         Menu userMenu{"User Management"};
         Menu bookMenu{"Book Management"};
 
         Terminal(const string &userDbPath, const string &bookDbPath, const string &rentDbPath);
-
-        ~Terminal();
 
         void saveAll();
 
@@ -35,11 +33,11 @@ namespace ui {
 
         void start();
 
-        void addBook() const;
+        void addBook();
 
-        bool deleteBook() const;
+        bool deleteBook();
 
-        bool modifyBook() const;
+        bool modifyBook();
 
         void searchBook() const;
 
